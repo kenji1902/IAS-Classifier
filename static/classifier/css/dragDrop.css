@@ -1,0 +1,134 @@
+
+.upload-box{
+    display: flex;
+    flex-shrink: 0;
+    justify-content: center;
+    align-items: center;
+    width: 70%;
+    height: 25rem;
+    background-color: white;
+    padding: 1rem;
+}
+
+.drop-area{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    height: 100%;
+    width: 100%;
+    border: 2px dashed black;
+    border-radius: 5px;
+}
+.drop-area .material-symbols-outlined{
+    font-size: 100px;
+}
+.drop-area .choose-files{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.drop-area-buttons{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.drop-area-button{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background-color: var(--green);
+    padding: 5px;
+    border-radius: 5px;
+    margin: 1rem;
+
+    cursor: pointer;
+    user-select: none;
+}
+.drop-area-button:active{
+    background-color: var(--blue-green);
+}
+.drop-area-button .icon{
+    font-size: 40px;
+}
+.drop-area-button .text{
+    margin: 1rem 1rem;
+}
+
+#progress-percent{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    flex-shrink: 0;
+    width: 70%;
+    height: 25rem;
+    background-color: rgba(157, 221, 186, 0.842);
+    padding: 1rem;
+    position: absolute;
+}
+#progress-percent .text{
+    font-size: 20pt;
+}
+
+
+.loaded-images{
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    flex-shrink: 0;
+    width: 70%;
+    height: 12rem;
+    background-color: white;
+    padding: 1rem;
+    margin-top: 1rem;
+    overflow-x: auto;
+    overflow-y: hidden;
+}
+.loaded-images .file-content{
+    display: flex;
+    flex-direction: column;
+    
+    align-items: center;
+    justify-content: space-between;
+    background-color: var(--off-white);
+    min-height: 9rem;
+    min-width: 8rem;
+    width: 8rem;
+    height: 7rem;
+    margin-left: 1rem;
+    margin-right: 1rem;
+    padding: 5px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+
+}
+.file-content .image{
+    max-width: 8rem;
+    max-height: 8rem;
+}
+.file-content .image-name{
+    width: 8rem;
+    font-size: 10pt;
+    text-align: left;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* Javascript addClass */
+.highlight{
+    background-color: var(--light-green);
+    
+}
+
+.hidden{
+    display: none !important;
+}
+
+#fileElem,
+#cameraElem{
+    display: none;
+}

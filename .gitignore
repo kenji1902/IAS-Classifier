@@ -1,0 +1,19 @@
+
+# Elastic Beanstalk Files
+.elasticbeanstalk/*
+!.elasticbeanstalk/*.cfg.yml
+!.elasticbeanstalk/*.global.yml
+
+
+# pycache
+__pycache__/
+classifier/__pycache__/
+classifier/migrations/__pycache__/
+home/__pycache__/
+home/migrations/__pycache__/
+information/__pycache__/
+information/migrations/__pycache__/
+IASclassifier/__pycache__/
+
+# #local database
+# db.sqlite3

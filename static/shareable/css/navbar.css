@@ -1,0 +1,108 @@
+.navbar{
+    display: flex;
+    position: absolute;
+    justify-content: center;
+    background-color: var(--green);
+    height: var(--navbar_height);
+    z-index: 4;
+    width: 100%;
+}
+.navbar .navbar-items{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 5rem;
+}
+
+.navbar-items .navbar-icons{
+    position: absolute;
+    cursor: pointer;
+    font-size: 25pt;
+    background-color:  var(--green);
+    border-radius: 100%;
+    padding: 1rem;
+    transition: 0.5s;
+
+}
+.navbar-items .navbar-item-name{
+    display: none;
+    position: absolute;
+    font-size: 12pt;
+    text-align: left;
+    font-weight: bold;
+    padding: 1rem;
+    margin: 1rem;
+}
+.navbar-items:hover .navbar-item-name{
+    display: inline-block;
+    padding: 1rem;
+    border-radius: 100%;
+}
+.navbar-items .navbar-icons{
+    cursor: pointer;
+}
+.navbar-items:hover .navbar-icons{
+    transform: translateY(calc(50% + 1rem));
+    border: 6px solid var(--clear);
+}
+.navbar-items:hover .navbar-icons::before{
+    display: block;
+    position: absolute;
+    content: '';
+    width: 1.5rem;
+    height: 1.5rem;
+    left: 65px;
+    bottom: calc(50% + 7px);
+    background-color: var(--navbar-Item-Color);
+    border-bottom-left-radius: 40px;
+    animation: icon-Slide-before 2s forwards;
+
+
+}
+.navbar-items:hover .navbar-icons::after{
+    display: block;
+    position: absolute;
+    content: '';
+    width: 1.5rem;
+    height: 1.5rem;
+    right: 65px;
+    bottom: calc(50% + 7px);
+    /* background-color: black; */
+    background-color: var(--green);
+    border-bottom-right-radius: 40px;
+    animation: icon-Slide-after 2s forwards;
+
+}
+@keyframes icon-Slide-before {
+    100%{ box-shadow: 0px 10px 0px 0 var(--clear); }
+}
+@keyframes icon-Slide-after {
+    100%{ box-shadow: 0px 10px 0px 0 var(--clear);}
+}
+.app-layout-content{
+    display: flex;
+    position: absolute;
+    margin: 1rem 2rem 1rem 1rem;
+    height: calc(100% - var(--navbar_height));
+    width: calc(100% - 1rem);
+    margin-top: var(--navbar_height) ;
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
+.content{
+    width: 100%;
+    
+    display: flex;
+    flex-grow: 1;
+    /* overflow-x: hidden; */
+
+    margin: 3rem 7rem 3rem 7rem;
+}
+.app-layout-content,
+.content{
+    align-items: center;
+    flex-direction: column;
+}
+body{
+    background-color: var(--off-white);
+}

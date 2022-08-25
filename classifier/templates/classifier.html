@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>classifier</title>
+    {%load static%}
+    {%include "shareable/html/stylesheet.html"%}
+    {%include "shareable/html/cdn.html"%}
+    <link rel="stylesheet" type="text/css" href="{%static 'classifier/css/dragDrop.css'%}" />
+    <script src="{%static 'classifier/js/dragDrop.js'%}"></script>
+
+</head>
+<body>
+    
+    {%include "shareable/html/navbar.html"%}
+
+    <div class="app-layout-content">
+        <div class="content">
+            <div class="upload-box">
+                <form class="drop-area ias-images">
+                    <span class="material-symbols-outlined">
+                        file_upload
+                    </span>
+                    <div class="drop-area-buttons">
+                        <input type="file" id="fileElem" multiple accept="image/*" onchange="handleFiles(this.files)">
+                        <div id="file" multiple accept="image/*" class="drop-area-button">
+                            <span class="material-symbols-outlined icon">
+                                add_photo_alternate
+                            </span>
+                            <span class="text">
+                                CHOOSE FILES
+                            </span>
+                        </div >
+                        <input type="file" id="cameraElem" accept="image/*;capture=camera" onchange="handleFiles(this.files)">
+                        <div id="camera" class="drop-area-button">
+                            <span class="material-symbols-outlined icon">
+                                add_a_photo
+                            </span>
+                            <span class="text">
+                                CAMERA
+                            </span>
+                        </div>
+                    </div>
+                    
+                    <span>or drop images here</span>
+                </form>
+            </div>
+            
+            <div id="progress-percent" class="hidden">
+                <span class="text ">UPLOADING</span>
+                <span class="progress"></span>
+            </div>
+
+            <div class="loaded-images">
+                
+            
+            </div>
+            
+        </div>
+        
+    </div>
+
+</body>
+</html>
