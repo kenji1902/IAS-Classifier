@@ -36,7 +36,20 @@
    python manage.py runserver 8080
    ```
 
-
+**Run pktriot - "localhost to web"**
+1. configure pktriot (if not configured)
+    ```
+    pktriot.exe configure
+    ```
+    [enter email and pass, select server]
+2. copy domain name (hostname) and insert in this command
+    ```
+    pktriot.exe tunnel http add --domain "domain name here w/o quote" --destination localhost --http 8080 --letsencrypt
+    ```
+3. runserver
+    ```
+    pktriot.exe start
+    ```
 ```
 
 ░░░░░░███████ ]▄▄▄▄▄▄▄▄▃
