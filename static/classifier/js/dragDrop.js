@@ -1,3 +1,4 @@
+
 var filesDone = 0;
 var filestoDo = 0;
 function preventDefaults(events) {
@@ -88,14 +89,12 @@ function uploadFormData(form_data) {
         processData: false,
         success: function (data) {
             console.log(data);
-        },
-        error: function() {
-            console.log('ERROR');
         }
     });
 }
 
 $(document).ready(function () {
+    console.log(getCookie("csrftoken"));
     $dropArea = $(".drop-area");
     $loadedImages = $(".loaded-images");
     $progressPercent = $('#progress-percent .progress');
