@@ -16,7 +16,7 @@ information/migrations/__pycache__/
 IASclassifier/__pycache__/
 
 # virtual Environment
-.venv/
+.venv/*
 
 # #local database
 db.sqlite3
