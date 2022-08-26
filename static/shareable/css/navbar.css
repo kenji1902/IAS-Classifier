@@ -43,7 +43,7 @@
 }
 .navbar-items:hover .navbar-icons{
     transform: translateY(calc(50% + 1rem));
-    border: 6px solid var(--clear);
+    border: 6px solid var(--off-white-solid);
 }
 .navbar-items:hover .navbar-icons::before{
     display: block;
@@ -74,10 +74,10 @@
 
 }
 @keyframes icon-Slide-before {
-    100%{ box-shadow: 0px 10px 0px 0 var(--clear); }
+    100%{ box-shadow: 0px 10px 0px 0 var(--off-white-solid); }
 }
 @keyframes icon-Slide-after {
-    100%{ box-shadow: 0px 10px 0px 0 var(--clear);}
+    100%{ box-shadow: 0px 10px 0px 0 var(--off-white-solid);}
 }
 .app-layout-content{
     display: flex;
@@ -104,5 +104,5 @@
     flex-direction: column;
 }
 body{
-    background-color: var(--off-white);
+    background-color: var(--off-white-solid);
 }

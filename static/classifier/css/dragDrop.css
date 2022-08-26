@@ -12,6 +12,7 @@
 
 .drop-area{
     display: flex;
+    position: relative;
     justify-content: center;
     align-items: center;
     flex-direction: column;
@@ -19,6 +20,7 @@
     width: 100%;
     border: 2px dashed black;
     border-radius: 5px;
+    overflow: hidden;
 }
 .drop-area .material-symbols-outlined{
     font-size: 100px;
@@ -62,8 +64,8 @@
     align-items: center;
     flex-direction: column;
     flex-shrink: 0;
-    width: 70%;
-    height: 25rem;
+    width: 100%;
+    height: 100%;
     background-color: rgba(157, 221, 186, 0.842);
     padding: 1rem;
     position: absolute;
@@ -76,6 +78,7 @@
 .loaded-images{
     display: flex;
     justify-content: flex-start;
+    position: relative;
     align-items: center;
     flex-shrink: 0;
     width: 70%;
@@ -84,13 +87,26 @@
     padding: 1rem;
     margin-top: 1rem;
     overflow-x: auto;
-    overflow-y: hidden;
+    overflow-y:hidden;
+}
+#upload{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    cursor: pointer;
+    user-select: none;
+    background-color: var(--green);
+    width: 6rem;
+    height: 2rem;
+    border-radius: 10px;
+    margin-top: 1rem;
 }
 .loaded-images .file-content{
     display: flex;
     flex-direction: column;
-    
     align-items: center;
+    position: relative;
     justify-content: space-between;
     background-color: var(--off-white);
     min-height: 9rem;
@@ -101,10 +117,11 @@
     margin-right: 1rem;
     padding: 5px;
     white-space: nowrap;
-    overflow: hidden;
+
     text-overflow: ellipsis;
 
 }
+
 .file-content .image{
     max-width: 8rem;
     max-height: 8rem;
@@ -117,7 +134,21 @@
     overflow: hidden;
     text-overflow: ellipsis;
 }
-
+.file-content .close-image{
+    display: flex;
+    user-select: none;
+    cursor: pointer;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    font-size: 20px !important;
+    width: 2rem;
+    height: 2rem;
+    background-color: var(--green);
+    right: -1rem;
+    top: -1rem;
+    border-radius: 100%;
+}
 /* Javascript addClass */
 .highlight{
     background-color: var(--light-green);
@@ -126,6 +157,9 @@
 
 .hidden{
     display: none !important;
+}
+.blur{
+    backdrop-filter: blur(10px) !important; 
 }
 
 #fileElem,

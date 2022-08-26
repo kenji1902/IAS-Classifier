@@ -1,59 +1,49 @@
 
-var filesDone = 0;
-var filestoDo = 0;
+let imageLoaded = new Array();
+let imageID = 0;
+console.log(typeof( images));
+
 function preventDefaults(events) {
     events.preventDefault();
     events.stopProagration();
 }
-function initializeProgress($progressPercent, fileSize){
-    $progressPercent.text("");
-    filesDone = 0;
-    filestoDo = fileSize;
-}
 function previewFile(files){
-    let reader = new FileReader();
-        reader.readAsDataURL(files);
-        reader.onloadend = function() {
-            // let img = document.createElement('img');
-            // img.src = reader.result;
-            $loadedImages.append(
-                `
-                <div class="file-content">
-                    <img src="${reader.result}" alt="" class="image">
-                    <span class="image-name">${files['name']}</span>
-                </div>                    
-                `
-            );
-        }
-}
-function getCookie(name) {
-    let cookieValue = null;
-    if (document.cookie && document.cookie !== "") {
-      const cookies = document.cookie.split(";");
-      for (let i = 0; i < cookies.length; i++) {
-        const cookie = cookies[i].trim();
-        // Does this cookie string begin with the name we want?
-        if (cookie.substring(0, name.length + 1) === (name + "=")) {
-          cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-          break;
-        }
-      }
-    }
-    return cookieValue;
-  }
-function handleFiles(files) {
-    ([...files]).forEach(uploadFile);
-    ([...files]).forEach(previewFile);
-    uploadFile(files);
-}
-function uploadFile(files){
-    let formData = new FormData();
-    for (let i = 0; i < files.length; i++){
-        formData.append('files[]',files[i]);
-    } 
 
-    uploadFormData(formData);
-    return formData;
+    let reader = new FileReader();
+    reader.readAsDataURL(files);
+    reader.onloadend = function() {
+        // let img = document.createElement('img');
+        // img.src = reader.result;
+        $loadedImages.append(
+            `
+            <div id="${imageID}" class="file-content">
+                <img src="${reader.result}" alt="" class="image">
+                <span class="image-name">${files['name']}</span>
+                <span class="close-image material-symbols-outlined">
+                    close
+                </span>
+            </div>                    
+            `
+        );
+        $(`#${imageID}`).click(function (e) { 
+            e.preventDefault();
+            $(this).remove();
+            delete imageLoaded[$(this).attr('id')];
+            console.log($(this).attr('id'));
+            console.log(imageLoaded);
+        });
+        imageLoaded.push(files);
+        imageID++;
+    }
+
+}
+
+function uploadFile(files){
+    for (let i = 0; i < files.length; i++){
+        previewFile(files[i]);
+    }
+    console.log(imageLoaded);
+    
 }  
 function uploadFormData(form_data) {
     $('#progress-percent').removeClass('hidden');
@@ -121,12 +111,21 @@ $(document).ready(function () {
     $dropArea.on('drop',function(e){
         e.preventDefault();
         let files = e.originalEvent.dataTransfer.files;
-        let formData = uploadFile(files);
-        formData.forEach(previewFile);
+        uploadFile(files);   
         return false;
     });
-    
+
+    $('#upload').click(function(e){
+        e.preventDefault();
+
+        let formData = new FormData();;
+        for (let i = 0; i < imageLoaded.length; i++){
+            formData.append('files[]',imageLoaded[i]);
+        } 
+        uploadFormData(formData);
+    });
 
     $('#file').click(function(){ $('#fileElem').trigger('click'); });
-    $('#camera').click(function(){ $('#cameraElem').trigger('click'); });
+    // $('#camera').click(function(){ $('#cameraElem').trigger('click'); });
+    
 });

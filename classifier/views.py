@@ -4,7 +4,6 @@ from django.views.decorators.csrf import ensure_csrf_cookie
 
 import json
 from django.http import HttpResponseBadRequest, JsonResponse
-
 # Create your views here.
 def classifier(request):
     return render(request,'classifier.html',{'Name':'Kenji'})
@@ -18,7 +17,8 @@ def upload_files(request):
         if request.method == 'POST':
             
             files = request.FILES.getlist('files[]', None)
-            print('data here:', files)
+            for f in files:
+                print(f)
             # for f in files:
             #     handle_uploaded_file(f)
             return JsonResponse({'status': 'uploaded successfuly'})
