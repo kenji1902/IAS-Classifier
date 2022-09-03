@@ -89,7 +89,7 @@
     overflow-x: auto;
     overflow-y:hidden;
 }
-#upload{
+.button{
     display: flex;
     justify-content: center;
     align-items: center;

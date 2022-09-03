@@ -27,7 +27,7 @@ function vidOn($video){
             $video.get(0).srcObject = stream;
             $video.get(0).play();
         }).catch(function(err){
-            console.log(err);
+            alert(err);
         });
     }
 }

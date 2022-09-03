@@ -24,9 +24,12 @@ SECRET_KEY = '34h+-jp@+wnw%shv6z(x0q%e3*zz36!0%axkidq80xkk&g@fm3'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
-
+CSRF_COOKIE_SECURE = False
 ALLOWED_HOSTS = ['*']
-CSRF_TRUSTED_ORIGINS = ['https://condescending-fog-39986.pktriot.net']
+CSRF_TRUSTED_ORIGINS = [
+    'https://condescending-fog-39986.pktriot.net',
+    'http://localhost:8080',
+    ]
 
 # Application definition
 
@@ -40,6 +43,7 @@ INSTALLED_APPS = [
     'classifier',
     'home',
     'information',
+    'blobStorage',
 ]
 
 MIDDLEWARE = [

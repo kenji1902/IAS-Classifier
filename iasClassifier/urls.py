@@ -21,4 +21,5 @@ urlpatterns = [
     path('', include('classifier.urls')),
     path('', include('home.urls') ),
     path('', include('information.urls')),
+    path('', include('blobStorage.urls')),
 ]
