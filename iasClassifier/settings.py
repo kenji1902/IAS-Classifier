@@ -44,6 +44,16 @@ INSTALLED_APPS = [
     'home',
     'information',
     'blobStorage',
+
+
+
+    # The following apps are required:
+    
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'allauth.socialaccount.providers.google',
+   
 ]
 
 MIDDLEWARE = [
@@ -54,6 +64,16 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+]
+
+AUTHENTICATION_BACKENDS = [
+    
+    # Needed to login by username in Django admin, regardless of `allauth`
+    'django.contrib.auth.backends.ModelBackend',
+
+    # `allauth` specific authentication methods, such as login by e-mail
+    'allauth.account.auth_backends.AuthenticationBackend',
+    
 ]
 
 ROOT_URLCONF = 'iasClassifier.urls'
@@ -69,10 +89,33 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                
             ],
         },
     },
 ]
+
+# Provider specific settings
+SOCIALACCOUNT_PROVIDERS = {
+    'google': {
+        # For each OAuth based provider, either add a ``SocialApp``
+        # (``socialaccount`` app) containing the required client
+        # credentials, or list them here:
+        'APP': {
+            'client_id': '595010241853-8p66opbttf3rk7q6s329dhffv0q2eq37.apps.googleusercontent.com',
+            'secret': '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',
+            'key': ''
+        },
+        "SCOPE": [
+            "profile",
+            "email",
+        ],
+        "AUTH_PARAMS": {
+            "access_type": "online",
+        }
+    }
+}
+
 
 WSGI_APPLICATION = 'iasClassifier.wsgi.application'
 

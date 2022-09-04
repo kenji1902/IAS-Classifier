@@ -20,3 +20,6 @@ IASclassifier/__pycache__/
 
 # #local database
 db.sqlite3
+
+# static Blob Directory
+static/blobStorage/*

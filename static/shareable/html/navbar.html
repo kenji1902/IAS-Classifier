@@ -34,5 +34,14 @@
             Database
         </span>
     </div>
+    {% load socialaccount%}
+    <div id="Login" class="navbar-items">
+        <a href="{% provider_login_url 'google' method = 'oauth2' %}" class="material-symbols-outlined navbar-icons">
+            login
+        </a>
+        <a href="{% provider_login_url 'google' method = 'oauth2' %}" class="navbar-item-name">
+            Login
+        </a>
+    </div>
 
 </div>

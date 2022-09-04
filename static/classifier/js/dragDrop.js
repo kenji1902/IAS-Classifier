@@ -1,7 +1,7 @@
 
 let imageLoaded = new Array();
 let rawImageID = 0;
-
+let coords = []
 
 function preventDefaults(events) {
     events.preventDefault();
@@ -42,6 +42,11 @@ function uploadFile(files){
 
     for (let i = 0; i < files.length; i++){
         previewFile(files[i]);
+        getAddress().then(
+            e => {
+                coords = JSON.stringify(e);
+            }
+        );
     }
     
 }
@@ -159,14 +164,15 @@ $(document).ready(function () {
         return false;
     });
 
-    $('#filter').click(function(e){
+    $('#filter').click( function(e){
         $('#preprocessed').removeClass('hidden')
         $('#classify').removeClass('hidden')
-        let formData = new FormData();;
+        let formData = new FormData();
+        console.log(coords)
         for (let i = 0; i < imageLoaded.length; i++){
             formData.append('files[]',imageLoaded[i]);
+            formData.append('coords[]',coords);
         } 
-        imageLoaded = [];
         uploadFormData(formData);
 
     });
@@ -186,6 +192,7 @@ $(document).ready(function () {
                 console.log(data)
             }
         });
+        window.location.assign('/classifier/results/')
     });
     $('#file').click(function(){ $('#fileElem').trigger('click'); });
     // $('#camera').click(function(){ $('#cameraElem').trigger('click'); });

@@ -1,5 +1,5 @@
 
 {%load static%}
-{% with 'blobStorage/images/'|add:image as imageFile  %}
+{% with 'blobStorage/images/temp/'|add:username|add:'/'|add:image as imageFile  %}
 <img src="{%static imageFile%}" class="image" alt="{{image}}">
 {% endwith %}

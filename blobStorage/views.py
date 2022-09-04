@@ -8,4 +8,7 @@ def getBlobImage(request,fileName):
 
     if is_ajax:
         if request.method == 'GET':
-            return render(request,'getImage.html',{'image':fileName})
+            return render(request,'getImage.html',{
+                'image':fileName,
+                'username':request.user.username,
+            })
