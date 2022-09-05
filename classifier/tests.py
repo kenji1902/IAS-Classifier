@@ -7,7 +7,7 @@ import cv2
 import keyboard
 cam = cv2.VideoCapture(2)
 cv2.namedWindow("video", cv2.WINDOW_NORMAL)    
-cv2.resizeWindow("video", 1920, 1080)
+cv2.resizeWindow("video", 960, 540)
 while True:
 
     check, frame = cam.read()

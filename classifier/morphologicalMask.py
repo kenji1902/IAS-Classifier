@@ -21,7 +21,7 @@ def create_mask_for_image(image):
     upper_hsv = np.array([95, 255, 255])
 
     # find the green color 
-    mask_green = cv2.inRange(image_hsv, (20,20,0), (95,255,255))
+    mask_green = cv2.inRange(image_hsv, (20,13,0), (86,255,255))
     # find the brown color
     mask_brown = cv2.inRange(image_hsv, (8, 60, 20), (30, 255, 200))
     # find the yellow color in the leaf
