@@ -22,16 +22,21 @@
     {%include "shareable/html/navbar.html"%}
     
     <div class="app-layout-content">
+        <div id="alert" class="alert alert-warning alert-dismissible fade hide" role="alert">
+            <strong>Hi there!</strong> You should only use images with "jpeg/jpg" format.
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+
         <div class="content">
             <div class="upload-box">
-                <form class="drop-area ias-images">
+                <form class="drop-area ias-images" accept=".jpeg,.jpg">
                     {% csrf_token %}
-                    <span class="material-symbols-outlined">
+                    <span class="material-symbols-outlined file_upload">
                         file_upload
                     </span>
                     <div class="drop-area-buttons">
-                        <input type="file" id="fileElem" multiple accept="image/*" onchange="uploadFile(this.files)">
-                        <div id="file" multiple accept="image/*" class="drop-area-button">
+                        <input type="file" id="fileElem" accept=".jpeg,.jpg" onchange="uploadFile(this.files)">
+                        <div id="file"  accept=".jpeg,.jpg" class="drop-area-button">
                             <span class="material-symbols-outlined icon">
                                 add_photo_alternate
                             </span>
@@ -61,7 +66,11 @@
                         <span id="arrow-right-btn" class="arrow-right material-symbols-outlined">
                             double_arrow
                         </span>
+                        
                         <video id="video"></video>
+                        <div id="shutter" class="shutter">
+                            <div class="shutter_inner"></div>
+                        </div>
                     </div>
                 </form>
             </div>
@@ -73,12 +82,12 @@
                 
             </div>
             
-            <span id="filter" class="button ">FILTER</span>
+            <span id="filter" class="button_ hidden">FILTER</span>
             <div id="preprocessed" class="loaded-images hidden">
                 
                 
             </div>
-            <span id="classify" class="button hidden">CLASSIFY</span>
+            <span id="classify" class="button_ hidden">CLASSIFY</span>
 
         </div>
         

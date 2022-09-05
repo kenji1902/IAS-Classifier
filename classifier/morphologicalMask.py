@@ -8,7 +8,7 @@ def morphologicalMasking(image):
     # processImg = sharpen_image(processImg)
     processImg = cv2.cvtColor(processImg,cv2.COLOR_RGB2GRAY)
     processImg = cv2.threshold(processImg, 1, 255, cv2.THRESH_BINARY)[1]
-    processImg = np.reshape(processImg,(256,256,1))
+    processImg = np.reshape(processImg,(1000,1000,1))
     return processImg
 
 def create_mask_for_image(image):
@@ -21,7 +21,7 @@ def create_mask_for_image(image):
     upper_hsv = np.array([95, 255, 255])
 
     # find the green color 
-    mask_green = cv2.inRange(image_hsv, (36,0,0), (86,255,255))
+    mask_green = cv2.inRange(image_hsv, (20,20,0), (95,255,255))
     # find the brown color
     mask_brown = cv2.inRange(image_hsv, (8, 60, 20), (30, 255, 200))
     # find the yellow color in the leaf

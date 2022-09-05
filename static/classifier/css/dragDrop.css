@@ -1,4 +1,8 @@
-
+.alert{
+    position:fixed;
+    z-index: 4;
+    margin-top: 1rem;
+}
 .upload-box{
     display: flex;
     flex-shrink: 0;
@@ -21,6 +25,7 @@
     border: 2px dashed black;
     border-radius: 5px;
     overflow: hidden;
+    
 }
 .drop-area .material-symbols-outlined{
     font-size: 100px;
@@ -88,8 +93,11 @@
     margin-top: 1rem;
     overflow-x: auto;
     overflow-y:hidden;
+    z-index: 2 !important;
+    bottom: 4rem;
+    opacity: 0;
 }
-.button{
+.button_{
     display: flex;
     justify-content: center;
     align-items: center;
@@ -101,6 +109,9 @@
     height: 2rem;
     border-radius: 10px;
     margin-top: 1rem;
+    opacity: 0;
+    bottom: 4rem;
+    z-index: 1 !important;
 }
 .loaded-images .file-content{
     display: flex;
@@ -123,8 +134,8 @@
 }
 
 .file-content .image{
-    max-width: 8rem;
-    max-height: 8rem;
+    max-width: 7rem;
+    max-height: 7rem;
 }
 .file-content .image-name{
     width: 8rem;
@@ -154,13 +165,13 @@
     background-color: var(--light-green);
     
 }
-
 .hidden{
     display: none !important;
 }
 .blur{
     backdrop-filter: blur(10px) !important; 
 }
+
 
 #fileElem,
 #cameraElem{

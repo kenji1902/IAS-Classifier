@@ -3,17 +3,92 @@ let imageLoaded = new Array();
 let rawImageID = 0;
 let coords = []
 
+
+$(document).ready(function () {
+    console.log(getCookie("csrftoken"));
+
+    $dropArea = $(".drop-area");
+    
+    $progressPercent = $('#progress-percent .progress');
+    ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+        $dropArea.on(eventName,preventDefaults,false);
+        
+    });
+
+    ['dragenter', 'dragover'].forEach(eventName => {
+        $dropArea.on(eventName, function(){
+            $(this).addClass('highlight');
+            return false;
+        });
+    });
+
+    ['dragleave', 'drop'].forEach(eventName => {
+        $dropArea.on(eventName, function(){
+            $(this).removeClass('highlight');
+            return false
+        });
+    })
+
+    $dropArea.on('drop',function(e){
+        e.preventDefault();
+        uploadFile(e);   
+        return false;
+    });
+
+    $('#filter').click( function(e){
+        slideDown($('#preprocessed'),500,200);
+        slideDown($('#classify'),500,1000);
+        
+        
+        let formData = new FormData();
+        console.log(imageLoaded)
+        for (let i = 0; i < imageLoaded.length; i++){
+            formData.append('files[]',imageLoaded[i]);
+            formData.append('coords[]',coords);
+        } 
+        uploadFormData(formData);
+
+    });
+    $('#classify').click(function(e){
+        console.log(preprocessedImages)
+        $.ajax({
+            xhr: progress,
+            url: "/classifier/classify/",
+            dataType: 'json',
+            method: "POST",
+            data: {'images':preprocessedImages},
+            headers: {
+                "X-Requested-With": "XMLHttpRequest",
+                "X-CSRFToken": Cookies.get("csrftoken"), 
+            },
+            success: function (data) {
+                console.log(data)
+            }
+        });
+        window.location.assign('/classifier/results/')
+    });
+    $('#file').click(function(){ $('#fileElem').trigger('click'); });
+    // $('#camera').click(function(){ $('#cameraElem').trigger('click'); });
+    
+});
+
+
+
+function isEmpty( el ){
+    return !$.trim(el.html())
+}
 function preventDefaults(events) {
     events.preventDefault();
     events.stopProagration();
 }
+
 function previewFile(files){
-    $rawImages = $("#raw");
+    let $rawImages = $("#raw");
     let reader = new FileReader();
-    reader.readAsDataURL(files);
+    reader.readAsDataURL(files); 
+
     reader.onloadend = function() {
-        // let img = document.createElement('img');
-        // img.src = reader.result;
+        
         $rawImages.append(
             `
             <div  class="file-content">
@@ -29,26 +104,64 @@ function previewFile(files){
             e.preventDefault();
             $(this).parent().remove();
             delete imageLoaded[$(this).attr('id')];
+            if(isEmpty($rawImages)){
+                slideUp($('#filter'),200,1000);
+                slideUp($('#raw'),500,1000);
+            }
         });
         imageLoaded.push(files);
         rawImageID++;
     }
 
 }
+function slideUp($element,animate,timeout){
+    $element.animate({
+        bottom: '4rem',
+        opacity: '0'
+    },animate);
+    setTimeout(() => {
+        $element.addClass('hidden');
+    }, timeout);
+}
+function slideDown($element,animate,timeout){
+    setTimeout(() => {
+        $element.removeClass('hidden').animate({
+            bottom: '0rem',
+            opacity: '1'
+        },animate);
+    }, timeout);
+}
 
+function showAlert(id){
+    $(id).removeClass('hide')
+    $('#alert').addClass('show')
+    setTimeout(() => {
+        $('#alert').removeClass('show')
+        $('#alert').addClass('hide')
+
+    }, 5000);
+}
+
+let acceptableFileType = ['jpeg','jpg']
 function uploadFile(files){
-    $('#raw').removeClass('hidden')
-    $('#filter').removeClass('hidden')
-
-    for (let i = 0; i < files.length; i++){
-        previewFile(files[i]);
-        getAddress().then(
-            e => {
-                coords = JSON.stringify(e);
-            }
-        );
-    }
     
+    let Files = files.originalEvent.dataTransfer.files;
+    for (let i = 0; i < Files.length; i++){
+        let extension = Files[i]['name'].split('.').at(-1);
+        if(!acceptableFileType.includes(extension)){
+            showAlert('#alert')
+            files.originalEvent.dataTransfer.clearData();
+            return;
+        }
+    }
+    for (let i = 0; i < Files.length; i++){
+        previewFile(Files[i])
+        getAddress(function (cookie) {
+            coords = JSON.stringify(cookie)
+        });   
+    }
+    slideDown($('#raw'),500,200);
+    slideDown($('#filter'),500,1000);
 }
 
 function progress () {
@@ -107,7 +220,7 @@ let preprocessedImages = []
 function filter(response){
     $image = $(response).find('.image');
     $ppImages = $("#preprocessed");
-    let altName = $image['prevObject'][0]['alt'].split('.').at(-2)
+    let altName = $image['prevObject'][0]['alt'].split('.').slice(0,-1).join("")
     let extension = $image['prevObject'][0]['alt'].split('.').at(-1)
     $ppImages.append(
         `
@@ -128,73 +241,11 @@ function filter(response){
         if (index !== -1) { 
             preprocessedImages.splice(index, 1);
         }
-        console.log(preprocessedImages)
+        if(isEmpty($('#preprocessed'))){
+            slideUp($('#classify'),200,1000);
+            slideUp($('#preprocessed'),500,1000);
+        }
     });    
     preprocessedImages.push(altName + '.' +extension)
 }
 
-$(document).ready(function () {
-    console.log(getCookie("csrftoken"));
-    $dropArea = $(".drop-area");
-    
-    $progressPercent = $('#progress-percent .progress');
-    ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
-        $dropArea.on(eventName,preventDefaults,false);
-        
-    });
-
-    ['dragenter', 'dragover'].forEach(eventName => {
-        $dropArea.on(eventName, function(){
-            $(this).addClass('highlight');
-            return false;
-        });
-    });
-
-    ['dragleave', 'drop'].forEach(eventName => {
-        $dropArea.on(eventName, function(){
-            $(this).removeClass('highlight');
-            return false
-        });
-    })
-
-    $dropArea.on('drop',function(e){
-        e.preventDefault();
-        let files = e.originalEvent.dataTransfer.files;
-        uploadFile(files);   
-        return false;
-    });
-
-    $('#filter').click( function(e){
-        $('#preprocessed').removeClass('hidden')
-        $('#classify').removeClass('hidden')
-        let formData = new FormData();
-        console.log(coords)
-        for (let i = 0; i < imageLoaded.length; i++){
-            formData.append('files[]',imageLoaded[i]);
-            formData.append('coords[]',coords);
-        } 
-        uploadFormData(formData);
-
-    });
-    $('#classify').click(function(e){
-        console.log(preprocessedImages)
-        $.ajax({
-            xhr: progress,
-            url: "/classifier/classify/",
-            dataType: 'json',
-            method: "POST",
-            data: {'images':preprocessedImages},
-            headers: {
-                "X-Requested-With": "XMLHttpRequest",
-                "X-CSRFToken": Cookies.get("csrftoken"), 
-            },
-            success: function (data) {
-                console.log(data)
-            }
-        });
-        window.location.assign('/classifier/results/')
-    });
-    $('#file').click(function(){ $('#fileElem').trigger('click'); });
-    // $('#camera').click(function(){ $('#cameraElem').trigger('click'); });
-    
-});

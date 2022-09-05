@@ -57,7 +57,7 @@ def handle_uploaded_file(request,f,coords):
     while(os.path.exists( os.path.join(path, tempFileName) )):
         file = tempFileName.split('.')
         extension = file[-1]
-        file = file[-2]
+        file = ''.join(file[:-1])
         file = file+'_copy.'+extension
         tempFileName = file
 
@@ -108,7 +108,7 @@ def classify_files(request):
     if is_ajax:
         if request.method == 'POST':
             images = request.POST.getlist('images[]')
-
+            print(images)
             tempPath = f'static/blobStorage/images/temp/{username}/'
             rawPath = f'static/blobStorage/images/raw/{username}/'
     
@@ -116,13 +116,15 @@ def classify_files(request):
             for t in temp:
                 if t not in images:
                     os.remove(tempPath+t)
+                    continue
 
 
             # Do the Classification/prediction here
             # 
             # 
             # add to database (id, username-fk, date, species name, local name, location, file name)
-            # 
+            #   
+                
                 coords = gt.image_coordinates(rawPath+t,t)
                 print('Final Coords: ',coords)
             # 

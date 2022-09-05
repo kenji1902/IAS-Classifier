@@ -1,4 +1,4 @@
-.navbar{
+._navbar{
     display: flex;
     position: absolute;
     justify-content: center;
@@ -7,7 +7,7 @@
     z-index: 4;
     width: 100%;
 }
-.navbar .navbar-items{
+._navbar .navbar-items{
     display: flex;
     justify-content: center;
     align-items: center;
@@ -104,5 +104,5 @@
     flex-direction: column;
 }
 body{
-    background-color: var(--off-white-solid);
+    background-color: var(--off-white-solid) !important;
 }
