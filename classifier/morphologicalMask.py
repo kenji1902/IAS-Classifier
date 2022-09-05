@@ -8,7 +8,7 @@ def morphologicalMasking(image):
     # processImg = sharpen_image(processImg)
     processImg = cv2.cvtColor(processImg,cv2.COLOR_RGB2GRAY)
     processImg = cv2.threshold(processImg, 1, 255, cv2.THRESH_BINARY)[1]
-    processImg = np.reshape(processImg,(1000,1000,1))
+    processImg = np.reshape(processImg,(256,256,1))
     return processImg
 
 def create_mask_for_image(image):

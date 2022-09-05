@@ -11,7 +11,7 @@ cv2.resizeWindow("video", 1920, 1080)
 while True:
 
     check, frame = cam.read()
-    frame = cv2.resize(frame, (1000,1000), interpolation = cv2.INTER_AREA)
+    frame = cv2.resize(frame, (256,256), interpolation = cv2.INTER_AREA)
     processImg = morphMask.morphologicalMasking(frame)
     processImg = np.concatenate((np.array(frame),np.array(processImg)),axis=2)
     processImg = morphMask.rgba2rgb(np.array(processImg))
