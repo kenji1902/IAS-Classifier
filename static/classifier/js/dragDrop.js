@@ -148,7 +148,7 @@ function uploadFile(files){
     // let Files = files.originalEvent.dataTransfer.files;
     $('#filter').off('click');
     $('#filter').addClass('color-change-2x')
-
+    $('#dropAreaSpinner').removeClass('hidden')
     for (let i = 0; i < files.length; i++){
         let extension = files[i]['name'].split('.').at(-1);
         if(!acceptableFileType.includes(extension)){
@@ -163,7 +163,7 @@ function uploadFile(files){
                 slideDown($('#filter'),500,1000);
                 $('#filter').click( clickFilter);
                 $('#filter').removeClass('color-change-2x')
-
+                $('#dropAreaSpinner').addClass('hidden')
                 console.log(coords)
             }
         });   
@@ -176,7 +176,7 @@ function progress () {
     xhr.upload.addEventListener("progress", function (evt) {
         if (evt.lengthComputable) {
             var percentComplete = evt.loaded / evt.total;
-            $('#progress-percent .progress').text(
+            $('#progress-percent .progress_').text(
                 percentComplete * 100 + '%'
                 
             );

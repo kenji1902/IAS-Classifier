@@ -113,9 +113,11 @@ def classify_files(request):
                 
                 coords = gt.image_coordinates(rawPath+t,t)
                 print('Final Coords: ',coords)
+                
             # 
             # create a folder based on prediction name and move the images from temp folder   
             shutil.rmtree(tempPath)
+            tempFileHandler.objects.all().delete()
             return JsonResponse({'status': 'success'})
         return JsonResponse({'status': 'Invalid request'}, status=400)
     else:

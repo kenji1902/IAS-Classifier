@@ -31,6 +31,7 @@
             <div class="upload-box">
                 <form class="drop-area ias-images" accept=".jpeg,.jpg">
                     {% csrf_token %}
+                    
                     <span class="material-symbols-outlined file_upload">
                         file_upload
                     </span>
@@ -59,7 +60,7 @@
 
                     <div id="progress-percent" class="hidden">
                         <span class="text ">UPLOADING</span>
-                        <span class="progress"></span>
+                        <span class="progress_"></span>
                     </div>
 
                     <div class="camera-content">
@@ -76,8 +77,14 @@
 
                             </ul>
                           </div>
+                        
                         <div id="shutter" class="shutter">
                             <div class="shutter_inner"></div>
+                        </div>
+                    </div>
+                    <div id="dropAreaSpinner" class="spinnerCont blur hidden">
+                        <div class="spinner-border m-5" role="status">
+                            <span class="visually-hidden">Loading...</span>
                         </div>
                     </div>
                 </form>

@@ -37,6 +37,7 @@ function uploadFileCam(files){
     
     $('#filter').off('click')
     $('#filter').addClass('color-change-2x')
+    $('#dropAreaSpinner').removeClass('hidden')
     previewFileCam(files)
     getAddress(function (cookie) {
         coords = JSON.stringify(cookie)
@@ -44,6 +45,7 @@ function uploadFileCam(files){
         slideDown($('#filter'),500,1000);
         $('#filter').click( clickFilter);
         $('#filter').removeClass('color-change-2x')
+        $('#dropAreaSpinner').addClass('hidden')
         console.log(coords)
     });   
    

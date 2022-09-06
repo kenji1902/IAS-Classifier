@@ -35,11 +35,14 @@ from PIL import Image
 import piexif
 
 codec = 'ISO-8859-1'  # or latin-1
-
 def exif_to_tag(exif_dict):
     exif_tag_dict = {}
-    thumbnail = exif_dict.pop('thumbnail')
-    exif_tag_dict['thumbnail'] = thumbnail.decode(codec)
+    thumbnail = exif_dict.pop("thumbnail")
+    if thumbnail is not None:
+        with open("thumbnail.jpg", "wb+") as f:
+            f.write(thumbnail)
+    
+        exif_tag_dict['thumbnail'] = thumbnail.decode(codec)
 
     for ifd in exif_dict:
         exif_tag_dict[ifd] = {}
@@ -55,13 +58,16 @@ def exif_to_tag(exif_dict):
     return exif_tag_dict
 
 def main():
-    filename = 'static/blobStorage/images/temp/kenji/kenji-john_benedict-20220906_125642_copy_copy_copy_copy_copy.jpg'  # obviously one of your own pictures
-    im = Image.open(filename)
+    filename = 'static/blobStorage/images/raw/john_benedict/john_benedict-20220906_125700.jpg'  # obviously one of your own pictures
+    # im = Image.open(filename)
     
-    exif_dict = piexif.load(im.info.get('exif'))
+    # exif_dict = piexif.load(im.info.get('exif'))
     
+    exif_dict = piexif.load(filename)
+    exif_dict = exif_to_tag(exif_dict)  
 
-    pprint(exif_dict)
+    if exif_dict['GPS']:
+        pprint(exif_dict['GPS'])
 
 if __name__ == '__main__':
    main()
