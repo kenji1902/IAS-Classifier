@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'home',
     'information',
     'blobStorage',
+    'accounts',
 
 
 
@@ -55,6 +56,7 @@ INSTALLED_APPS = [
     'allauth.socialaccount.providers.google',
    
 ]
+LOGIN_REDIRECT_URL = "/"
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

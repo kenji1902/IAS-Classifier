@@ -52,6 +52,7 @@ def filter_files(request):
 
 def handle_uploaded_file(request,f,coords):
     username = request.user.username
+    # Append _copy to file if it exists
     tempFileName = f'{username}-{f.name}'
     path = f'static/blobStorage/images/raw/{username}/'
     while(os.path.exists( os.path.join(path, tempFileName) )):
@@ -61,14 +62,17 @@ def handle_uploaded_file(request,f,coords):
         file = file+'_copy.'+extension
         tempFileName = file
 
+    # Save per chunk, loop to save more memory
     filepath = os.path.join(path,tempFileName)
     with open(filepath, 'wb+') as destination:
         for chunk in f.chunks():
             destination.write(chunk)
-
-    coords = json.loads(coords)
-    tempFileHandler.objects.create(filename=tempFileName, latitude=coords['lat'], longtitude=coords['lng'] )
-    # gt.image_coordinates(filepath,tempFileName)
+    
+    # Save geolocation if it exists
+    if(coords):
+        coords = json.loads(coords)
+        tempFileHandler.objects.create(filename=tempFileName, latitude=coords['lat'], longtitude=coords['lng'] )
+    
 
     image = cv2.imread(filepath)
     path = f'static/blobStorage/images/temp/{username}/'
@@ -80,24 +84,6 @@ def handle_uploaded_file(request,f,coords):
     cv2.imwrite( os.path.join(path,tempFileName),processImg)
 
 
-
-# def handle_uploaded_file(request,processImg,fileName,coords):
-#     username = request.user.username
-#     tempFileName = f'{username}-{fileName}'
-#     path = f'static/blobStorage/images/temp/{username}/'
-#     while(os.path.exists( os.path.join(path, tempFileName) )):
-#         file = tempFileName.split('.')
-#         extension = file[-1]
-#         file = file[-2]
-#         file = file+'_copy.'+extension
-#         tempFileName = file
-
-#     cv2.imwrite( os.path.join(path,tempFileName),processImg)
-#     coords = json.loads(coords)
-#     tempFileHandler.objects.create(filename=tempFileName, latitude=coords['lat'], longtitude=coords['lng'] )
-#     obj = tempFileHandler.objects.filter(filename='admin-IMG_20220521_155457_copy.jpg')
-#     for i in obj:
-#         print(i.filename)
 
 @ensure_csrf_cookie
 def classify_files(request):

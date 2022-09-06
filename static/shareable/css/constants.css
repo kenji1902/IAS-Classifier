@@ -7,6 +7,8 @@
     --light-green: rgb(216, 241, 230);
     --off-white: rgba(245, 245, 245, 0.788);
     --off-white-solid: rgba(245, 245, 245, 1);
+
+    --phone-width: 600px;
 }
 *{
     margin: 0;

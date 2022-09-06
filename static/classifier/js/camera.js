@@ -10,8 +10,8 @@ $(document).ready(function () {
         $cameraContent.removeClass('slide');
         vidOff($video);
     });
+    listDevices();
     
-
 });
 function dataURItoBlob(dataURI) {
     // convert base64/URLEncoded data component to raw binary data held in a string
@@ -35,14 +35,19 @@ function dataURItoBlob(dataURI) {
 
 function uploadFileCam(files){
     
-   
+    $('#filter').off('click')
+    $('#filter').addClass('color-change-2x')
     previewFileCam(files)
     getAddress(function (cookie) {
         coords = JSON.stringify(cookie)
+        slideDown($('#raw'),500,200);
+        slideDown($('#filter'),500,1000);
+        $('#filter').click( clickFilter);
+        $('#filter').removeClass('color-change-2x')
+        console.log(coords)
     });   
    
-    slideDown($('#raw'),500,200);
-    slideDown($('#filter'),500,1000);
+    
 }
 function previewFileCam(files){
     let $rawImages = $("#raw");
@@ -74,14 +79,17 @@ function previewFileCam(files){
     
 }
 
+let videoConstraints = {
+    facingMode : 'environment',
+    width: 256,
+    height: 256
+}
 function vidOn($video){
     // Get access to the camera!
     if(navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
         navigator.mediaDevices.getUserMedia({ 
             audio: false,
-            video: {
-                facingMode: 'environment'
-            } 
+            video: videoConstraints
         }).then(function(stream) {
             //video.src = window.URL.createObjectURL(stream);
             Stream = stream;
@@ -91,8 +99,9 @@ function vidOn($video){
             $('#shutter').click(e => {
                 let stream_settings = stream.getVideoTracks()[0].getSettings();
                 var canvas = document.createElement('canvas');
-                canvas.width = stream_settings.width;
-                canvas.height = stream_settings.height;
+                let square = Math.min(stream_settings.width,stream_settings.height)
+                canvas.width = square;
+                canvas.height = square;
                 var ctx = canvas.getContext('2d');
                 
                 ctx.drawImage( $video.get(0), 0, 0, canvas.width, canvas.height);
@@ -101,7 +110,7 @@ function vidOn($video){
                 var dataURI = canvas.toDataURL('image/jpeg');
                 uploadFileCam(dataURI)
             })
-        
+           
         }).catch(function(err){
             alert(err);
         });
@@ -113,4 +122,40 @@ function vidOff($video) {
     $video.attr('src','');
     Stream.getTracks()[0].stop();
     $('#shutter').off('click')
-  }
+}
+
+function listDevices(){
+    let $menu = $('#devices .dropdown-menu');
+    
+    navigator.mediaDevices.enumerateDevices().then(devices => {
+        devices.forEach(device => {
+            if(device.deviceId != ''){
+                $menu.append(
+                    `
+                    <li>
+                        <div id="${device.deviceId}" class="dropdown-item">
+                            ${device.label}
+                        </div>
+                    </li>
+                    `
+                );
+
+
+                $(`#${device.deviceId}`).click(function (e) { 
+                    e.preventDefault();
+                    videoConstraints = {
+                        deviceId:device.deviceId,
+                        facingMode:'environment',
+                        width: 256,
+                        height: 256
+                    }
+                    console.log(videoConstraints)
+                    vidOff($('#video'))
+                    vidOn($('#video'))
+                });
+            }
+
+        });
+    });
+    
+}

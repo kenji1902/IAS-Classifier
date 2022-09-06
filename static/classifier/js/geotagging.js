@@ -16,14 +16,15 @@
 
 
 function getAddress(callback) {
+    
     navigator.geolocation.getCurrentPosition(
         function (position) {
             var returnValue = {
                 lat: position.coords.latitude,
                 lng: position.coords.longitude
             }
-            var serializeCookie = returnValue;
-            callback(serializeCookie);
+            callback(returnValue);
         }
     )
 }
+

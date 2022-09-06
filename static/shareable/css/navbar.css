@@ -82,9 +82,9 @@
 .app-layout-content{
     display: flex;
     position: absolute;
-    margin: 1rem 2rem 1rem 1rem;
+    padding: 1rem;
     height: calc(100% - var(--navbar_height));
-    width: calc(100% - 1rem);
+    width: 100%;
     margin-top: var(--navbar_height) ;
     overflow-y: scroll;
     overflow-x: hidden;

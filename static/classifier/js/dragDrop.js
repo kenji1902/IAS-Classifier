@@ -31,24 +31,11 @@ $(document).ready(function () {
 
     $dropArea.on('drop',function(e){
         e.preventDefault();
-        uploadFile(e);   
+        uploadFile(e.originalEvent.dataTransfer.files);   
         return false;
     });
 
-    $('#filter').click( function(e){
-        slideDown($('#preprocessed'),500,200);
-        slideDown($('#classify'),500,1000);
-        
-        
-        let formData = new FormData();
-        console.log(imageLoaded)
-        for (let i = 0; i < imageLoaded.length; i++){
-            formData.append('files[]',imageLoaded[i]);
-            formData.append('coords[]',coords);
-        } 
-        uploadFormData(formData);
-
-    });
+    
     $('#classify').click(function(e){
         console.log(preprocessedImages)
         $.ajax({
@@ -73,7 +60,20 @@ $(document).ready(function () {
 });
 
 
+function clickFilter(e){
+    slideDown($('#preprocessed'),500,200);
+    slideDown($('#classify'),500,1000);
+    
+    
+    let formData = new FormData();
+    console.log(imageLoaded)
+    for (let i = 0; i < imageLoaded.length; i++){
+        formData.append('files[]',imageLoaded[i]);
+        formData.append('coords[]',coords);
+    } 
+    uploadFormData(formData);
 
+}
 function isEmpty( el ){
     return !$.trim(el.html())
 }
@@ -145,23 +145,30 @@ function showAlert(id){
 let acceptableFileType = ['jpeg','jpg']
 function uploadFile(files){
     
-    let Files = files.originalEvent.dataTransfer.files;
-    for (let i = 0; i < Files.length; i++){
-        let extension = Files[i]['name'].split('.').at(-1);
+    // let Files = files.originalEvent.dataTransfer.files;
+    $('#filter').off('click');
+    $('#filter').addClass('color-change-2x')
+
+    for (let i = 0; i < files.length; i++){
+        let extension = files[i]['name'].split('.').at(-1);
         if(!acceptableFileType.includes(extension)){
             showAlert('#alert')
-            files.originalEvent.dataTransfer.clearData();
-            return;
+            continue
         }
-    }
-    for (let i = 0; i < Files.length; i++){
-        previewFile(Files[i])
+        previewFile(files[i])
         getAddress(function (cookie) {
             coords = JSON.stringify(cookie)
+            if(i == files.length - 1){
+                slideDown($('#raw'),500,200);
+                slideDown($('#filter'),500,1000);
+                $('#filter').click( clickFilter);
+                $('#filter').removeClass('color-change-2x')
+
+                console.log(coords)
+            }
         });   
     }
-    slideDown($('#raw'),500,200);
-    slideDown($('#filter'),500,1000);
+    
 }
 
 function progress () {

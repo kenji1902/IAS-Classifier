@@ -13,6 +13,16 @@ def image_coordinates(image_path,fileName):
                       decimal_coords(img.gps_longitude,
                       img.gps_longitude_ref))
             print(f"Was taken: {img.datetime_original}, and has coordinates:{coords}")
+            
+            data = getattr(img, 'gps_latitude', None)
+            data1 = getattr(img, 'gps_longitude', None)
+
+            if not (data and data1):
+                return {
+                'lat':obj[0].latitude,
+                'lng':obj[0].longtitude
+                }
+
             return {
                 'lat':coords[0],
                 'lng':coords[1]

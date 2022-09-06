@@ -27,7 +27,7 @@
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
 
-        <div class="content">
+        <div class="content ">
             <div class="upload-box">
                 <form class="drop-area ias-images" accept=".jpeg,.jpg">
                     {% csrf_token %}
@@ -35,7 +35,7 @@
                         file_upload
                     </span>
                     <div class="drop-area-buttons">
-                        <input type="file" id="fileElem" accept=".jpeg,.jpg" onchange="uploadFile(this.files)">
+                        <input type="file" id="fileElem" accept=".jpeg,.jpg"  onchange="uploadFile(this.files) " multiple>
                         <div id="file"  accept=".jpeg,.jpg" class="drop-area-button">
                             <span class="material-symbols-outlined icon">
                                 add_photo_alternate
@@ -68,6 +68,14 @@
                         </span>
                         
                         <video id="video"></video>
+                        <div id="devices" class="dropdown">
+                            <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                              Devices
+                            </button>
+                            <ul class="dropdown-menu">
+
+                            </ul>
+                          </div>
                         <div id="shutter" class="shutter">
                             <div class="shutter_inner"></div>
                         </div>
@@ -75,6 +83,7 @@
                 </form>
             </div>
             
+
             
 
             <div id="raw" class="loaded-images hidden">
