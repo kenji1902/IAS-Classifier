@@ -45,9 +45,6 @@ def exif_to_tag(exif_dict):
     exif_tag_dict = {}
     thumbnail = exif_dict.pop("thumbnail")
     if thumbnail is not None:
-        with open("thumbnail.jpg", "wb+") as f:
-            f.write(thumbnail)
-    
         exif_tag_dict['thumbnail'] = thumbnail.decode(codec)
 
     for ifd in exif_dict:
