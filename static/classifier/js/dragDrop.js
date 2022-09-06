@@ -1,104 +1,17 @@
-var filesDone = 0;
-var filestoDo = 0;
-function preventDefaults(events) {
-    events.preventDefault();
-    events.stopProagration();
-}
-function initializeProgress($progressPercent, fileSize){
-    $progressPercent.text("");
-    filesDone = 0;
-    filestoDo = fileSize;
-}
-function previewFile(files){
-    let reader = new FileReader();
-        reader.readAsDataURL(files);
-        reader.onloadend = function() {
-            // let img = document.createElement('img');
-            // img.src = reader.result;
-            $loadedImages.append(
-                `
-                <div class="file-content">
-                    <img src="${reader.result}" alt="" class="image">
-                    <span class="image-name">${files['name']}</span>
-                </div>                    
-                `
-            );
-        }
-}
-function getCookie(name) {
-    let cookieValue = null;
-    if (document.cookie && document.cookie !== "") {
-      const cookies = document.cookie.split(";");
-      for (let i = 0; i < cookies.length; i++) {
-        const cookie = cookies[i].trim();
-        // Does this cookie string begin with the name we want?
-        if (cookie.substring(0, name.length + 1) === (name + "=")) {
-          cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-          break;
-        }
-      }
-    }
-    return cookieValue;
-  }
-function handleFiles(files) {
-    ([...files]).forEach(uploadFile);
-    ([...files]).forEach(previewFile);
-    uploadFile(files);
-}
-function uploadFile(files){
-    let formData = new FormData();
-    for (let i = 0; i < files.length; i++){
-        formData.append('files[]',files[i]);
-    } 
 
-    uploadFormData(formData);
-    return formData;
-}  
-function uploadFormData(form_data) {
-    $('#progress-percent').removeClass('hidden');
-    $.ajax({
-        xhr: function () {
-            var xhr = new window.XMLHttpRequest();
-            xhr.upload.addEventListener("progress", function (evt) {
-                if (evt.lengthComputable) {
-                    var percentComplete = evt.loaded / evt.total;
-                    console.log(percentComplete);
-                    $('#progress-percent .progress').text(
-                        percentComplete * 100 + '%'
-                        
-                    );
-                    if (percentComplete === 1) {
-                        $('#progress-percent').addClass('hidden');
-                    }
-                }
-            }, false);
+let imageLoaded = new Array();
+let rawImageID = 0;
+let coords = []
 
-            return xhr;
-        },
-        url: "/classifier/post/",
-        dataType: 'json',
-        method: "POST",
-        data: form_data,
-        headers: {
-            "X-Requested-With": "XMLHttpRequest",
-            "X-CSRFToken": getCookie("csrftoken"),  // don't forget to include the 'getCookie' function
-        },
-        contentType: false,
-        cache: false,
-        processData: false,
-        success: function (data) {
-            console.log(data);
-        }
-    });
-}
 
 $(document).ready(function () {
+    console.log(getCookie("csrftoken"));
+
     $dropArea = $(".drop-area");
-    $loadedImages = $(".loaded-images");
+    
     $progressPercent = $('#progress-percent .progress');
     ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
         $dropArea.on(eventName,preventDefaults,false);
-        console.log(eventName);
         
     });
 
@@ -118,13 +31,228 @@ $(document).ready(function () {
 
     $dropArea.on('drop',function(e){
         e.preventDefault();
-        let files = e.originalEvent.dataTransfer.files;
-        let formData = uploadFile(files);
-        formData.forEach(previewFile);
+        uploadFile(e.originalEvent.dataTransfer.files);   
         return false;
     });
-    
 
+    
+    $('#classify').click(function(e){
+        console.log(preprocessedImages)
+        $.ajax({
+            xhr: progress,
+            url: "/classifier/classify/",
+            dataType: 'json',
+            method: "POST",
+            data: {'images':preprocessedImages},
+            headers: {
+                "X-Requested-With": "XMLHttpRequest",
+                "X-CSRFToken": Cookies.get("csrftoken"), 
+            },
+            success: function (data) {
+                console.log(data)
+            }
+        });
+        window.location.assign('/classifier/results/')
+    });
     $('#file').click(function(){ $('#fileElem').trigger('click'); });
-    $('#camera').click(function(){ $('#cameraElem').trigger('click'); });
+    // $('#camera').click(function(){ $('#cameraElem').trigger('click'); });
+    
 });
+
+
+function clickFilter(e){
+    slideDown($('#preprocessed'),500,200);
+    slideDown($('#classify'),500,1000);
+    
+    
+    let formData = new FormData();
+    console.log(imageLoaded)
+    for (let i = 0; i < imageLoaded.length; i++){
+        formData.append('files[]',imageLoaded[i]);
+        formData.append('coords[]',coords);
+    } 
+    uploadFormData(formData);
+
+}
+function isEmpty( el ){
+    return !$.trim(el.html())
+}
+function preventDefaults(events) {
+    events.preventDefault();
+    events.stopProagration();
+}
+
+function previewFile(files){
+    let $rawImages = $("#raw");
+    let reader = new FileReader();
+    reader.readAsDataURL(files); 
+
+    reader.onloadend = function() {
+        
+        $rawImages.append(
+            `
+            <div  class="file-content">
+                <img src="${reader.result}" alt="" class="image">
+                <span class="image-name">${files['name']}</span>
+                <span id="${rawImageID}" class="close-image material-symbols-outlined">
+                    close
+                </span>
+            </div>                    
+            `
+        );
+        $(`#${rawImageID}`).click(function (e) { 
+            e.preventDefault();
+            $(this).parent().remove();
+            delete imageLoaded[$(this).attr('id')];
+            if(isEmpty($rawImages)){
+                slideUp($('#filter'),200,1000);
+                slideUp($('#raw'),500,1000);
+            }
+        });
+        imageLoaded.push(files);
+        rawImageID++;
+    }
+
+}
+function slideUp($element,animate,timeout){
+    $element.animate({
+        bottom: '4rem',
+        opacity: '0'
+    },animate);
+    setTimeout(() => {
+        $element.addClass('hidden');
+    }, timeout);
+}
+function slideDown($element,animate,timeout){
+    setTimeout(() => {
+        $element.removeClass('hidden').animate({
+            bottom: '0rem',
+            opacity: '1'
+        },animate);
+    }, timeout);
+}
+
+function showAlert(id){
+    $(id).removeClass('hide')
+    $('#alert').addClass('show')
+    setTimeout(() => {
+        $('#alert').removeClass('show')
+        $('#alert').addClass('hide')
+
+    }, 5000);
+}
+
+let acceptableFileType = ['jpeg','jpg']
+function uploadFile(files){
+    
+    // let Files = files.originalEvent.dataTransfer.files;
+    $('#filter').off('click');
+    $('#filter').addClass('color-change-2x')
+    $('#dropAreaSpinner').removeClass('hidden')
+    for (let i = 0; i < files.length; i++){
+        let extension = files[i]['name'].split('.').at(-1);
+        if(!acceptableFileType.includes(extension)){
+            showAlert('#alert')
+            continue
+        }
+        previewFile(files[i])
+        getAddress(function (cookie) {
+            coords = JSON.stringify(cookie)
+            if(i == files.length - 1){
+                slideDown($('#raw'),500,200);
+                slideDown($('#filter'),500,1000);
+                $('#filter').click( clickFilter);
+                $('#filter').removeClass('color-change-2x')
+                $('#dropAreaSpinner').addClass('hidden')
+                console.log(coords)
+            }
+        });   
+    }
+    
+}
+
+function progress () {
+    var xhr = new window.XMLHttpRequest();
+    xhr.upload.addEventListener("progress", function (evt) {
+        if (evt.lengthComputable) {
+            var percentComplete = evt.loaded / evt.total;
+            $('#progress-percent .progress_').text(
+                percentComplete * 100 + '%'
+                
+            );
+            if (percentComplete === 1) {
+                $('#progress-percent').addClass('hidden');
+            }
+        }
+    }, false);
+
+    return xhr;
+}
+ppImageID = 0
+function uploadFormData(form_data) {
+    $('#progress-percent').removeClass('hidden');
+    $.ajax({
+        xhr: progress,
+        url: "/classifier/filter/",
+        dataType: 'json',
+        method: "POST",
+        data: form_data,
+        headers: {
+            "X-Requested-With": "XMLHttpRequest",
+            "X-CSRFToken": Cookies.get("csrftoken"), 
+        },
+        contentType: false,
+        cache: false,
+        processData: false,
+        success: function (data) {
+            data['images'].forEach(files => {
+                $.ajax({
+                    type: "GET",
+                    headers: {
+                        "X-Requested-With": "XMLHttpRequest",
+                        "X-CSRFToken": Cookies.get("csrftoken"), 
+                    },
+                    url: `${window.location.origin}/blobstorage/${files}`,
+
+                    success: function (response) {
+                       filter(response)
+                    }
+                });
+                
+            });
+        }
+    });
+}
+let preprocessedImages = []
+function filter(response){
+    $image = $(response).find('.image');
+    $ppImages = $("#preprocessed");
+    let altName = $image['prevObject'][0]['alt'].split('.').slice(0,-1).join("")
+    let extension = $image['prevObject'][0]['alt'].split('.').at(-1)
+    $ppImages.append(
+        `
+        <div class="file-content">
+            ${response}
+            <span class="image-name">${altName}</span>
+            <span id="${altName}"  class="close-image material-symbols-outlined">
+                close
+            </span>
+        </div>                    
+        `
+    );
+    
+    $(`#${altName}`).click(function (e) { 
+        e.preventDefault();
+        $(this).parent().remove();
+        var index = preprocessedImages.indexOf(altName+ '.' +extension);
+        if (index !== -1) { 
+            preprocessedImages.splice(index, 1);
+        }
+        if(isEmpty($('#preprocessed'))){
+            slideUp($('#classify'),200,1000);
+            slideUp($('#preprocessed'),500,1000);
+        }
+    });    
+    preprocessedImages.push(altName + '.' +extension)
+}
+

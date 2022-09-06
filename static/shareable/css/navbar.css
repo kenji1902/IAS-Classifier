@@ -1,4 +1,4 @@
-.navbar{
+._navbar{
     display: flex;
     position: absolute;
     justify-content: center;
@@ -7,7 +7,7 @@
     z-index: 4;
     width: 100%;
 }
-.navbar .navbar-items{
+._navbar .navbar-items{
     display: flex;
     justify-content: center;
     align-items: center;
@@ -43,7 +43,7 @@
 }
 .navbar-items:hover .navbar-icons{
     transform: translateY(calc(50% + 1rem));
-    border: 6px solid var(--clear);
+    border: 6px solid var(--off-white-solid);
 }
 .navbar-items:hover .navbar-icons::before{
     display: block;
@@ -74,17 +74,17 @@
 
 }
 @keyframes icon-Slide-before {
-    100%{ box-shadow: 0px 10px 0px 0 var(--clear); }
+    100%{ box-shadow: 0px 10px 0px 0 var(--off-white-solid); }
 }
 @keyframes icon-Slide-after {
-    100%{ box-shadow: 0px 10px 0px 0 var(--clear);}
+    100%{ box-shadow: 0px 10px 0px 0 var(--off-white-solid);}
 }
 .app-layout-content{
     display: flex;
     position: absolute;
-    margin: 1rem 2rem 1rem 1rem;
+    padding: 1rem;
     height: calc(100% - var(--navbar_height));
-    width: calc(100% - 1rem);
+    width: 100%;
     margin-top: var(--navbar_height) ;
     overflow-y: scroll;
     overflow-x: hidden;
@@ -104,5 +104,5 @@
     flex-direction: column;
 }
 body{
-    background-color: var(--off-white);
+    background-color: var(--off-white-solid) !important;
 }

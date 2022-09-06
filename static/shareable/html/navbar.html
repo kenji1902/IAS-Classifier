@@ -1,4 +1,4 @@
-<div class="navbar">
+<div class="_navbar">
     <div id="home" class="navbar-items">
         <a href="{% url 'home' %} " class="material-symbols-outlined navbar-icons">
             home
@@ -33,6 +33,28 @@
         <span class="navbar-item-name">
             Database
         </span>
+    </div>
+    {% load socialaccount%}
+    <div id="Login" class="navbar-items">
+            {% load account %}
+            {%user_display user as acc%}
+        <a href="{% provider_login_url 'google' method = 'oauth2' next=''%}" class="material-symbols-outlined navbar-icons" >
+            {% if acc|length > 0 %}
+                person
+            {% else %}
+                login
+            {% endif %}
+        </a>
+        <a href="{% provider_login_url 'google' method = 'oauth2' next='' %}" class="navbar-item-name" next="">
+            
+    
+            {% if acc|length > 0 %}
+                {%user_display user%}
+            {% else %}
+                Login
+            {% endif %}
+
+        </a>
     </div>
 
 </div>
