@@ -3,7 +3,10 @@
 {% load i18n %}
 
 {% block head_title %}{% trans "Signup" %}{% endblock %}
-
+{% load static%}
+{% block extra_head %}
+<link rel="stylesheet" href="{%static 'accounts/css/signup.css'%}">
+{% endblock %}
 {% block content %}
 <h1>{% trans "Sign Up" %}</h1>
 
@@ -11,11 +14,27 @@
 
 <form class="signup" id="signup_form" method="post" action="{% url 'account_signup' %}">
   {% csrf_token %}
-  {{ form.as_p }}
+
+  <div class="customInput">
+    <input class="input" type="text" name="username" placeholder=" " autocomplete="username" minlength="1" maxlength="150" required="" id="id_username">
+    <label class="label" for="id_username">Username:</label>
+  </div>
+  <div class="customInput">
+    <input class="input" type="email" name="email" placeholder=" " autocomplete="email" id="id_email">
+    <label class="label" for="id_email">E-mail (optional):</label>
+  </div>
+  <div class="customInput">
+    <input class="input" type="password" name="password1" placeholder=" " autocomplete="new-password" required="" id="id_password1" aria-autocomplete="list">
+    <label class="label" for="id_password1">Password:</label>
+  </div>
+  <div class="customInput">
+    <input class="input" type="password" name="password2" placeholder=" " autocomplete="new-password" required="" id="id_password2">
+    <label class="label" for="id_password2">Password (again):</label>
+  </div>
   {% if redirect_field_value %}
   <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
   {% endif %}
-  <button type="submit">{% trans "Sign Up" %} &raquo;</button>
+  <button class="primaryAction button_" type="submit">{% trans "Sign Up" %} &raquo;</button>
 </form>
 
 {% endblock %}

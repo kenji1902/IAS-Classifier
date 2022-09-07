@@ -1,5 +1,6 @@
 from concurrent.futures import process
 from distutils import extension
+import pprint
 import shutil
 from unicodedata import name
 from django.shortcuts import render, redirect
@@ -40,12 +41,12 @@ def filter_files(request):
         if request.method == 'POST':
             files = request.FILES.getlist('files[]', None)
             coords = request.POST.getlist('coords[]')            
-                
+            uploadedFiles = []
             for f,c in zip(files,coords):
-                handle_uploaded_file(request,f,c)
+                uploadedFiles.append( handle_uploaded_file(request,f,c) )
             
-            files = os.listdir(f'static/blobStorage/images/temp/{username}/')
-            return JsonResponse({'images': files})
+            # files = os.listdir(f'static/blobStorage/images/temp/{username}/')
+            return JsonResponse({'images': uploadedFiles})
         return JsonResponse({'status': 'Invalid request'}, status=400)
     else:
         return HttpResponseBadRequest('Invalid request')
@@ -73,7 +74,6 @@ def handle_uploaded_file(request,f,coords):
         coords = json.loads(coords)
         tempFileHandler.objects.create(filename=tempFileName, latitude=coords['lat'], longtitude=coords['lng'] )
     
-
     image = cv2.imread(filepath)
     path = f'static/blobStorage/images/temp/{username}/'
     filepath = os.path.join(path,tempFileName)
@@ -82,7 +82,7 @@ def handle_uploaded_file(request,f,coords):
     processImg = np.concatenate((np.array(image),np.array(processImg)),axis=2)
     processImg = morphMask.rgba2rgb(np.array(processImg))
     cv2.imwrite( os.path.join(path,tempFileName),processImg)
-
+    return tempFileName
 
 
 @ensure_csrf_cookie
@@ -112,7 +112,8 @@ def classify_files(request):
             #   
                 
                 coords = gt.image_coordinates(rawPath+t,t)
-                print('Final Coords: ',coords)
+                print(t)
+                print(json.dumps(coords, indent=4))
                 
             # 
             # create a folder based on prediction name and move the images from temp folder   

@@ -33,6 +33,25 @@
     background-color: var(--green);
     border-radius: 5px;
 }
+.breakpoint-option{
+    position: relative;
+    width: 30rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 2rem;
+}
+.breakpoint-option .text{
+    position: absolute;
+    color: var(--gray);
+    background-color: var(--off-white-solid);
+    padding: 0 1rem 0 1rem;
+}
+.breakpoint-option .line{
+    width: 100%;
+    height: 1px;
+    background-color: var(--gray);
+}
 
 @media only screen and (max-width: 600px) {
     .block_Content{

@@ -36,43 +36,28 @@ $(document).ready(function () {
     });
 
     
-    $('#classify').click(function(e){
-        console.log(preprocessedImages)
-        $.ajax({
-            xhr: progress,
-            url: "/classifier/classify/",
-            dataType: 'json',
-            method: "POST",
-            data: {'images':preprocessedImages},
-            headers: {
-                "X-Requested-With": "XMLHttpRequest",
-                "X-CSRFToken": Cookies.get("csrftoken"), 
-            },
-            success: function (data) {
-                console.log(data)
-            }
-        });
-        window.location.assign('/classifier/results/')
-    });
+    
     $('#file').click(function(){ $('#fileElem').trigger('click'); });
     // $('#camera').click(function(){ $('#cameraElem').trigger('click'); });
     
 });
 
-
-function clickFilter(e){
-    slideDown($('#preprocessed'),500,200);
-    slideDown($('#classify'),500,1000);
-    
-    
-    let formData = new FormData();
-    console.log(imageLoaded)
-    for (let i = 0; i < imageLoaded.length; i++){
-        formData.append('files[]',imageLoaded[i]);
-        formData.append('coords[]',coords);
-    } 
-    uploadFormData(formData);
-
+function classifyClick(e){
+    $.ajax({
+        xhr: progress,
+        url: "/classifier/classify/",
+        dataType: 'json',
+        method: "POST",
+        data: {'images':preprocessedImages},
+        headers: {
+            "X-Requested-With": "XMLHttpRequest",
+            "X-CSRFToken": Cookies.get("csrftoken"), 
+        },
+        success: function (data) {
+            console.log(data)
+        }
+    });
+    window.location.assign('/classifier/results/')
 }
 function isEmpty( el ){
     return !$.trim(el.html())
@@ -143,16 +128,28 @@ function showAlert(id){
 }
 
 let acceptableFileType = ['jpeg','jpg']
+function showSpinner(){
+    $('#filter').off('click');
+    $('#filter .spinnerCont').removeClass('hidden')
+    $('#classify').off('click');
+    $('#classify .spinnerCont').removeClass('hidden')
+}
+function hideSpinner(){
+    $('#filter').click( clickFilter);
+    $('#filter .spinnerCont').addClass('hidden')
+    $('#classify').click(classifyClick);
+    $('#classify .spinnerCont').addClass('hidden')
+}
 function uploadFile(files){
     
     // let Files = files.originalEvent.dataTransfer.files;
-    $('#filter').off('click');
-    $('#filter').addClass('color-change-2x')
+    showSpinner();
     $('#dropAreaSpinner').removeClass('hidden')
     for (let i = 0; i < files.length; i++){
         let extension = files[i]['name'].split('.').at(-1);
         if(!acceptableFileType.includes(extension)){
             showAlert('#alert')
+            $('#dropAreaSpinner').addClass('hidden')
             continue
         }
         previewFile(files[i])
@@ -161,8 +158,7 @@ function uploadFile(files){
             if(i == files.length - 1){
                 slideDown($('#raw'),500,200);
                 slideDown($('#filter'),500,1000);
-                $('#filter').click( clickFilter);
-                $('#filter').removeClass('color-change-2x')
+                hideSpinner()
                 $('#dropAreaSpinner').addClass('hidden')
                 console.log(coords)
             }
@@ -205,6 +201,7 @@ function uploadFormData(form_data) {
         cache: false,
         processData: false,
         success: function (data) {
+            let fileCount = 0
             data['images'].forEach(files => {
                 $.ajax({
                     type: "GET",
@@ -215,13 +212,33 @@ function uploadFormData(form_data) {
                     url: `${window.location.origin}/blobstorage/${files}`,
 
                     success: function (response) {
-                       filter(response)
+                        if(fileCount == data['images'].length - 1)
+                            $('#preprocessedSpinner').addClass('hidden')
+                        filter(response)      
+                        fileCount++;
                     }
                 });
                 
             });
-        }
+        },
+        
     });
+}
+function clickFilter(e){
+    
+    
+    $('#preprocessedSpinner').removeClass('hidden')
+    slideDown($('#preprocessed'),500,200);
+    slideDown($('#classify'),500,1000);
+    let formData = new FormData();
+    console.log(imageLoaded)
+    for (let i = 0; i < imageLoaded.length; i++){
+        formData.append('files[]',imageLoaded[i]);
+        formData.append('coords[]',coords);
+    } 
+    uploadFormData(formData);
+    
+
 }
 let preprocessedImages = []
 function filter(response){
@@ -229,7 +246,7 @@ function filter(response){
     $ppImages = $("#preprocessed");
     let altName = $image['prevObject'][0]['alt'].split('.').slice(0,-1).join("")
     let extension = $image['prevObject'][0]['alt'].split('.').at(-1)
-    $ppImages.append(
+    $ppImages.prepend(
         `
         <div class="file-content">
             ${response}

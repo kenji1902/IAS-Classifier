@@ -35,16 +35,14 @@ function dataURItoBlob(dataURI) {
 
 function uploadFileCam(files){
     
-    $('#filter').off('click')
-    $('#filter').addClass('color-change-2x')
+    showSpinner();
     $('#dropAreaSpinner').removeClass('hidden')
     previewFileCam(files)
     getAddress(function (cookie) {
         coords = JSON.stringify(cookie)
         slideDown($('#raw'),500,200);
         slideDown($('#filter'),500,1000);
-        $('#filter').click( clickFilter);
-        $('#filter').removeClass('color-change-2x')
+        hideSpinner()
         $('#dropAreaSpinner').addClass('hidden')
         console.log(coords)
     });   

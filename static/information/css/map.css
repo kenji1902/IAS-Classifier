@@ -1,8 +1,9 @@
 /* Set the size of the div element that contains the map */
 #map {
-    height: 30rem;
+    position: relative;
+    height: calc(100% - 6rem);
     /* The height is 400 pixels */
-    width: 100%;
+    width: 90%;
     /* The width is the width of the web page */
     background-color: black;
     
