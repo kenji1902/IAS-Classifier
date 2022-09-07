@@ -16,7 +16,9 @@ import numpy as np
 import base64
 import os
 
-from .models import tempFileHandler
+from .models import classifier as clsfr
+from django.contrib.auth.models import User
+from .models import tempFileHandler, plantInformation
 # Create your views here.
 def classifier(request):
     if request.user.is_authenticated:
@@ -68,7 +70,7 @@ def handle_uploaded_file(request,f,coords):
     with open(filepath, 'wb+') as destination:
         for chunk in f.chunks():
             destination.write(chunk)
-    
+
     # Save geolocation if it exists
     if(coords):
         coords = json.loads(coords)
@@ -81,7 +83,7 @@ def handle_uploaded_file(request,f,coords):
     processImg = morphMask.morphologicalMasking(image)
     processImg = np.concatenate((np.array(image),np.array(processImg)),axis=2)
     processImg = morphMask.rgba2rgb(np.array(processImg))
-    cv2.imwrite( os.path.join(path,tempFileName),processImg)
+    cv2.imwrite( filepath,processImg)
     return tempFileName
 
 
@@ -98,21 +100,31 @@ def classify_files(request):
             tempPath = f'static/blobStorage/images/temp/{username}/'
             rawPath = f'static/blobStorage/images/raw/{username}/'
     
-            temp = os.listdir(tempPath)            
-            for t in temp:
-                if t not in images:
-                    os.remove(tempPath+t)
+            files = os.listdir(tempPath)            
+            for file in files:
+                if file not in images:
+                    os.remove(tempPath+file)
+                    os.remove(rawPath+file)
                     continue
+                coords = gt.image_coordinates(rawPath+file,file)
 
-
+                
             # Do the Classification/prediction here
             # 
             # 
             # add to database (id, username-fk, date, species name, local name, location, file name)
             #   
                 
-                coords = gt.image_coordinates(rawPath+t,t)
-                print(t)
+                clsfr.objects.create(
+                    username = User.objects.get(username=username),
+                    scientificName = plantInformation.objects.get(scientificName='test'),
+                    latitude = coords['lat'],
+                    longtitude = coords['lng'],
+                    filename=file,
+                    filepath=rawPath
+                )
+
+                print(file)
                 print(json.dumps(coords, indent=4))
                 
             # 

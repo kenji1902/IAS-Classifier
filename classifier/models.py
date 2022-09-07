@@ -1,8 +1,8 @@
 from fileinput import filename
+from tkinter import CASCADE
 import uuid
 from django.db import models
 from django.contrib.auth.models import User
-
 # Create your models here.
 
 class plantInformation(models.Model):
@@ -25,6 +25,7 @@ class classifier(models.Model):
     latitude = models.FloatField(null=False)
     longtitude = models.FloatField(null=False)
     filename = models.CharField(max_length=200)
+    filepath = models.TextField()
 
 class tempFileHandler(models.Model):
     filename = models.CharField(max_length=200)

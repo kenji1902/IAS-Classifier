@@ -48,8 +48,10 @@ INSTALLED_APPS = [
     'accounts',
 
 
+    # Rest API:
+    'rest_framework',
 
-    # The following apps are required:
+    # All auth:
     
     'allauth',
     'allauth.account',
@@ -84,7 +86,7 @@ ROOT_URLCONF = 'iasClassifier.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': ['static/'],
+        'DIRS': ['static/','classifier/api/'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -119,6 +121,14 @@ SOCIALACCOUNT_PROVIDERS = {
     }
 }
 
+REST_FRAMEWORK = {
+    # Use Django's standard `django.contrib.auth` permissions,
+    # or allow read-only access for unauthenticated users.
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
+    ],
+    
+}
 
 WSGI_APPLICATION = 'iasClassifier.wsgi.application'
 

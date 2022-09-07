@@ -20,6 +20,9 @@ from django.contrib.auth import views as auth_views
 urlpatterns = [
     path('admin/', admin.site.urls),
     
+    # Rest Api
+    path('api-auth/', include('rest_framework.urls')),
+    
     # Allauth
     path('accounts/', include('allauth.urls')),
 
