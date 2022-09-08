@@ -1,0 +1,40 @@
+.table-responsive{
+    width: 70%;
+    background-color: white;
+}
+.iasImageCol{
+    width: 256px !important;
+    height: 256px !important;
+    overflow: hidden;
+    
+}
+.iasImage{
+    max-width: 256px;
+    max-height: 256px;
+}
+.description{
+    height: 100%;
+    padding-bottom: 2rem;
+}
+.date{
+    position: absolute;
+    bottom: 0;
+    margin-top: 1rem;
+}
+.plantName{
+    font-weight: bolder;
+}
+.identifier{
+    font-weight: bold;
+}
+.justify{
+    text-align: justify;
+    text-justify: inter-word;
+}
+
+@media only screen and (max-width: 960px) {
+    .table-responsive{
+        width: 100%;
+        background-color: white;
+    }
+}

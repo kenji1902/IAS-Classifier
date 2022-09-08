@@ -14,14 +14,22 @@ class plantInformation(models.Model):
     nativeRange = models.TextField()
     comments = models.TextField()
     control = models.TextField()
+    date = models.DateField(auto_now_add=True)
+    icon = models.TextField()
 
 class classifier(models.Model):
     username = models.ForeignKey(User, on_delete=models.CASCADE)
+    date = models.DateField(auto_now_add=True)
+
+class iasData(models.Model):
+    requestnum = models.ForeignKey(
+        classifier, 
+        on_delete=models.CASCADE
+        )
     scientificName = models.ForeignKey(
         plantInformation, 
         on_delete=models.CASCADE
         )
-    date = models.DateField(auto_now_add=True)
     latitude = models.FloatField(null=False)
     longtitude = models.FloatField(null=False)
     filename = models.CharField(max_length=200)

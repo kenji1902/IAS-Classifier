@@ -1,18 +1,87 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    {%include "shareable/html/cdn.html"%}
-</head>
-<body>
-    <div class="app-layout-content">
-        <div class="content ">
 
-            
-        </div>
-    </div>
-</body>
-</html>
+{% extends "shareable/html/base.html" %}
+{%load static%}
+{%block css%}
+<link rel="stylesheet" href="{% static 'classifier/css/results.css' %}">
+{%endblock%}
+{%block content%}
+
+
+<div class="table-responsive">
+    <table class="table table-borderless">
+        
+        <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">filename</th>
+            <th scope="col">scientificName</th>
+            <th scope="col">latitude</th>
+            <th scope="col">longtitude</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for objects in data %}
+        <tr data-bs-toggle="collapse" href="#collapse{{forloop.counter}}" role="button" aria-expanded="false" aria-controls="collapse{{forloop.counter}}">
+            <th scope="row">{{forloop.counter}}</th>
+            <td>{{objects.filename}}</td>
+            <td>{{objects.scientificName.scientificName}}</td>
+            <td>{{objects.latitude}}</td>
+            <td>{{objects.longtitude}}</td>
+        </tr>
+        <tr>
+            {% if forloop.counter == 1%}
+            <td colspan="5" class="collapse show" id="collapse{{forloop.counter}}">
+            {% else%}
+            <td colspan="5" class="collapse" id="collapse{{forloop.counter}}">
+            {% endif%}    
+                <div class="card mb-3" >
+                    <div class="row g-0">
+                        <div class="col-md-8 iasImageCol">
+                            {% with objects.filepath|add:objects.filename as image%}
+                            <img src="{%static image%}" class="img-fluid rounded-start iasImage " alt="...">
+                            {% endwith %}
+                        </div>
+                        <div class="col-md-8">
+                            <div class="card-body description">
+                                <h5 class="card-title plantName">{{objects.scientificName.scientificName}} ({{objects.scientificName.localName}})</h5>
+                                <p class="card-text justify">
+                                    <span class="identifier">Description: </span>
+                                    {{objects.scientificName.description}} <br>
+
+                                    <span class="identifier">Habitat: </span>
+                                    {{objects.scientificName.habitat}} <br>
+
+                                    <span class="identifier">Propagation: </span>
+                                    {{objects.scientificName.propagation}} <br>
+
+                                    <span class="identifier">Native Range: </span>
+                                    {{objects.scientificName.nativeRange}} <br>
+
+                                    <span class="identifier">Comments: </span>
+                                    {{objects.scientificName.comments}} <br>
+
+                                    <span class="identifier">Control: </span>
+                                    {{objects.scientificName.control}} <br>
+                                </p>
+                                <p class="card-text date">
+                                    <small class="text-muted">
+                                        Uploaded: {{objects.requestnum.date}}
+                                    </small>
+                                </p>
+                                <p class="card-text date">    
+                                    <small class="text-muted">
+                                        Last Updated: {{objects.scientificName.date}}
+                                    </small>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                  </div>
+            </td> 
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{%endblock%}

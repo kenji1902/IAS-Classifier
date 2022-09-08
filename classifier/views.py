@@ -2,10 +2,14 @@ from concurrent.futures import process
 from distutils import extension
 import pprint
 import shutil
+from textwrap import indent
 from unicodedata import name
 from django.shortcuts import render, redirect
 from django.views.decorators.csrf import ensure_csrf_cookie
+from django.core import serializers
+
 import blobStorage
+from datetime import date
 
 from classifier import morphologicalMask as morphMask
 from classifier import geotagging as gt
@@ -17,6 +21,7 @@ import base64
 import os
 
 from .models import classifier as clsfr
+from .models import iasData
 from django.contrib.auth.models import User
 from .models import tempFileHandler, plantInformation
 # Create your views here.
@@ -25,8 +30,17 @@ def classifier(request):
         return render(request,'classifier.html')
     else: 
         return redirect('/accounts/login/')
-def results(request):
-    return render(request,'results.html')
+def results(request,pk):
+    username = request.user.username
+    try:
+        query = iasData.objects.filter(requestnum = pk)
+        # serialized_queryset = serializers.serialize('json', query,indent=4)
+        
+        if username == str(query[0].requestnum.username) or username=='admin':
+            return render(request,'results.html',{'data':query})
+        return HttpResponseBadRequest('Invalid request')    
+    except IndexError:
+        return HttpResponseBadRequest('Invalid request')        
 
 @ensure_csrf_cookie
 def filter_files(request):
@@ -56,7 +70,7 @@ def filter_files(request):
 def handle_uploaded_file(request,f,coords):
     username = request.user.username
     # Append _copy to file if it exists
-    tempFileName = f'{username}-{f.name}'
+    tempFileName = f'{date.today()}-{f.name}'
     path = f'static/blobStorage/images/raw/{username}/'
     while(os.path.exists( os.path.join(path, tempFileName) )):
         file = tempFileName.split('.')
@@ -92,9 +106,13 @@ def classify_files(request):
     # request.is_ajax() is deprecated since django 3.1
     is_ajax = request.headers.get('X-Requested-With') == 'XMLHttpRequest'
     username = request.user.username
-
+    classifier_models = []
+    
     if is_ajax:
         if request.method == 'POST':
+            requestnum = clsfr.objects.create(
+                username = User.objects.get(username=username),
+            )
             images = request.POST.getlist('images[]')
             print(images)
             tempPath = f'static/blobStorage/images/temp/{username}/'
@@ -115,15 +133,14 @@ def classify_files(request):
             # add to database (id, username-fk, date, species name, local name, location, file name)
             #   
                 
-                clsfr.objects.create(
-                    username = User.objects.get(username=username),
-                    scientificName = plantInformation.objects.get(scientificName='test'),
+                iasData.objects.create(
+                    requestnum = clsfr.objects.get(id=requestnum.id),  
+                    scientificName = plantInformation.objects.get(scientificName='temp'),
                     latitude = coords['lat'],
                     longtitude = coords['lng'],
                     filename=file,
-                    filepath=rawPath
+                    filepath=f'blobStorage/images/raw/{username}/'
                 )
-
                 print(file)
                 print(json.dumps(coords, indent=4))
                 
@@ -131,7 +148,7 @@ def classify_files(request):
             # create a folder based on prediction name and move the images from temp folder   
             shutil.rmtree(tempPath)
             tempFileHandler.objects.all().delete()
-            return JsonResponse({'status': 'success'})
+            return JsonResponse({'id':requestnum.id})
         return JsonResponse({'status': 'Invalid request'}, status=400)
     else:
         return HttpResponseBadRequest('Invalid request')        

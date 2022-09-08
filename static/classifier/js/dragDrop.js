@@ -54,10 +54,10 @@ function classifyClick(e){
             "X-CSRFToken": Cookies.get("csrftoken"), 
         },
         success: function (data) {
-            console.log(data)
+            window.location.assign(`/classifier/results/${data['id']}`)
         }
     });
-    window.location.assign('/classifier/results/')
+    
 }
 function isEmpty( el ){
     return !$.trim(el.html())
