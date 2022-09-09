@@ -202,23 +202,11 @@ function uploadFormData(form_data) {
         processData: false,
         success: function (data) {
             let fileCount = 0
-            data['images'].forEach(files => {
-                $.ajax({
-                    type: "GET",
-                    headers: {
-                        "X-Requested-With": "XMLHttpRequest",
-                        "X-CSRFToken": Cookies.get("csrftoken"), 
-                    },
-                    url: `${window.location.origin}/blobstorage/${files}`,
-
-                    success: function (response) {
-                        if(fileCount == data['images'].length - 1)
-                            $('#preprocessedSpinner').addClass('hidden')
-                        filter(response)      
-                        fileCount++;
-                    }
-                });
-                
+            data['images'].forEach(files => {    
+                if(fileCount == data['images'].length - 1)
+                    $('#preprocessedSpinner').addClass('hidden')
+                filter(files,`${window.location.origin}/blobstorage/filter/${files}`)      
+                fileCount++;        
             });
         },
         
@@ -241,15 +229,16 @@ function clickFilter(e){
 
 }
 let preprocessedImages = []
-function filter(response){
-    $image = $(response).find('.image');
+function filter(file,response){
+    console.log(response)
     $ppImages = $("#preprocessed");
-    let altName = $image['prevObject'][0]['alt'].split('.').slice(0,-1).join("")
-    let extension = $image['prevObject'][0]['alt'].split('.').at(-1)
+    let altName = file.split('.').slice(0,-1).join("")
+    let extension = file.split('.').at(-1)
+    console.log(altName,extension)
     $ppImages.prepend(
         `
         <div class="file-content">
-            ${response}
+            <img src="${response}" class="image" alt="${altName}">
             <span class="image-name">${altName}</span>
             <span id="${altName}"  class="close-image material-symbols-outlined">
                 close

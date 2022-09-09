@@ -8,6 +8,16 @@
     overflow: hidden;
     
 }
+.tdCut{
+    width: 15rem;
+}
+.cut-text { 
+    position: relative;
+    text-overflow: ellipsis;
+    overflow: hidden; 
+    width: 15rem; 
+    white-space: nowrap;
+  }
 .iasImage{
     max-width: 256px;
     max-height: 256px;

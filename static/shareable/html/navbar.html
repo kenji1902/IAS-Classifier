@@ -27,12 +27,12 @@
     </div>
 
     <div id="Info" class="navbar-items">
-        <span class="material-symbols-outlined navbar-icons">
+        <a href="{% url 'viewdatabase' %}" class="material-symbols-outlined navbar-icons">
             table
-        </span>
-        <span class="navbar-item-name">
+        </a>
+        <a href="{% url 'viewdatabase' %}" class="navbar-item-name">
             Database
-        </span>
+        </a>
     </div>
     {% load socialaccount%}
     <div id="Login" class="navbar-items">

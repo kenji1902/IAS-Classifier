@@ -23,7 +23,7 @@
         {% for objects in data %}
         <tr data-bs-toggle="collapse" href="#collapse{{forloop.counter}}" role="button" aria-expanded="false" aria-controls="collapse{{forloop.counter}}">
             <th scope="row">{{forloop.counter}}</th>
-            <td>{{objects.filename}}</td>
+            <td class="tdCut"><div class="cut-text">{{objects.filename}} </div></td>
             <td>{{objects.scientificName.scientificName}}</td>
             <td>{{objects.latitude}}</td>
             <td>{{objects.longtitude}}</td>
@@ -41,7 +41,7 @@
                             <img src="{%static image%}" class="img-fluid rounded-start iasImage " alt="...">
                             {% endwith %}
                         </div>
-                        <div class="col-md-8">
+                        <div class="col-md">
                             <div class="card-body description">
                                 <h5 class="card-title plantName">{{objects.scientificName.scientificName}} ({{objects.scientificName.localName}})</h5>
                                 <p class="card-text justify">

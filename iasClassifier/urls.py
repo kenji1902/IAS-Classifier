@@ -22,13 +22,15 @@ urlpatterns = [
     
     # Rest Api
     path('api-auth/', include('rest_framework.urls')),
-    
+    # API
+    path('api/',include('classifier.api.urls')),
     # Allauth
     path('accounts/', include('allauth.urls')),
 
     # Apps
-    path('', include('classifier.urls')),
+    path('classifier/', include('classifier.urls')),
     path('', include('home.urls') ),
-    path('', include('information.urls')),
-    path('', include('blobStorage.urls')),
+    path('information/', include('information.urls')),
+    path('blobstorage/', include('blobStorage.urls')),
+    path('database/', include('database.urls')),
 ]

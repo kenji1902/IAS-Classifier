@@ -1,0 +1,106 @@
+.queryContent{
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    position: fixed;
+    width: calc(90% - 2rem - 10px);
+    padding: 1rem;
+    background-color: white;
+    z-index: 3;
+}
+.queryContent .formQuery{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    flex-wrap: wrap;
+    width: 100%;
+    gap: 10px;
+    
+}
+.block{
+    display: flex;
+    justify-content:space-between;
+    align-items: center;
+    position: relative;
+    gap: 10px;
+}
+.page{
+    width: 90px;
+    height: 58px;
+}
+.table-responsive{
+    margin-top: 5rem;
+    width: 90%;
+}
+#queryBtn,#prev,#next{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+    width: 58px;
+    height: 58px;
+}
+#option{
+    display: none;
+    align-self: start;
+}
+#exit{
+    display: none;
+    width: 58px;
+    height: 58px;
+}
+@media only screen and (max-width: 1462px) {
+    .table-responsive{
+        margin-top: 10rem;
+    }
+}
+@media only screen and (max-width: 960px) {
+    .queryContent{
+        width: calc(100% - 2rem - 20px);
+        background-color: white;
+    }
+    .table-responsive{
+        width: 100%;
+    }
+}
+@media only screen and (max-width: 866px) {
+    .formQuery,
+    .block{
+        flex-direction: column;
+        align-items: flex-start;
+        justify-content: flex-start;
+    }
+    .form-floating,#queryBtn,#prev,#next, .page{
+        width: 100%;
+    }
+    .block{
+        align-self: start;
+    }
+    .queryContent{
+        align-self: start;
+        width: 15rem;
+        display: none;
+        
+    }
+    .table-responsive{
+        margin-top: 2rem;
+    }
+    #option{
+        display: flex;
+        position: fixed;
+        justify-content: center;
+        align-items: center;
+        width: 58px;
+        height: 58px;
+    }
+    #exit{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 58px;
+        height: 58px;
+    }
+}
+
