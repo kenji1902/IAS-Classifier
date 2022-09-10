@@ -37,9 +37,7 @@
                 <div class="card mb-3" >
                     <div class="row g-0">
                         <div class="col-md-8 iasImageCol">
-                            {% with objects.filepath|add:objects.filename as image%}
-                            <img src="{%static image%}" class="img-fluid rounded-start iasImage " alt="...">
-                            {% endwith %}
+                            <img src="/blobstorage/raw/{{objects.requestnum.username}}/{{objects.filename}}" class="img-fluid rounded-start iasImage " alt="...">
                         </div>
                         <div class="col-md">
                             <div class="card-body description">

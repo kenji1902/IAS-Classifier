@@ -22,4 +22,9 @@ IASclassifier/__pycache__/
 db.sqlite3
 
 # static Blob Directory
-static/blobStorage/*
+static/blobStorage/images/raw/*/
+static/blobStorage/images/temp/*/
+
+# Data
+static/classifier/classification_models/aug_x_train
+static/classifier/classification_models/aug_y_train

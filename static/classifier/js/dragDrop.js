@@ -43,6 +43,7 @@ $(document).ready(function () {
 });
 
 function classifyClick(e){
+    $('#classify .spinnerCont').removeClass('hidden')
     $.ajax({
         xhr: progress,
         url: "/classifier/classify/",

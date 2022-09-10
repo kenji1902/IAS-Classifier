@@ -14,7 +14,7 @@ class plantInformation(models.Model):
     nativeRange = models.TextField()
     comments = models.TextField()
     control = models.TextField()
-    date = models.DateField(auto_now_add=True)
+    date = models.DateField(auto_now=True)
     icon = models.TextField()
 
 class classifier(models.Model):

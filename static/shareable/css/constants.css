@@ -23,3 +23,6 @@ a{
     font-family: lato-regular;
     src: url(/static/shareable/fonts/Lato-Regular.ttf);
 }
+.blur{
+    backdrop-filter: blur(10px) !important; 
+}

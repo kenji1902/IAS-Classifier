@@ -60,6 +60,9 @@ INSTALLED_APPS = [
     'allauth.account',
     'allauth.socialaccount',
     'allauth.socialaccount.providers.google',
+
+    # HTTPS cert
+    "django_extensions",
    
 ]
 LOGIN_REDIRECT_URL = "/"

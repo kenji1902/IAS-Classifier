@@ -45,6 +45,7 @@
 #option{
     display: none;
     align-self: start;
+    z-index: 2;
 }
 #exit{
     display: none;
@@ -76,13 +77,23 @@
         width: 100%;
     }
     .block{
-        align-self: start;
+        /* align-self: start; */
     }
     .queryContent{
+        flex-direction: column;
+        align-items: flex-start;
+        justify-content: flex-start;
         align-self: start;
         width: 15rem;
+        flex-wrap: nowrap;
         display: none;
-        
+        height: calc(100% - var(--navbar_height) - 5rem);
+        overflow-y: auto;
+        overflow-x: hidden;
+    }
+    .formQuery{
+        /* height: 100%; */
+        flex-wrap: nowrap;
     }
     .table-responsive{
         margin-top: 2rem;

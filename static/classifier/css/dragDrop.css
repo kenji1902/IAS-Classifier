@@ -171,9 +171,7 @@
 .hidden{
     display: none !important;
 }
-.blur{
-    backdrop-filter: blur(10px) !important; 
-}
+
 .disabled{
     background-color:var(--off-white) !important;
 

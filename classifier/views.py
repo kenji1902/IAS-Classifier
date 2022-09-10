@@ -7,18 +7,18 @@ from unicodedata import name
 from django.shortcuts import render, redirect
 from django.views.decorators.csrf import ensure_csrf_cookie
 from django.core import serializers
-
-import blobStorage
-from datetime import date
+from django.http import HttpResponseBadRequest, JsonResponse
 
 from classifier import morphologicalMask as morphMask
 from classifier import geotagging as gt
+from classifier.CNNkNN import classifier as cnnknn, constants
+
 import json
-from django.http import HttpResponseBadRequest, JsonResponse
 import cv2
 import numpy as np
 import base64
 import os
+from datetime import date
 
 from .models import classifier as clsfr
 from .models import iasData
@@ -45,6 +45,7 @@ def results(request,pk):
 @ensure_csrf_cookie
 def filter_files(request):
     # request.is_ajax() is deprecated since django 3.1
+    
     is_ajax = request.headers.get('X-Requested-With') == 'XMLHttpRequest'
     username = request.user.username
     if(not os.path.isdir(f'static/blobStorage/images/temp/{username}/')):
@@ -94,9 +95,8 @@ def handle_uploaded_file(request,f,coords):
     path = f'static/blobStorage/images/temp/{username}/'
     filepath = os.path.join(path,tempFileName)
     image = cv2.resize(image, (256,256), interpolation = cv2.INTER_AREA)
-    processImg = morphMask.morphologicalMasking(image)
-    processImg = np.concatenate((np.array(image),np.array(processImg)),axis=2)
-    processImg = morphMask.rgba2rgb(np.array(processImg))
+    processImg,Mask = morphMask.morphologicalMasking(image)
+    
     cv2.imwrite( filepath,processImg)
     return tempFileName
 
@@ -110,6 +110,7 @@ def classify_files(request):
     
     if is_ajax:
         if request.method == 'POST':
+            knn, model_feat = cnnknn.loadData()
             requestnum = clsfr.objects.create(
                 username = User.objects.get(username=username),
             )
@@ -118,21 +119,29 @@ def classify_files(request):
             tempPath = f'static/blobStorage/images/temp/{username}/'
             rawPath = f'static/blobStorage/images/raw/{username}/'
     
-            files = os.listdir(tempPath)            
+            files = os.listdir(tempPath)
+            processImgNP = []    
             for file in files:
                 if file not in images:
                     os.remove(tempPath+file)
                     os.remove(rawPath+file)
                     continue
+                image = cv2.imread(tempPath+file)
+                processImgNP.append(image)
+            processImgNP = np.array(processImgNP)    
+            predictions = cnnknn.predict(processImgNP,model_feat,knn)
+
+            for file, prediction in zip(files,predictions):
                 coords = gt.image_coordinates(rawPath+file,file)
 
                 
-            # Do the Classification/prediction here
-            # 
-            # 
-            # add to database (id, username-fk, date, species name, local name, location, file name)
-            #   
+                # Do the Classification/prediction here
                 
+             
+                # add to database (id, username-fk, date, species name, 
+                # local name, location, file name)
+               
+                print(prediction)
                 iasData.objects.create(
                     requestnum = clsfr.objects.get(id=requestnum.id),  
                     scientificName = plantInformation.objects.get(scientificName='temp'),
