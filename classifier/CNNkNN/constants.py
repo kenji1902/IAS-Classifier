@@ -1,16 +1,16 @@
-fileName = "IASleavesv3"
+fileName = "IASleavesv5"
 Path = "static/classifier/classification_models"
 
 class_names = [
-  'Basella Alba (Basale)',
-  'Bpapyrifera',
-  'Hagonoy',
-  'Ipil_ipil',
-  'Mahogany',
-  'Muntingia Calabura (Jamaica Cherry-Gasagase)',
-  'Plectranthus Amboinicus (Mexican Mint)',
-  'Pongamia Pinnata (Indian Beech)',
-  'Psidium Guajava (Guava)',
+  'Basella Alba',
+  'Broussonetia papyrifera',
+  'Chromolaena odorata',
+  'Leucaena leucocephala ',
+  'Swietenia Macrophylla',
+  'Muntingia Calabura',
+  'Plectranthus Amboinicus',
+  'Pongamia Pinnata',
+  'Psidium Guajava',
   # 'Syzygium Jambos (Rose Apple)',
 ]
 

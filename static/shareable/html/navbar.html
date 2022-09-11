@@ -42,23 +42,18 @@
         {% if acc|length > 0 %}
         <a href="/accounts/logout/" class="material-symbols-outlined navbar-icons" >
             logout
-        </a>   
+        </a>
+        <a href="/accounts/logout/" class="navbar-item-name" next="">
+            {%user_display user%}
+        </a>     
         {% else %}
         <a href="{% provider_login_url 'google' method = 'oauth2' next='' %}" class="material-symbols-outlined navbar-icons" >
             login
+        </a>
+        <a href="{% provider_login_url 'google' method = 'oauth2' next='' %}" class="navbar-item-name" next="">
+            Login
         </a>    
         {% endif %}
-        
-        <a href="{% provider_login_url 'google' method = 'oauth2' next='' %}" class="navbar-item-name" next="">
-            
-    
-            {% if acc|length > 0 %}
-                {%user_display user%}
-            {% else %}
-                Login
-            {% endif %}
-
-        </a>
     </div>
 
 </div>

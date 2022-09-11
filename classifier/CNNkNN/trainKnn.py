@@ -7,7 +7,7 @@ from sklearn.neighbors import KNeighborsClassifier
 import os.path
 import joblib
 if __name__ == '__main__':
-    fileName = "IASleavesv4"
+    fileName = "IASleavesv5"
     Path = "static/classifier/classification_models"
     CNNModel = f'{fileName}.h5'
     CNNModelPath = f'{Path}/CNN/{CNNModel}'

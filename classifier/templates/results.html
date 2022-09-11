@@ -44,22 +44,22 @@
                                 <h5 class="card-title plantName">{{objects.scientificName.scientificName}} ({{objects.scientificName.localName}})</h5>
                                 <p class="card-text justify">
                                     <span class="identifier">Description: </span>
-                                    {{objects.scientificName.description}} <br>
+                                    {{objects.scientificName.description|safe}} <br>
 
                                     <span class="identifier">Habitat: </span>
-                                    {{objects.scientificName.habitat}} <br>
+                                    {{objects.scientificName.habitat|safe}} <br>
 
                                     <span class="identifier">Propagation: </span>
-                                    {{objects.scientificName.propagation}} <br>
+                                    {{objects.scientificName.propagation|safe}} <br>
 
                                     <span class="identifier">Native Range: </span>
-                                    {{objects.scientificName.nativeRange}} <br>
+                                    {{objects.scientificName.nativeRange|safe}} <br>
 
                                     <span class="identifier">Comments: </span>
-                                    {{objects.scientificName.comments}} <br>
+                                    {{objects.scientificName.comments|safe}} <br>
 
                                     <span class="identifier">Control: </span>
-                                    {{objects.scientificName.control}} <br>
+                                    {{objects.scientificName.control|safe}} <br>
                                 </p>
                                 <p class="card-text date">
                                     <small class="text-muted">

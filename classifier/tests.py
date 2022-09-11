@@ -4,7 +4,7 @@ from django.test import TestCase
 import numpy as np
 import morphologicalMask as morphMask
 import cv2
-import keyboard
+# import keyboard
 # cam = cv2.VideoCapture(2)
 # cv2.namedWindow("video", cv2.WINDOW_NORMAL)    
 # cv2.resizeWindow("video", 960, 540)

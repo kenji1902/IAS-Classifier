@@ -130,7 +130,6 @@ def classify_files(request):
                 processImgNP.append(image)
             processImgNP = np.array(processImgNP)    
             predictions = cnnknn.predict(processImgNP,model_feat,knn)
-
             for file, prediction in zip(files,predictions):
                 coords = gt.image_coordinates(rawPath+file,file)
 
@@ -141,10 +140,10 @@ def classify_files(request):
                 # add to database (id, username-fk, date, species name, 
                 # local name, location, file name)
                
-                print(prediction)
+                # print(prediction)
                 iasData.objects.create(
                     requestnum = clsfr.objects.get(id=requestnum.id),  
-                    scientificName = plantInformation.objects.get(scientificName='temp'),
+                    scientificName = plantInformation.objects.get(scientificName=prediction),
                     latitude = coords['lat'],
                     longtitude = coords['lng'],
                     filename=file,
@@ -152,7 +151,8 @@ def classify_files(request):
                 )
                 print(file)
                 print(json.dumps(coords, indent=4))
-                
+            # print(predictions)
+     
             # 
             # create a folder based on prediction name and move the images from temp folder   
             shutil.rmtree(tempPath)
