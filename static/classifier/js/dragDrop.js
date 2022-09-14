@@ -2,7 +2,7 @@
 let imageLoaded = new Array();
 let rawImageID = 0;
 let coords = []
-
+let ppImageID = 0
 
 $(document).ready(function () {
     console.log(getCookie("csrftoken"));
@@ -185,7 +185,7 @@ function progress () {
 
     return xhr;
 }
-ppImageID = 0
+
 function uploadFormData(form_data) {
     $('#progress-percent').removeClass('hidden');
     $.ajax({
@@ -241,25 +241,26 @@ function filter(file,response){
         <div class="file-content">
             <img src="${response}" class="image" alt="${altName}">
             <span class="image-name">${altName}</span>
-            <span id="${altName}"  class="close-image material-symbols-outlined">
+            <span id="pp${ppImageID}"  class="close-image material-symbols-outlined">
                 close
             </span>
         </div>                    
         `
     );
     
-    $(`#${altName}`).click(function (e) { 
+    $(`#pp${ppImageID}`).click(function (e) { 
         e.preventDefault();
         $(this).parent().remove();
         var index = preprocessedImages.indexOf(altName+ '.' +extension);
         if (index !== -1) { 
             preprocessedImages.splice(index, 1);
         }
-        if(isEmpty($('#preprocessed'))){
+        if($('#preprocessed').has('.file-content').length == 0){
             slideUp($('#classify'),200,1000);
             slideUp($('#preprocessed'),500,1000);
         }
     });    
     preprocessedImages.push(altName + '.' +extension)
+    ppImageID++
 }
 

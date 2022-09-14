@@ -94,6 +94,7 @@ def handle_uploaded_file(request,f,coords):
     image = cv2.imread(filepath)
     path = f'static/blobStorage/images/temp/{username}/'
     filepath = os.path.join(path,tempFileName)
+    image,_ = morphMask.auto_crop(image)
     image = cv2.resize(image, (256,256), interpolation = cv2.INTER_AREA)
     processImg,Mask = morphMask.morphologicalMasking(image)
     
@@ -130,6 +131,8 @@ def classify_files(request):
                 processImgNP.append(image)
             processImgNP = np.array(processImgNP)    
             predictions = cnnknn.predict(processImgNP,model_feat,knn)
+            print('predictions: ',predictions)
+            files = os.listdir(tempPath)
             for file, prediction in zip(files,predictions):
                 coords = gt.image_coordinates(rawPath+file,file)
 

@@ -1,4 +1,22 @@
-function initMap() {
+function initMap(){
+
+  $.get(`/api/iasdata/`,
+    function (data, textStatus, jqXHR) {
+      $.get("/api/plantinformation/",
+        function (plants, textStatus, jqXHR) {
+          getData(data,plants)
+        },
+        "json"
+      );
+    },
+    "json"
+  );
+
+}
+
+
+function getData(data,plants) {
+
     const map = new google.maps.Map(document.getElementById("map"), {
       zoom: 6,
       center: { lat: 12.61969527323028, lng:  121.25304181469903 }
@@ -7,41 +25,37 @@ function initMap() {
       content: "",
       disableAutoPan: true,
     });
+    
 
-
-    const icons = {
-      plantName: {
-        icon: '/static/information/images/marker.png',
-      },
-      
-    };
-    let features = []
-    locations.map((position) =>{
-      features.push({
-        position: new google.maps.LatLng(position['lat'], position['lng']),
-        type: position['name']
-      });
+    const iconUrl = '/blobstorage/icon/'
+    let icons = {};
+    plants.forEach(element => {
+      icons[element['scientificName']] = {icon : `${iconUrl}${element['icon']}`}
     });
 
+    let features = []
+    data.forEach(element => {
+      features.push({
+        position: new google.maps.LatLng(element['latitude'], element['longtitude']),
+        type: element['scientificName']['scientificName']
+        }
+      );
+    });
 
-    // Create an array of alphabetical characters used to label the markers.
-    const labels = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-    // Add some markers to the map.
     for (let i = 0; i < features.length; i++) {
-      // const label = position['name'];
-
-      const marker = new google.maps.Marker({
+      new google.maps.Marker({
         position: features[i].position,
         map: map,
-        icon:icons[features[i].type].icon
+        icon:icons[features[i].type].icon,
+
       });
     
       // markers can only be keyboard focusable when they have click listeners
       // open info window when marker is clicked
-      marker.addListener("click", () => {
-        // infoWindow.setContent(label);
-        infoWindow.open(map, marker);
-      });
+      // marker.addListener("click", () => {
+      //   // infoWindow.setContent(label);
+      //   infoWindow.open(map, marker);
+      // });
       // return marker;
     }
     // Add a marker clusterer to manage the markers.

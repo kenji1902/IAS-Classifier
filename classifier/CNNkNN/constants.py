@@ -5,7 +5,7 @@ class_names = [
   'Basella Alba',
   'Broussonetia papyrifera',
   'Chromolaena odorata',
-  'Leucaena leucocephala ',
+  'Leucaena leucocephala',
   'Swietenia Macrophylla',
   'Muntingia Calabura',
   'Plectranthus Amboinicus',

@@ -16,6 +16,7 @@ class plantInformation_Serializer(serializers.HyperlinkedModelSerializer):
             'comments',
             'control',
             'date',
+            'icon',
             ]
 
 
