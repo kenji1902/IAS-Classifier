@@ -16,6 +16,31 @@
     <strong>Hi there!</strong> You should only use images with "jpeg/jpg" format.
     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
 </div>
+<div class="blurrBg blur hidden">
+    <div id="closeCarousel">
+        <span class="close-image material-symbols-outlined">
+            close
+        </span>
+    </div>
+    <div id="preprocessedCarousel" class="">
+        <div id="preprocessedPrev" class="carousel carousel-dark slide" data-bs-ride="true">
+            <!-- <div class="carousel-indicators">
+
+            </div> -->
+            <div class="carousel-inner">
+
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#preprocessedPrev" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#preprocessedPrev" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
+        </div>
+    </div>
+</div>
 {%endblock%}
 
 {%block content%}
@@ -113,4 +138,6 @@
     </div>
     CLASSIFY
 </span>
+
+
 {%endblock%}

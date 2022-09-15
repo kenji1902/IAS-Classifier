@@ -131,9 +131,12 @@
     margin-right: 1rem;
     padding: 5px;
     white-space: nowrap;
-
+    
     text-overflow: ellipsis;
 
+}
+#preprocessed .file-content{
+    cursor: pointer;
 }
 
 .file-content .image{
@@ -198,6 +201,64 @@
     height: 1rem !important;
     color: white;
 }
+.blurrBg{
+    position: fixed;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    height: calc(100% - var(--navbar_height));
+    z-index: 5;
+    left: 0;
+    top: var(--navbar_height);
+}
+#closeCarousel{
+    position: absolute;
+    background-color: var(--green);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0.2rem;
+    border-radius: 100%;
+    top: 3rem;
+    right: 3rem;
+    cursor: pointer;
+    user-select: none;
+}
+#preprocessedCarousel{
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    height: 60%;
+}
+#preprocessedPrev{
+    position: relative;
+    width: 100%;
+    height: 100%;
+    background-color: transparent;
+
+}
+ #preprocessedPrev .carousel-inner{
+    width: 100%;
+    height: 100%;
+}
+#preprocessedPrev .carousel-inner .carousel-item{
+    position: relative;
+    height:100%;
+    width: 100%;
+}
+
+
+#preprocessedPrev .carousel-inner .carousel-item img{
+    position: absolute;   
+    max-width: 100%;
+    max-height: 100%;
+    
+    /* display: flex;
+    justify-content: center;
+    align-items: center; */
+}
+
 
  @-webkit-keyframes color-change-2x {
     0% {

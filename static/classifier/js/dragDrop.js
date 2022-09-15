@@ -35,6 +35,10 @@ $(document).ready(function () {
         return false;
     });
 
+    $('#closeCarousel').click(function (e) { 
+        e.preventDefault();
+        $(this).parent().addClass('hidden')
+    });
     
     
     $('#file').click(function(){ $('#fileElem').trigger('click'); });
@@ -238,7 +242,7 @@ function filter(file,response){
     console.log(altName,extension)
     $ppImages.prepend(
         `
-        <div class="file-content">
+        <div id="file${ppImageID}" class="file-content">
             <img src="${response}" class="image" alt="${altName}">
             <span class="image-name">${altName}</span>
             <span id="pp${ppImageID}"  class="close-image material-symbols-outlined">
@@ -247,10 +251,41 @@ function filter(file,response){
         </div>                    
         `
     );
-    
+    $preprocessedCarousel = $('#preprocessedCarousel');
+    // $preprocessedCarousel.children('.carousel').children('.carousel-indicators').append(
+    //     `
+    //     <button id="indicator${ppImageID}" class="indicator" type="button" data-bs-target="#preprocessedPrev" data-bs-slide-to="${ppImageID}" aria-label="Slide ${ppImageID}"></button>
+    //     `
+    // )
+    $preprocessedCarousel.children('.carousel').children('.carousel-inner').append(
+        `
+        <div id="item${ppImageID}" class="carousel-item">
+            <div class="d-flex justify-content-center align-items-center" style="width:100%;height:100%;">
+                <img src="${response}" class="" alt="${altName}">
+            </div>
+        </div>
+        `
+    );
+    $(`#file${ppImageID}`).click(function (e) { 
+        e.preventDefault();
+        $preprocessedCarousel.parent().removeClass('hidden')
+        let id = $(this).attr('id').match(/\d+/).join('');
+        
+        
+        // $(`#preprocessedCarousel .indicator`).removeAttr("aria-current");
+        // $(`#preprocessedCarousel .indicator`).removeClass("active");
+        // $(`#indicator${id}`).attr("aria-current","true");
+        // $(`#indicator${id}`).addClass('active');
+        $('#preprocessedCarousel .carousel-item').removeClass('active')
+        $(`#item${id}`).addClass('active')
+    });
+
     $(`#pp${ppImageID}`).click(function (e) { 
         e.preventDefault();
+        let id = $(this).attr('id').match(/\d+/).join('');
         $(this).parent().remove();
+        $(`#item${id}`).remove();
+        // $(`.indicator${id}`).remove();
         var index = preprocessedImages.indexOf(altName+ '.' +extension);
         if (index !== -1) { 
             preprocessedImages.splice(index, 1);
