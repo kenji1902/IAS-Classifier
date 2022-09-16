@@ -49,6 +49,9 @@ $(document).ready(function () {
 
     $('#preprocessed').hover(function () {
             // over
+            setTimeout(() => {
+                $('#preproccesedhelper').addClass('hidden')
+            }, 4000);
             $('#preproccesedhelper').removeClass('hidden')
         }, function () {
             // out
@@ -56,6 +59,12 @@ $(document).ready(function () {
 
         }
     );
+    $('#preprocessed').on('touchstart', function () {
+        setTimeout(() => {
+            $('#preproccesedhelper').addClass('hidden')
+        }, 2000);
+        $('#preproccesedhelper').removeClass('hidden')
+    });
 
     $('#closeCarousel').click(function (e) { 
         e.preventDefault();
@@ -125,17 +134,7 @@ function previewFile(files){
         imageLoaded.push(files);
         console.log('image loaded')
         rawImageID++;
-        getAddress(function (cookie) {
-            coords.push(JSON.stringify(cookie))
-            console.log('image GPS loaded')
-
-            if(i == files.length - 1){
-                slideDown($('#raw'),500,200);
-                slideDown($('#filter'),500,1000);
-                hideSpinner()
-                $('#dropAreaSpinner').addClass('hidden')
-            }
-        });   
+        
     }
 
 }
@@ -198,6 +197,17 @@ function uploadFile(files){
             continue
         }
         previewFile(files[i])
+        getAddress(function (cookie) {
+            coords.push(JSON.stringify(cookie))
+            console.log('image GPS loaded')
+
+            if(i == files.length - 1){
+                slideDown($('#raw'),500,200);
+                slideDown($('#filter'),500,1000);
+                hideSpinner()
+                $('#dropAreaSpinner').addClass('hidden')
+            }
+        });   
         
     }
     
