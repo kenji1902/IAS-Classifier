@@ -96,7 +96,6 @@
     display: flex;
     flex-grow: 1;
     /* overflow-x: hidden; */
-
     margin: 3rem 7rem 3rem 7rem;
 }
 .app-layout-content,

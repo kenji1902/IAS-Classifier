@@ -3,6 +3,8 @@
     --clear: white;
 
     --green: rgb(16, 221, 125);
+    --dark-green: rgb(48, 177, 138);
+    --dark-green-opacity: rgba(40, 168, 130, 0.548);
     --blue-green: rgb(176, 255, 218);
     --light-green: rgb(216, 241, 230);
     --off-white: rgba(245, 245, 245, 0.788);

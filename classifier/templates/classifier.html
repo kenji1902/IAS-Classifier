@@ -3,6 +3,8 @@
 {%block css%}
 <link rel="stylesheet" type="text/css" href="{%static 'classifier/css/dragDrop.css'%}" />
 <link rel="stylesheet" type="text/css" href="{%static 'classifier/css/camera.css'%}" />
+<link rel="stylesheet" type="text/css" href="{%static 'shareable/css/dialogbox.css'%}" />
+
 {%endblock%}
 {%block js%}
 <script src="{%static 'shareable/js/csrf.js'%}"></script>
@@ -122,11 +124,17 @@
     </div> 
     FILTER
 </span>
-<div id="preprocessed" class="loaded-images hidden">
-    
-    <div id="preprocessedSpinner" class="spinnerCont blur hidden">
-        <div class="spinner-border m-1" role="status">
-            <span class="visually-hidden">Loading...</span>
+<div class="wrapper">
+    <span id="preproccesedhelper" class="dialogBox hidden">
+        Click Image to view!
+    </span>
+
+    <div id="preprocessed" class="loaded-images hidden">
+
+        <div id="preprocessedSpinner" class="spinnerCont blur hidden">
+            <div class="spinner-border m-1" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
         </div>
     </div>
 </div>

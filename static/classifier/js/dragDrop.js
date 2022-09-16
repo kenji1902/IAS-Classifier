@@ -35,6 +35,16 @@ $(document).ready(function () {
         return false;
     });
 
+    $('#preprocessed').hover(function () {
+            // over
+            $('#preproccesedhelper').removeClass('hidden')
+        }, function () {
+            // out
+            $('#preproccesedhelper').addClass('hidden')
+
+        }
+    );
+
     $('#closeCarousel').click(function (e) { 
         e.preventDefault();
         $(this).parent().addClass('hidden')
