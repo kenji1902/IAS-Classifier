@@ -1,11 +1,10 @@
 
 let imageLoaded = new Array();
 let rawImageID = 0;
-let coords = []
+let coords =  new Array();
 let ppImageID = 0
 
 $(document).ready(function () {
-    console.log(getCookie("csrftoken"));
 
     $dropArea = $(".drop-area");
     
@@ -33,6 +32,19 @@ $(document).ready(function () {
         e.preventDefault();
         uploadFile(e.originalEvent.dataTransfer.files);   
         return false;
+    });
+
+    $dropArea.on('paste',function(e){
+        e.preventDefault();
+        e = e.originalEvent;
+        let files = []
+        for (var i = 0; i < e.clipboardData.items.length; i++) {
+            let file = e.clipboardData.items[i]
+            files.push(file.getAsFile())
+        }
+        console.log(files)
+        uploadFile(files)
+
     });
 
     $('#preprocessed').hover(function () {
@@ -104,13 +116,26 @@ function previewFile(files){
             e.preventDefault();
             $(this).parent().remove();
             delete imageLoaded[$(this).attr('id')];
+            delete coords[$(this).attr('id')];
             if(isEmpty($rawImages)){
                 slideUp($('#filter'),200,1000);
                 slideUp($('#raw'),500,1000);
             }
         });
         imageLoaded.push(files);
+        console.log('image loaded')
         rawImageID++;
+        getAddress(function (cookie) {
+            coords.push(JSON.stringify(cookie))
+            console.log('image GPS loaded')
+
+            if(i == files.length - 1){
+                slideDown($('#raw'),500,200);
+                slideDown($('#filter'),500,1000);
+                hideSpinner()
+                $('#dropAreaSpinner').addClass('hidden')
+            }
+        });   
     }
 
 }
@@ -134,15 +159,15 @@ function slideDown($element,animate,timeout){
 
 function showAlert(id){
     $(id).removeClass('hide')
-    $('#alert').addClass('show')
+    $(id).addClass('show')
     setTimeout(() => {
-        $('#alert').removeClass('show')
-        $('#alert').addClass('hide')
+        $(id).removeClass('show')
+        $(id).addClass('hide')
 
     }, 5000);
 }
 
-let acceptableFileType = ['jpeg','jpg']
+let acceptableFileType = ['image/jpeg','image/jpg']
 function showSpinner(){
     $('#filter').off('click');
     $('#filter .spinnerCont').removeClass('hidden')
@@ -161,23 +186,19 @@ function uploadFile(files){
     showSpinner();
     $('#dropAreaSpinner').removeClass('hidden')
     for (let i = 0; i < files.length; i++){
-        let extension = files[i]['name'].split('.').at(-1);
-        if(!acceptableFileType.includes(extension)){
+        if(files[i] == null){
+            hideSpinner()
+            continue
+        }
+            
+        if(!acceptableFileType.includes(files[i]['type'])){
             showAlert('#alert')
+            hideSpinner()
             $('#dropAreaSpinner').addClass('hidden')
             continue
         }
         previewFile(files[i])
-        getAddress(function (cookie) {
-            coords = JSON.stringify(cookie)
-            if(i == files.length - 1){
-                slideDown($('#raw'),500,200);
-                slideDown($('#filter'),500,1000);
-                hideSpinner()
-                $('#dropAreaSpinner').addClass('hidden')
-                console.log(coords)
-            }
-        });   
+        
     }
     
 }
@@ -234,22 +255,19 @@ function clickFilter(e){
     slideDown($('#preprocessed'),500,200);
     slideDown($('#classify'),500,1000);
     let formData = new FormData();
-    console.log(imageLoaded)
     for (let i = 0; i < imageLoaded.length; i++){
         formData.append('files[]',imageLoaded[i]);
-        formData.append('coords[]',coords);
+        formData.append('coords[]',coords[i]);
     } 
     uploadFormData(formData);
-    
+    console.log(coords)
 
 }
 let preprocessedImages = []
 function filter(file,response){
-    console.log(response)
     $ppImages = $("#preprocessed");
     let altName = file.split('.').slice(0,-1).join("")
     let extension = file.split('.').at(-1)
-    console.log(altName,extension)
     $ppImages.prepend(
         `
         <div id="file${ppImageID}" class="file-content">

@@ -7,6 +7,7 @@
 
 {%endblock%}
 {%block js%}
+<!-- <script src="{%static 'node_modules/exif-js/exif.js'%}"></script> -->
 <script src="{%static 'shareable/js/csrf.js'%}"></script>
 <script src="{%static 'classifier/js/geotagging.js'%}"></script>
 <script src="{%static 'classifier/js/dragDrop.js'%}"></script>
@@ -54,8 +55,8 @@
             file_upload
         </span>
         <div class="drop-area-buttons">
-            <input type="file" id="fileElem" accept=".jpeg,.jpg"  onchange="uploadFile(this.files) " multiple>
-            <div id="file"  accept=".jpeg,.jpg" class="drop-area-button">
+            <input type="file" id="fileElem"   onchange="uploadFile(this.files) " multiple>
+            <div id="file"   class="drop-area-button">
                 <span class="material-symbols-outlined icon">
                     add_photo_alternate
                 </span>
@@ -63,7 +64,6 @@
                     CHOOSE FILES
                 </span>
             </div >
-            <input type="file" id="cameraElem" accept="image/*;capture=camera" onchange="uploadFile(this.files)">
             <div id="camera" class="drop-area-button">
                 <span class="material-symbols-outlined icon">
                     add_a_photo

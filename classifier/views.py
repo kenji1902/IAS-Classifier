@@ -57,8 +57,15 @@ def filter_files(request):
     if is_ajax:
         if request.method == 'POST':
             files = request.FILES.getlist('files[]', None)
-            coords = request.POST.getlist('coords[]')            
+            coords = request.POST.getlist('coords[]',None)
+            try:
+                while True:
+                    coords.remove('undefined')
+            except ValueError:
+                pass
             uploadedFiles = []
+            print('files',files)
+            print('coords',coords)
             for f,c in zip(files,coords):
                 uploadedFiles.append( handle_uploaded_file(request,f,c) )
             

@@ -33,29 +33,21 @@ function dataURItoBlob(dataURI) {
     return new Blob([ia], {type:mimeString});
 }
 
-function uploadFileCam(files){
+function uploadFileCam(blob){
     
     showSpinner();
     $('#dropAreaSpinner').removeClass('hidden')
-    previewFileCam(files)
-    getAddress(function (cookie) {
-        coords = JSON.stringify(cookie)
-        slideDown($('#raw'),500,200);
-        slideDown($('#filter'),500,1000);
-        hideSpinner()
-        $('#dropAreaSpinner').addClass('hidden')
-        console.log(coords)
-    });   
-   
-    
+    previewFileCam(blob)
+     
 }
-function previewFileCam(files){
+function previewFileCam(blob){
     let $rawImages = $("#raw");
     let fileName = `shutter-${Date.now()}.jpeg`
+
     $rawImages.append(
         `
         <div  class="file-content">
-            <img src="${files}" alt="" class="image">
+            <img src="${URL.createObjectURL(blob)}" alt="" class="image">
             <span class="image-name">${fileName}</span>
             <span id="${rawImageID}" class="close-image material-symbols-outlined">
                 close
@@ -67,14 +59,32 @@ function previewFileCam(files){
         e.preventDefault();
         $(this).parent().remove();
         delete imageLoaded[$(this).attr('id')];
+        delete coords[$(this).attr('id')];
         if(isEmpty($rawImages)){
             slideUp($('#filter'),200,1000);
             slideUp($('#raw'),500,1000);
         }
     });
-    let blob = dataURItoBlob(files)
-    var file = new File( [blob], fileName, { type: 'image/jpeg' } );
-    imageLoaded.push(file);
+    // blob = dataURItoBlob(blob)
+    const newFile = new File([blob], fileName, { type: "image/jpeg" });
+    // EXIF.getData(newFile, function () {
+    //     const make = EXIF.getAllTags(newFile);
+    //     console.log("All data", make);
+    //     console.log(this.exifdata.GPSLongitude)
+    // });
+    
+    imageLoaded.push(newFile);
+    console.log('image loaded')
+    getAddress(function (cookie) {
+        coords.push(JSON.stringify(cookie))
+        console.log('image GPS loaded')
+
+        slideDown($('#raw'),500,200);
+        slideDown($('#filter'),500,1000);
+        hideSpinner()
+        $('#dropAreaSpinner').addClass('hidden')
+        console.log(coords)
+    });  
     rawImageID++;
     
 }
@@ -97,18 +107,27 @@ function vidOn($video){
             $video.get(0).play();
 
             $('#shutter').click(e => {
-                let stream_settings = stream.getVideoTracks()[0].getSettings();
-                var canvas = document.createElement('canvas');
-                let square = Math.min(stream_settings.width,stream_settings.height)
-                canvas.width = square;
-                canvas.height = square;
-                var ctx = canvas.getContext('2d');
+
+                // let stream_settings = stream.getVideoTracks()[0].getSettings();
+                // var canvas = document.createElement('canvas');
+                // let square = Math.min(stream_settings.width,stream_settings.height)
+                // canvas.width = square;
+                // canvas.height = square;
+                // var ctx = canvas.getContext('2d');
                 
-                ctx.drawImage( $video.get(0), 0, 0, canvas.width, canvas.height);
-        
+                // ctx.drawImage( $video.get(0), 0, 0, canvas.width, canvas.height);
+                
+                const track = stream.getVideoTracks()[0];
+                let imageCapture = new ImageCapture(track);
+                imageCapture.takePhoto().then((blob) => {
+                    
+                    uploadFileCam(blob)
+                });
+
+
                 //convert to desired file format
-                var dataURI = canvas.toDataURL('image/jpeg');
-                uploadFileCam(dataURI)
+                // var dataURI = canvas.toDataURL('image/jpeg');
+                // uploadFileCam(dataURI)
             })
            
         }).catch(function(err){
