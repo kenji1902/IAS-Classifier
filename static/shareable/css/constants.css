@@ -10,6 +10,7 @@
     --off-white: rgba(245, 245, 245, 0.788);
     --off-white-solid: rgba(245, 245, 245, 1);
     --gray: rgb(39, 38, 38);
+    --light-gray: rgb(88, 87, 87);
     --phone-width: 600px;
 }
 *{

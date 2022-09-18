@@ -10,9 +10,7 @@ $(document).ready(function () {
     let $option = $('#option')
     let $queryContent =  $('#queryContent')
     let $exit = $('#exit')
-    
-    
-    
+
 
     $option.click(function (e) { 
         e.preventDefault();
