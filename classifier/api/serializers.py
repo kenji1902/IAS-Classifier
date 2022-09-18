@@ -13,6 +13,7 @@ class plantInformation_Serializer(serializers.HyperlinkedModelSerializer):
             'habitat',
             'propagation',
             'nativeRange',
+            'invasiveType',
             'comments',
             'control',
             'date',

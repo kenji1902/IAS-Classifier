@@ -40,6 +40,7 @@ $(document).ready(function () {
             data['requestnum'],
             data['scientificName'],
             data['localName'],
+            data['type'],
             data['username']
         )
     });
@@ -64,6 +65,7 @@ $(document).ready(function () {
             data['requestnum'],
             data['scientificName'],
             data['localName'],
+            data['type'],
             data['username']
         )
     });
@@ -88,6 +90,7 @@ $(document).ready(function () {
             data['requestnum'],
             data['scientificName'],
             data['localName'],
+            data['type'],
             data['username']
         )
     });
@@ -95,11 +98,11 @@ $(document).ready(function () {
     
 });
 
-function getApiData(limit,offset,requestnum='',scientificName='',localName='',username=''){
+function getApiData(limit,offset,requestnum='',scientificName='',localName='',invasiveType='',username=''){
     let $page = $('#page').empty()
     let $table = $('#table')
     // console.log(offset*limit)
-    $.get(`/api/iasdata/?limit=${limit}&offset=${offset}&requestnum=${requestnum}&scientificName__scientificName=${scientificName}&scientificName__localName=${localName}&requestnum__username__username=${username}`,
+    $.get(`/api/iasdata/?limit=${limit}&offset=${offset}&requestnum=${requestnum}&scientificName__scientificName=${scientificName}&scientificName__localName=${localName}&scientificName__invasiveType=${invasiveType}&requestnum__username__username=${username}`,
         function (data, textStatus, jqXHR) {
             
             totalRecord = data['count']
@@ -124,6 +127,7 @@ function getApiData(limit,offset,requestnum='',scientificName='',localName='',us
                         <th scope="col">ID</th>
                         <th scope="col">Filename</th>
                         <th scope="col">Scientific Name</th>
+                        <th scope="col">Invasive Type</th>   
                         <th scope="col">Latitude</th>
                         <th scope="col">Longtitude</th>   
                     </tr>
@@ -138,6 +142,7 @@ function getApiData(limit,offset,requestnum='',scientificName='',localName='',us
                         <th scope="row">${element['id']}</th>
                         <td class="tdCut"><div class="cut-text"> ${element['filename']} </div></td>
                         <td>${element['scientificName']['scientificName']}</td>
+                        <td>${element['scientificName']['invasiveType']}</td>
                         <td>${element['latitude']}</td>
                         <td>${element['longtitude']}</td>
                     </tr>    

@@ -6,6 +6,9 @@ let currPage = 1
 let map = null;
 let infoWindow = null;
 let markers = []
+
+
+
 function initMap(){
 
     let $queryBtn = $('#queryBtn')
@@ -50,6 +53,7 @@ function initMap(){
             data['requestnum'],
             data['scientificName'],
             data['localName'],
+            data['type'],
             data['username']
         )
     });
@@ -74,6 +78,7 @@ function initMap(){
             data['requestnum'],
             data['scientificName'],
             data['localName'],
+            data['type'],
             data['username']
         )
     });
@@ -98,6 +103,7 @@ function initMap(){
             data['requestnum'],
             data['scientificName'],
             data['localName'],
+            data['type'],
             data['username']
         )
     });
@@ -123,9 +129,9 @@ function addMarkers(position,icon,label){
   });
   markers.push(marker)
 }
-function getApiData(limit,offset,requestnum='',scientificName='',localName='',username=''){
-  $.get(`/api/iasdata/?limit=${limit}&offset=${offset}&requestnum=${requestnum}&scientificName__scientificName=${scientificName}&scientificName__localName=${localName}&requestnum__username__username=${username}`,
-    function (data, textStatus, jqXHR) {
+function getApiData(limit,offset,requestnum='',scientificName='',localName='',invasiveType='',username=''){
+  $.get(`/api/iasdata/?limit=${limit}&offset=${offset}&requestnum=${requestnum}&scientificName__scientificName=${scientificName}&scientificName__localName=${localName}&scientificName__invasiveType=${invasiveType}&requestnum__username__username=${username}`,
+  function (data, textStatus, jqXHR) {
       
       deleteMarkers()
       let $page = $('#page').empty()

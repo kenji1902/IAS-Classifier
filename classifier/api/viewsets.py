@@ -18,7 +18,8 @@ class iasData_ViewSet(viewsets.ModelViewSet):
     filterset_fields = [
         'requestnum',
         'scientificName__scientificName',
-        'scientificName__localName',  
+        'scientificName__localName',
+        'scientificName__invasiveType',  
         'requestnum__username__username'
     ]
     search_fields = [

@@ -3,15 +3,22 @@ from tkinter import CASCADE
 import uuid
 from django.db import models
 from django.contrib.auth.models import User
+from django.utils.translation import gettext_lazy as _
+
 # Create your models here.
 
 class plantInformation(models.Model):
+    class invasiveType(models.TextChoices):
+        invasive = 'invasive',_('invasive')
+        exotic = 'exotic',_('exotic')
+
     scientificName = models.CharField(max_length=30, primary_key=True)
     localName = models.CharField(max_length=30)
     description = models.TextField()
     habitat = models.TextField()
     propagation = models.TextField()
     nativeRange = models.TextField()
+    invasiveType = models.CharField(max_length=10,choices=invasiveType.choices)
     comments = models.TextField()
     control = models.TextField()
     date = models.DateField(auto_now=True)
