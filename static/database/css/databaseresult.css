@@ -77,9 +77,9 @@
     .form-floating,#queryBtn,#prev,#next, .page{
         width: 100%;
     }
-    .block{
-        /* align-self: start; */
-    }
+    /* .block{
+         align-self: start; 
+    } */
     .queryContent{
         flex-direction: column;
         align-items: flex-start;
