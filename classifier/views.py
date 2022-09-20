@@ -35,12 +35,31 @@ def results(request,pk):
     try:
         query = iasData.objects.filter(requestnum = pk)
         # serialized_queryset = serializers.serialize('json', query,indent=4)
-        
+        plants = plantInformation.objects.values_list('scientificName')
         if username == str(query[0].requestnum.username) or username=='admin':
-            return render(request,'results.html',{'data':query})
+            return render(request,'results.html',{'data':query,'plants':plants})
         return HttpResponseBadRequest('Invalid request')    
     except IndexError:
         return HttpResponseBadRequest('Invalid request')        
+
+@ensure_csrf_cookie
+def modifyResult(request):
+    try:
+        is_ajax = request.headers.get('X-Requested-With') == 'XMLHttpRequest'
+        if is_ajax:
+            if request.method == 'POST':
+                changeRequest = request.POST.get('update')
+                changeRequest = json.dumps(changeRequest)
+                changeRequest = eval(json.loads(changeRequest))
+                for data in changeRequest:
+                    query = iasData.objects.get(id = data['id'])
+                    query.scientificName = plantInformation.objects.get(scientificName = data['scientificName'].replace('%20',' ')) 
+                    query.save()
+                return JsonResponse({'status':'success'})
+        return JsonResponse({'status': 'Invalid request'}, status=400)
+    except IndexError:
+        return HttpResponseBadRequest('Invalid request')        
+
 
 @ensure_csrf_cookie
 def filter_files(request):
@@ -143,14 +162,6 @@ def classify_files(request):
             for file, prediction in zip(files,predictions):
                 coords = gt.image_coordinates(rawPath+file,file)
 
-                
-                # Do the Classification/prediction here
-                
-             
-                # add to database (id, username-fk, date, species name, 
-                # local name, location, file name)
-               
-                # print(prediction)
                 iasData.objects.create(
                     requestnum = clsfr.objects.get(id=requestnum.id),  
                     scientificName = plantInformation.objects.get(scientificName=prediction),
@@ -161,9 +172,7 @@ def classify_files(request):
                 )
                 print(file)
                 print(json.dumps(coords, indent=4))
-            # print(predictions)
-     
-            # 
+
             # create a folder based on prediction name and move the images from temp folder   
             shutil.rmtree(tempPath)
             tempFileHandler.objects.all().delete()

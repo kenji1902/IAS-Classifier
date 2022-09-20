@@ -4,10 +4,14 @@
 {%block css%}
 <link rel="stylesheet" href="{% static 'classifier/css/results.css' %}">
 {%endblock%}
+{%block js%}
+<script src="{%static 'classifier/js/modifyResult.js'%}"></script>
+{%endblock%}
 {%block content%}
 
 
-<div class="table-responsive">
+<form class="table-responsive">
+    <input id="submit" class="btn-primary btn" type="submit" name="Submit" value="Submit Changes">
     <table class="table table-borderless">
         
         <thead>
@@ -21,19 +25,30 @@
         </thead>
         <tbody>
         {% for objects in data %}
-        <tr data-bs-toggle="collapse" href="#collapse{{forloop.counter}}" role="button" aria-expanded="false" aria-controls="collapse{{forloop.counter}}">
-            <th scope="row">{{forloop.counter}}</th>
-            <td class="tdCut"><div class="cut-text">{{objects.filename}} </div></td>
-            <td>{{objects.scientificName.scientificName}}</td>
-            <td>{{objects.latitude}}</td>
-            <td>{{objects.longtitude}}</td>
+        <tr >
+            <th scope="row" data-bs-toggle="collapse" href="#collapse{{forloop.counter}}" role="button" aria-expanded="false" aria-controls="collapse{{forloop.counter}}">{{forloop.counter}}</th>
+            <td class="tdCut" data-bs-toggle="collapse" href="#collapse{{forloop.counter}}" role="button" aria-expanded="false" aria-controls="collapse{{forloop.counter}}"><div class="cut-text">{{objects.filename}} </div></td>
+            <td>
+                <select name="scientificName" >
+                    <option value="{{objects.id}}-{{objects.scientificName.scientificName}}" selected>{{objects.scientificName.scientificName}}</option>
+                    {%for plant in plants%}
+                    {% if plant.0 != objects.scientificName.scientificName%}
+                    <option value="{{objects.id}}-{{plant.0}}">{{plant.0}}</option>
+                    {%endif%}
+                    {%endfor%}
+                    
+                </select>
+                <!-- {{objects.scientificName.scientificName}} -->
+            </td>
+            <td data-bs-toggle="collapse" href="#collapse{{forloop.counter}}" role="button" aria-expanded="false" aria-controls="collapse{{forloop.counter}}">{{objects.latitude}}</td>
+            <td data-bs-toggle="collapse" href="#collapse{{forloop.counter}}" role="button" aria-expanded="false" aria-controls="collapse{{forloop.counter}}">{{objects.longtitude}}</td>
         </tr>
-        <tr>
-            {% if forloop.counter == 1%}
-            <td colspan="5" class="collapse show" id="collapse{{forloop.counter}}">
-            {% else%}
-            <td colspan="5" class="collapse" id="collapse{{forloop.counter}}">
-            {% endif%}    
+        {% if forloop.counter == 1%}
+        <tr class="collapse show" id="collapse{{forloop.counter}}">
+        {% else%}
+        <tr class="collapse" id="collapse{{forloop.counter}}">
+        {% endif%}    
+            <td colspan="5" >
                 <div class="card mb-3" >
                     <div class="row g-0">
                         <div class="col-md-8 iasImageCol">
@@ -80,6 +95,6 @@
         {% endfor %}
         </tbody>
     </table>
-</div>
+</form>
 
 {%endblock%}

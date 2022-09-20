@@ -7,7 +7,20 @@ let map = null;
 let infoWindow = null;
 let markers = []
 
-
+const styles = {
+  default: [],
+  hide: [
+    {
+      featureType: "poi.business",
+      stylers: [{ visibility: "off" }],
+    },
+    {
+      featureType: "transit",
+      elementType: "labels.icon",
+      stylers: [{ visibility: "off" }],
+    },
+  ],
+};
 
 function initMap(){
 
@@ -24,6 +37,18 @@ function initMap(){
       content: "",
       disableAutoPan: true,
     });
+     // Add controls to the map, allowing users to hide/show features.
+    map.setOptions({ styles: styles["hide"] });
+    // Apply new JSON when the user chooses to hide/show features.
+    $("#hide-poi").click( () => {
+      map.setOptions({ styles: styles["hide"] });
+    });
+    $("#show-poi").click( () => {
+      map.setOptions({ styles: styles["default"] });
+    });
+  
+
+  
 
     $option.click(function (e) { 
         e.preventDefault();
@@ -123,9 +148,12 @@ function addMarkers(position,icon,label){
     icon:icon,
 
   });
-  marker.addListener("click", () => {
+  marker.addListener("mouseover", () => {
       infoWindow.setContent(label);
       infoWindow.open(map, marker);
+  });
+  marker.addListener("mouseout", () => {
+    infoWindow.close();
   });
   markers.push(marker)
 }

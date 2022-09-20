@@ -5,7 +5,8 @@ urlpatterns = [
     path('filter/',views.filter_files, name='filter_files'),
     path('classify/',views.classify_files, name='classify_files'),
     path('results/<int:pk>',views.results, name='results_files'),
-    
+    path('modifyresults/',views.modifyResult, name='modify_result'),
+
 
     
 ]   

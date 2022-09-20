@@ -49,21 +49,28 @@ $(document).ready(function () {
 
     $('#preprocessed').hover(function () {
             // over
-            setTimeout(() => {
+            window.helperHover = setTimeout(() => {
                 $('#preproccesedhelper').addClass('hidden')
             }, 4000);
             $('#preproccesedhelper').removeClass('hidden')
         }, function () {
             // out
+            clearTimeout(window.helperHover)
             $('#preproccesedhelper').addClass('hidden')
 
         }
     );
+    //Touch
     $('#preprocessed').on('touchstart', function () {
-        setTimeout(() => {
+        window.helperTouch = setTimeout(() => {
             $('#preproccesedhelper').addClass('hidden')
         }, 2000);
         $('#preproccesedhelper').removeClass('hidden')
+    });
+    //End
+    $('#preprocessed').on('touchend', function () {
+        clearTimeout(window.helperTouch)
+        $('#preproccesedhelper').addClass('hidden')
     });
 
     $('#closeCarousel').click(function (e) { 

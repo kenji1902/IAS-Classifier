@@ -114,8 +114,28 @@
 {%endblock%}
 
 {%block content%}
-<div id="map"></div>
 
+
+<div id="map"></div>
+<div id="style-selector-control" class="map-control">
+    Features: 
+    <input
+      type="radio"
+      name="show-hide"
+      id="hide-poi"
+      class="selector-control"
+      checked="checked"
+
+    />
+    <label for="hide-poi">Hide</label>
+    <input
+      type="radio"
+      name="show-hide"
+      id="show-poi"
+      class="selector-control"
+    />
+    <label for="show-poi">Show</label>
+</div>
 <div class="legends">
     {% for icon,scientificN,localN in plants %}
     <div class="items">

@@ -147,17 +147,16 @@ function getApiData(limit,offset,requestnum='',scientificName='',localName='',in
                         <td>${element['longtitude']}</td>
                     </tr>    
                     `
-                    body +=`
-                    <tr>`
                     if(index == 0)
                         body +=`
-                        <td colspan="${Object.keys(element).length}" class="collapse show" id="collapse${element['id']}">
+                        <tr  class="collapse show" id="collapse${element['id']}">
                         `    
                     else
                         body += `
-                        <td colspan="${Object.keys(element).length}" class="collapse" id="collapse${element['id']}">   
+                        <tr class="collapse" id="collapse${element['id']}">   
                         `  
-                    body += `        
+                    body += `
+                        <td colspan="${Object.keys(element).length}">        
                             <div class="card mb-3" >
                                 <div class="row g-0">
                                     <div class="col-md-8 iasImageCol">
