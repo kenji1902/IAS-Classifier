@@ -1,7 +1,86 @@
-.instruction{
+.instructionWrapper{
     position: relative;
     width: 90%;
+    margin-top: 3rem;
 }
+.instruction{
+    position: relative;
+    width: 100%;
+    margin-bottom: 2rem;
+    
+}
+.indicator{
+    border: 1px solid var(--light-gray) !important;
+}
+.carousel_wrapper{
+    position: relative;
+    width: 100%;
+    height: calc(80vh - var(--navbar_height) - 4rem);
+    background-color: #888c94;
+}
+.carousel{
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+.carousel .carousel-inner{
+    width: 100%;
+    height: 100%;
+}
+.carousel .carousel-inner .carousel-item{
+    position: relative;
+    height:100%;
+    width: 100%;
+}
+.carousel .carousel-inner .carousel-item img{
+    position: absolute;
+    max-height: 100%;   
+    object-fit: contain;
+
+    width: auto;
+    /* max-width: 100%; */
+    /* max-width: auto; 
+    max-height: 100%; */
+}
+
+
+
+/* Search Bar */
+.formWrapper{
+    margin-top: 0.2rem;
+    position: fixed;
+    width: calc(90% - 2.5rem);
+    z-index: 4;
+}
+
+.search{
+    position: relative;
+    /* box-shadow: 0 0 40px rgba(51, 51, 51, .1); */
+    width: 100%;
+    margin-bottom: 1rem;
+}
+.search input{
+    padding: 1rem !important;
+    margin: 0 !important;
+    height: 60px;
+    text-indent: 40px;
+    border: 2px solid #d6d4d4;
+}
+
+.search input:focus{
+
+    box-shadow: none;
+    
+}
+.search .material-symbols-outlined{
+
+    position: absolute;
+    top: 20px;
+    left: 16px;
+}
+
+
+
 
 @media only screen and (max-width: 866px) {
     .instruction{

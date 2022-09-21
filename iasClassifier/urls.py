@@ -24,6 +24,8 @@ urlpatterns = [
     path('api-auth/', include('rest_framework.urls')),
     # API
     path('api/',include('classifier.api.urls')),
+    path('api/',include('home.api.urls')),
+
     # Allauth
     path('accounts/', include('allauth.urls')),
 

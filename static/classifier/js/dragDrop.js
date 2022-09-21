@@ -5,7 +5,12 @@ let coords =  new Array();
 let ppImageID = 0
 
 $(document).ready(function () {
-
+    navigator.permissions.query({ name: 'geolocation' }).then((result) => {
+        if (result.state === 'denied') {
+            console.log(result.state);
+            
+        }
+    })
     $dropArea = $(".drop-area");
     
     $progressPercent = $('#progress-percent .progress');

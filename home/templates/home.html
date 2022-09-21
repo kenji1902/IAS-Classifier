@@ -6,23 +6,27 @@
 {% endblock %}
 
 {% block js %}
-
+<script src="{% static 'home/js/getData.js'%}"></script>
 {% endblock %}
 
 {%block app_layout_content_before%}
-
+<form class="formWrapper" autocomplete="off">
+    <div class=" d-flex justify-content-center align-items-center">
+        <div class="search">
+            <span class="material-symbols-outlined">
+                search
+            </span>
+            <input id="search" type="text" class="form-control" placeholder="Have a question? Ask Now">
+        </div>          
+    </div>
+</form>
 {%endblock%}
 
 {%block content%}
-    
-    <div class="instruction">
-        <div class="card">
-            <h5 class="card-header">Instruction</h5>
-            <div class="card-body">
-              <h5 class="card-title">Lorem Ipsum</h5>
-              <p class="card-text">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Eius ipsum pariatur ab delectus. Esse iusto dolores repellendus ullam hic! Quod, adipisci omnis! Rerum molestias mollitia itaque. A fuga velit vitae!</p>
-              <!-- <a href="#" class="btn btn-primary">Go somewhere</a> -->
-            </div>
-          </div>
+    <div class="instructionWrapper">
+
+
     </div>
+    
+    
 {%endblock%}

@@ -20,4 +20,8 @@ def getBlobImageRaw(request,username,fileName):
 
 def getIcon(request,fileName):
     image_data = open(f'static/blobStorage/images/icons/{fileName}', "rb").read()
-    return HttpResponse(image_data, content_type="image/png")        
+    return HttpResponse(image_data, content_type="image/png")  
+
+def getInstructionImages(request,fileName):
+    image_data = open(f'static/home/images/{fileName}', "rb").read()
+    return HttpResponse(image_data, content_type="image/png")            
