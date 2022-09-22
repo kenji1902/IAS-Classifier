@@ -2,10 +2,19 @@ $(document).ready(function () {
     InitWrap()
     $('#search').on("input",function(){
         const search = $(this).val()
-        if(search.length == 0)
+        if(search.length == 0){
+            clearTimeout(window.swingIn)
             InitWrap()
-        else
-            InitWrap(search)
+        }
+        else{
+            $('.instruction').addClass('swing-out-top-bck')
+            clearTimeout(window.swingIn)
+            window.swingIn = setTimeout(() => {
+                $('.instruction').removeClass('swing-out-top-bck')
+                InitWrap(search)
+            }, 1000);
+        }
+            
     })
     
 
@@ -15,7 +24,7 @@ function InitWrap(search=''){
         let body = ''
         body +=
         `
-        <div id="${instruction.instruction_order}" class="instruction">
+        <div id="${instruction.instruction_order}" class="instruction swing-in-top-fwd">
             <div class="card">
                 <h5 class="card-header">${instruction.title}</h5>
                 <div class="card-body">
