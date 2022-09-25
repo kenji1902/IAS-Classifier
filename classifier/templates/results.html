@@ -19,6 +19,7 @@
             <th scope="col">#</th>
             <th scope="col">filename</th>
             <th scope="col">scientificName</th>
+            <th scope="col">Invasive Type</th>   
             <th scope="col">latitude</th>
             <th scope="col">longtitude</th>
         </tr>
@@ -40,6 +41,7 @@
                 </select>
                 <!-- {{objects.scientificName.scientificName}} -->
             </td>
+            <td data-bs-toggle="collapse" href="#collapse{{forloop.counter}}" role="button" aria-expanded="false" aria-controls="collapse{{forloop.counter}}">{{objects.scientificName.invasiveType}}</td>
             <td data-bs-toggle="collapse" href="#collapse{{forloop.counter}}" role="button" aria-expanded="false" aria-controls="collapse{{forloop.counter}}">{{objects.latitude}}</td>
             <td data-bs-toggle="collapse" href="#collapse{{forloop.counter}}" role="button" aria-expanded="false" aria-controls="collapse{{forloop.counter}}">{{objects.longtitude}}</td>
         </tr>
