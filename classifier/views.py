@@ -122,7 +122,7 @@ def handle_uploaded_file(request,f,coords):
     filepath = os.path.join(path,tempFileName)
     image,_ = morphMask.auto_crop(image)
     image = cv2.resize(image, (256,256), interpolation = cv2.INTER_AREA)
-    processImg,Mask = morphMask.morphologicalMasking(image)
+    processImg,Mask,_ = morphMask.morphologicalMasking(image)
     
     cv2.imwrite( filepath,processImg)
     return tempFileName

@@ -4,25 +4,28 @@ from django.test import TestCase
 import numpy as np
 import morphologicalMask as morphMask
 import cv2
-# import keyboard
-# cam = cv2.VideoCapture(2)
-# cv2.namedWindow("video", cv2.WINDOW_NORMAL)    
-# cv2.resizeWindow("video", 960, 540)
-# while True:
+import keyboard
+cam = cv2.VideoCapture(2)
+cv2.namedWindow("video", cv2.WINDOW_NORMAL)    
+cv2.resizeWindow("video", 720, 480)
+while True:
 
-#     check, frame = cam.read()
-#     frame = cv2.resize(frame, (256,256), interpolation = cv2.INTER_AREA)
-#     processImg = morphMask.morphologicalMasking(frame)
-#     processImg = np.concatenate((np.array(frame),np.array(processImg)),axis=2)
-#     processImg = morphMask.rgba2rgb(np.array(processImg))
-#     cv2.imshow('video', processImg)
+    check, frame = cam.read()
+    blurr = morphMask.removeBlurr(frame)
+    if blurr is  None:
+        blurr = frame 
+    processImg,_ = morphMask.auto_crop(blurr)
+    processImg = cv2.resize(processImg, (256,256), interpolation = cv2.INTER_AREA)
+    processImg,_,_ = morphMask.morphologicalMasking(processImg)
 
-#     key = cv2.waitKey(1)
-#     if keyboard.is_pressed('q'):
-#         break
+    cv2.imshow('video', processImg)
 
-# cam.release()
-# cv2.destroyAllWindows()
+    key = cv2.waitKey(1)
+    if keyboard.is_pressed('q'):
+        break
+
+cam.release()
+cv2.destroyAllWindows()
 
 # from exif import Image
 # image_path = 'static/blobStorage/images/temp/kenji/kenji-john_benedict-20220906_125642_copy_copy_copy_copy_copy.jpg'
@@ -30,44 +33,44 @@ import cv2
 #     img = Image(src)
 # print(img)
 
-from pprint import pprint
-from PIL import Image
-import piexif
+# from pprint import pprint
+# from PIL import Image
+# import piexif
 
-codec = 'ISO-8859-1'  # or latin-1
-def exif_to_tag(exif_dict):
-    exif_tag_dict = {}
-    thumbnail = exif_dict.pop("thumbnail")
-    if thumbnail is not None:
-        with open("thumbnail.jpg", "wb+") as f:
-            f.write(thumbnail)
+# codec = 'ISO-8859-1'  # or latin-1
+# def exif_to_tag(exif_dict):
+#     exif_tag_dict = {}
+#     thumbnail = exif_dict.pop("thumbnail")
+#     if thumbnail is not None:
+#         with open("thumbnail.jpg", "wb+") as f:
+#             f.write(thumbnail)
     
-        exif_tag_dict['thumbnail'] = thumbnail.decode(codec)
+#         exif_tag_dict['thumbnail'] = thumbnail.decode(codec)
 
-    for ifd in exif_dict:
-        exif_tag_dict[ifd] = {}
-        for tag in exif_dict[ifd]:
-            try:
-                element = exif_dict[ifd][tag].decode(codec)
+#     for ifd in exif_dict:
+#         exif_tag_dict[ifd] = {}
+#         for tag in exif_dict[ifd]:
+#             try:
+#                 element = exif_dict[ifd][tag].decode(codec)
 
-            except AttributeError:
-                element = exif_dict[ifd][tag]
+#             except AttributeError:
+#                 element = exif_dict[ifd][tag]
 
-            exif_tag_dict[ifd][piexif.TAGS[ifd][tag]["name"]] = element
+#             exif_tag_dict[ifd][piexif.TAGS[ifd][tag]["name"]] = element
 
-    return exif_tag_dict
+#     return exif_tag_dict
 
-def main():
-    filename = 'static/blobStorage/images/raw/john_benedict/john_benedict-20220906_125700.jpg'  # obviously one of your own pictures
-    # im = Image.open(filename)
+# def main():
+#     filename = 'static/blobStorage/images/raw/john_benedict/john_benedict-20220906_125700.jpg'  # obviously one of your own pictures
+#     # im = Image.open(filename)
     
-    # exif_dict = piexif.load(im.info.get('exif'))
+#     # exif_dict = piexif.load(im.info.get('exif'))
     
-    exif_dict = piexif.load(filename)
-    exif_dict = exif_to_tag(exif_dict)  
+#     exif_dict = piexif.load(filename)
+#     exif_dict = exif_to_tag(exif_dict)  
 
-    if exif_dict['GPS']:
-        pprint(exif_dict['GPS'])
+#     if exif_dict['GPS']:
+#         pprint(exif_dict['GPS'])
 
-if __name__ == '__main__':
-   main()
+# if __name__ == '__main__':
+#    main()

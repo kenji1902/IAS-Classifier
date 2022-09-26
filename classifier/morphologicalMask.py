@@ -9,9 +9,9 @@ def morphologicalMasking(image):
     processImg = cv2.cvtColor(processImg,cv2.COLOR_RGB2GRAY)
     processImg = cv2.threshold(processImg, 1, 255, cv2.THRESH_BINARY)[1]
     Mask = np.reshape(processImg,(256,256,1))
-    processImg = np.concatenate((np.array(image),np.array(Mask)),axis=2)
-    processImg = rgba2rgb(np.array(processImg))
-    return processImg,Mask
+    rgba = np.concatenate((np.array(image),np.array(Mask)),axis=2)
+    processImg = rgba2rgb(np.array(rgba))
+    return processImg,Mask,rgba
 
 def auto_crop(image):
     img_Shape = image.shape
@@ -196,7 +196,7 @@ def removeBlurr(img):
   canned = cv2.Canny(gray, 100, 200)
 
   # dilate to close holes in lines
-  kernel = np.ones((5,5),np.uint8)
+  kernel = cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (2,2))
   mask = cv2.dilate(canned, kernel, iterations = 1)
 
   # find contours

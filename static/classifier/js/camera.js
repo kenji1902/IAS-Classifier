@@ -3,8 +3,10 @@ $(document).ready(function () {
     $video = $('#video');
     $cameraContent = $('.camera-content');
     $('#camera').click(function(){ 
+        
         $cameraContent.addClass('slide');
         vidOn($video);
+        
     });
     $('#arrow-right-btn').click(function(){
         $cameraContent.removeClass('slide');
@@ -120,7 +122,6 @@ function vidOn($video){
                 const track = stream.getVideoTracks()[0];
                 let imageCapture = new ImageCapture(track);
                 imageCapture.takePhoto().then((blob) => {
-                    
                     uploadFileCam(blob)
                 });
 
@@ -131,7 +132,9 @@ function vidOn($video){
             })
            
         }).catch(function(err){
-            alert(err);
+            $('.camera-content').hide()
+            showAlert('#alert','<strong>Hi there!</strong> You should enable camera permission Permission <br> go to home and search "Allow Camera".')
+
         });
     }
 }

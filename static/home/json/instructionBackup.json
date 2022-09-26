@@ -1,0 +1,32 @@
+[
+    {
+        "instruction_order": 1,
+        "title": "How to enable GPS on Mobile device",
+        "description": "Step 1: Open your phone’s quick menu setting <br>\r\nStep 2: Click on the “Location” icon to turn on the GPS \r\n<br>\r\n<br>\r\nAlternatively: <br>\r\n&emsp; Step 1: Go to Settings > Location.  <br>\r\n&emsp; Step 2: Then turn on the slider."
+    },
+    {
+        "instruction_order": 2,
+        "title": "How to enable GPS Tagging on Mobile device",
+        "description": "Step 1: Open the “Camera” app <br>\r\nStep 2: Open the settings of the app <br>\r\nStep 3: Find the setting for Location Tags <br>\r\nStep 4: Click the slider to turn it on."
+    },
+    {
+        "instruction_order": 3,
+        "title": "Accepting Permissions for PC browser",
+        "description": "Step 1: Go to “Classifier” Tab. <br>\r\nStep 2: Click “Choose Files” or “Camera”. <br>\r\nStep 3: A pop-up should appear asking permission to use the camera or location. Press “Allow”."
+    },
+    {
+        "instruction_order": 4,
+        "title": "Resetting Permissions for PC browser",
+        "description": "Step 1: Press the padlock icon on the left side of the url. <br>\r\nStep 2: You should see the various permissions that the site has or wants to access. <br>\r\nStep 3: You could choose to turn the sliders individually or click “Reset Permissions” to disable the permissions that the site has access to."
+    },
+    {
+        "instruction_order": 5,
+        "title": "Accepting Permissions for Mobile device",
+        "description": "Step 1: Go to “Classifier” Tab. <br>\r\nStep 2: Click “Choose Files” or “Camera”. <br>\r\nStep 3: A pop-up should appear asking permission to use the camera or location. Press “Allow”. <br>\r\n<br>\r\nAlternatively in some mobile devices: <br>\r\n&emsp; Step 4: Choose the option for “until i close this site” or “forever”. <br>\r\n&emsp; Step 5: then press “Allow”. <br>"
+    },
+    {
+        "instruction_order": 6,
+        "title": "Resetting Permissions for Mobile device",
+        "description": "Step 1: Press the padlock icon on the left side of the url. <br>\r\nStep 2: Go to Permissions. <br>\r\nStep 3: You should see the various permissions that the site has or wants to access. <br>\r\nStep 4: You could choose to turn the sliders individually or click “Reset Permissions” to disable the permissions that the site has access to.<br>\r\n<br>\r\nAlternatively, You can clear the cache of your browser to reset permissions. <br>\r\n<br>\r\n*Note: This will sign you out of most sites. You won't be signed out of your Google Account*<br>\r\n<br>\r\n&emsp; Step 1: Go to your browser settings. <br>\r\n&emsp; Step 2: Press “Privacy and Security”. <br>\r\n&emsp; Step 3: Click on “Clear Browsing Data”. <br>\r\n&emsp; Step 4: Check the option for “Cookies and site data”. <br>\r\n&emsp; Step 5. Press “Clear data”."
+    }
+]

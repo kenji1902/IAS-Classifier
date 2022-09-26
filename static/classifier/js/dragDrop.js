@@ -8,7 +8,8 @@ $(document).ready(function () {
     navigator.permissions.query({ name: 'geolocation' }).then((result) => {
         if (result.state === 'denied') {
             console.log(result.state);
-            
+            $(".upload-box").hide();
+            showAlert('#alert','<strong>Hi there!</strong> You should enable Geolocation Permission <br> go to home and search "Allow Location".')
         }
     })
     $dropArea = $(".drop-area");
@@ -168,9 +169,10 @@ function slideDown($element,animate,timeout){
     }, timeout);
 }
 
-function showAlert(id){
+function showAlert(id,text){
     $(id).removeClass('hide')
     $(id).addClass('show')
+    $(`${id} .text`).html(text)
     setTimeout(() => {
         $(id).removeClass('show')
         $(id).addClass('hide')
@@ -203,7 +205,7 @@ function uploadFile(files){
         }
             
         if(!acceptableFileType.includes(files[i]['type'])){
-            showAlert('#alert')
+            showAlert('#alert','<strong>Hi there!</strong> You should only use images with "jpeg/jpg" format.')
             hideSpinner()
             $('#dropAreaSpinner').addClass('hidden')
             continue
