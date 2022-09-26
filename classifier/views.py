@@ -77,6 +77,7 @@ def filter_files(request):
         if request.method == 'POST':
             files = request.FILES.getlist('files[]', None)
             coords = request.POST.getlist('coords[]',None)
+            remove_blur = eval(request.POST.get('remove_blur').capitalize())
             try:
                 while True:
                     coords.remove('undefined')
@@ -86,7 +87,7 @@ def filter_files(request):
             print('files',files)
             print('coords',coords)
             for f,c in zip(files,coords):
-                uploadedFiles.append( handle_uploaded_file(request,f,c) )
+                uploadedFiles.append( handle_uploaded_file(request,f,c,remove_blur) )
             
             # files = os.listdir(f'static/blobStorage/images/temp/{username}/')
             return JsonResponse({'images': uploadedFiles})
@@ -94,7 +95,7 @@ def filter_files(request):
     else:
         return HttpResponseBadRequest('Invalid request')
 
-def handle_uploaded_file(request,f,coords):
+def handle_uploaded_file(request,f,coords,remove_blur):
     username = request.user.username
     # Append _copy to file if it exists
     tempFileName = f'{date.today()}-{f.name}'
@@ -120,9 +121,13 @@ def handle_uploaded_file(request,f,coords):
     image = cv2.imread(filepath)
     path = f'static/blobStorage/images/temp/{username}/'
     filepath = os.path.join(path,tempFileName)
-    image,_ = morphMask.auto_crop(image)
-    image = cv2.resize(image, (256,256), interpolation = cv2.INTER_AREA)
-    processImg,Mask,_ = morphMask.morphologicalMasking(image)
+    processImg = None
+    if remove_blur:
+        print('blurr')
+        processImg = morphMask.cannyEdgeMasking(image)
+    else:
+        print('mask')
+        processImg,_,_ = morphMask.morphologicalMasking(image)
     
     cv2.imwrite( filepath,processImg)
     return tempFileName

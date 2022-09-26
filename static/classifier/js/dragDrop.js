@@ -142,6 +142,7 @@ function previewFile(files){
             if(isEmpty($rawImages)){
                 slideUp($('#filter'),200,1000);
                 slideUp($('#raw'),500,1000);
+                slideUp($('#remove_blur'),150,1000);
             }
         });
         imageLoaded.push(files);
@@ -218,6 +219,7 @@ function uploadFile(files){
             if(i == files.length - 1){
                 slideDown($('#raw'),500,200);
                 slideDown($('#filter'),500,1000);
+                slideDown($('#remove_blur'),1000,1500);
                 hideSpinner()
                 $('#dropAreaSpinner').addClass('hidden')
             }
@@ -282,7 +284,10 @@ function clickFilter(e){
     for (let i = 0; i < imageLoaded.length; i++){
         formData.append('files[]',imageLoaded[i]);
         formData.append('coords[]',coords[i]);
-    } 
+    }
+    const remove_blur =  $('#remove_blur_input').is(":checked")
+    console.log(remove_blur)
+    formData.append('remove_blur',remove_blur) 
     uploadFormData(formData);
     console.log(coords)
 

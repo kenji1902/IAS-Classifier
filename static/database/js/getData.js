@@ -129,7 +129,8 @@ function getApiData(limit,offset,requestnum='',scientificName='',localName='',in
                         <th scope="col">Scientific Name</th>
                         <th scope="col">Invasive Type</th>   
                         <th scope="col">Latitude</th>
-                        <th scope="col">Longtitude</th>   
+                        <th scope="col">Longtitude</th>
+                        <th scope="col">#Link</th>   
                     </tr>
                 </thead>
                 <tbody>
@@ -145,6 +146,13 @@ function getApiData(limit,offset,requestnum='',scientificName='',localName='',in
                         <td>${element['scientificName']['invasiveType']}</td>
                         <td>${element['latitude']}</td>
                         <td>${element['longtitude']}</td>
+                        <td>
+                            <a href="/classifier/results/${element['requestnum']['id']}"> 
+                                <span class="material-symbols-outlined bg-primary edit_data">
+                                    edit
+                                </span> 
+                            </a>
+                        </td>
                     </tr>    
                     `
                     if(index == 0)

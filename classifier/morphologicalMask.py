@@ -4,6 +4,8 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 def morphologicalMasking(image):
+    image,_ = auto_crop(image)
+    image = cv2.resize(image, (256,256), interpolation = cv2.INTER_AREA)
     processImg = segment_image(image)
     # processImg = sharpen_image(processImg)
     processImg = cv2.cvtColor(processImg,cv2.COLOR_RGB2GRAY)
@@ -12,6 +14,16 @@ def morphologicalMasking(image):
     rgba = np.concatenate((np.array(image),np.array(Mask)),axis=2)
     processImg = rgba2rgb(np.array(rgba))
     return processImg,Mask,rgba
+
+def cannyEdgeMasking(image):
+    
+    blurr = removeBlurr(image)
+    if blurr is  None:
+        blurr = image 
+    processImg,_ = auto_crop(blurr)
+    processImg = cv2.resize(processImg, (256,256), interpolation = cv2.INTER_AREA)
+    processImg,_,_ = morphologicalMasking(processImg)
+    return processImg
 
 def auto_crop(image):
     img_Shape = image.shape

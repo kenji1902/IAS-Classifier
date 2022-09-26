@@ -27,7 +27,12 @@
     position: relative;
     gap: 10px;
 }
-
+.edit_data{
+    color:white;
+    font-size: 12pt;
+    padding: 0.2rem;
+    border-radius: 0.2rem;
+}
 .page{
     width: 90px;
     height: 58px;

@@ -123,6 +123,30 @@
     bottom: 4rem;
     z-index: 1 !important;
 }
+.switch_{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    cursor: pointer;
+    user-select: none;
+    border-radius: 10px;
+    margin-top: 1rem;
+    opacity: 0;
+    bottom: 4rem;
+    z-index: 1 !important;
+}
+#remove_blur_input:active,#remove_blur_input:focus{
+    border-color: var(--light-green) !important;
+}
+#remove_blur_input:focus{
+    box-shadow: 0 0 0 0.2rem var(--light-green) !important;
+}
+
+#remove_blur_input:checked  {
+    border-color: var(--light-green) !important;
+    background-color: var(--green) !important;
+}
 .loaded-images .file-content{
     display: flex;
     flex-direction: column;

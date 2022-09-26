@@ -65,6 +65,8 @@ function previewFileCam(blob){
         if(isEmpty($rawImages)){
             slideUp($('#filter'),200,1000);
             slideUp($('#raw'),500,1000);
+            slideUp($('#remove_blur'),150,1000);
+
         }
     });
     // blob = dataURItoBlob(blob)
@@ -83,6 +85,8 @@ function previewFileCam(blob){
 
         slideDown($('#raw'),500,200);
         slideDown($('#filter'),500,1000);
+        slideDown($('#remove_blur'),1000,1500);
+
         hideSpinner()
         $('#dropAreaSpinner').addClass('hidden')
         console.log(coords)
