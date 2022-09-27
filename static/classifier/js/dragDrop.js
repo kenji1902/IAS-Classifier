@@ -266,17 +266,19 @@ function uploadFormData(form_data) {
         cache: false,
         processData: false,
         success: function (data) {
-            let fileCount = 0
-            console.log('invalidFormatFlag: ',data['invalidFormatFlag'])
             if(data['invalidFormatFlag'] == true)
                 showAlert('#alert','<strong>Hi there!</strong> An image was not uploaded, it might have been renamed with jpg extension <br> pls upload an image with "JPG/JPEG" format.')
-
-
+            
+            if ( data['images'].length != 0){
+                $('#preprocessedSpinner').removeClass('hidden')
+                slideDown($('#preprocessed'),500,200);
+                slideDown($('#classify'),500,1000);
+            }
             data['images'].forEach(files => {    
                 console.log('files: ',files)
                 filter(files,`${window.location.origin}/blobstorage/filter/${files}`)      
-                fileCount++;        
             });
+            
             $('#preprocessedSpinner').addClass('hidden')
             if($('#preprocessed').has('.file-content').length == 0){
                 slideUp($('#classify'),200,1000);
@@ -289,9 +291,7 @@ function uploadFormData(form_data) {
 function clickFilter(e){
     
     
-    $('#preprocessedSpinner').removeClass('hidden')
-    slideDown($('#preprocessed'),500,200);
-    slideDown($('#classify'),500,1000);
+    
     let formData = new FormData();
     for (let i = 0; i < imageLoaded.length; i++){
         formData.append('files[]',imageLoaded[i]);
