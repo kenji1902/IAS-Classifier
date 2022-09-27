@@ -104,6 +104,9 @@ function classifyClick(e){
         },
         success: function (data) {
             window.location.assign(`/classifier/results/${data['id']}`)
+        },
+        error: function(data){
+            console.log(data)
         }
     });
     
@@ -264,12 +267,21 @@ function uploadFormData(form_data) {
         processData: false,
         success: function (data) {
             let fileCount = 0
+            console.log('formatFlag: ',data['formatFlag'])
+            if(data['formatFlag'] == true)
+                showAlert('#alert','<strong>Hi there!</strong> An image was not uploaded, it might have been renamed with jpg extension <br> pls upload an image with "JPG/JPEG" format.')
+
+
             data['images'].forEach(files => {    
-                if(fileCount == data['images'].length - 1)
-                    $('#preprocessedSpinner').addClass('hidden')
+                console.log('files: ',files)
                 filter(files,`${window.location.origin}/blobstorage/filter/${files}`)      
                 fileCount++;        
             });
+            $('#preprocessedSpinner').addClass('hidden')
+            if($('#preprocessed').has('.file-content').length == 0){
+                slideUp($('#classify'),200,1000);
+                slideUp($('#preprocessed'),500,1000);
+            }
         },
         
     });

@@ -19,6 +19,8 @@ import numpy as np
 import base64
 import os
 from datetime import date
+from PIL import Image
+from io import BytesIO
 
 from .models import classifier as clsfr
 from .models import iasData
@@ -84,13 +86,21 @@ def filter_files(request):
             except ValueError:
                 pass
             uploadedFiles = []
+            formatFlag = False
             print('files',files)
             print('coords',coords)
             for f,c in zip(files,coords):
-                uploadedFiles.append( handle_uploaded_file(request,f,c,remove_blur) )
-            
+                request_object_content = f.read()
+                file_jpgdata = BytesIO(request_object_content)
+                if Image.open(file_jpgdata).format == 'JPEG':  
+                    uploadedFiles.append( handle_uploaded_file(request,f,c,remove_blur) )
+                else:
+                    formatFlag = True
             # files = os.listdir(f'static/blobStorage/images/temp/{username}/')
-            return JsonResponse({'images': uploadedFiles})
+            if not formatFlag:
+                return JsonResponse({'images': uploadedFiles})
+            else:
+                return JsonResponse({'images': uploadedFiles, 'formatFlag':formatFlag})    
         return JsonResponse({'status': 'Invalid request'}, status=400)
     else:
         return HttpResponseBadRequest('Invalid request')
@@ -109,6 +119,7 @@ def handle_uploaded_file(request,f,coords,remove_blur):
 
     # Save per chunk, loop to save more memory
     filepath = os.path.join(path,tempFileName)
+    
     with open(filepath, 'wb+') as destination:
         for chunk in f.chunks():
             destination.write(chunk)
