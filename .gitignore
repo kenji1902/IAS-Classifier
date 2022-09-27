@@ -19,7 +19,7 @@ IASclassifier/__pycache__/
 .venv/*
 
 # #local database
-db.sqlite3
+# db.sqlite3
 
 # static Blob Directory
 static/blobStorage/images/raw/*/
