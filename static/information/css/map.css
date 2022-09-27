@@ -1,10 +1,80 @@
 /* Set the size of the div element that contains the map */
 #map {
-    height: 30rem;
-    /* The height is 400 pixels */
-    width: 100%;
-    /* The width is the width of the web page */
+    position: relative;
+    margin-top: 3.2rem;
+    height: calc(100vh - 8rem - 3rem - var(--navbar_height));
+    /* max-height: calc(100% - 6rem - var(--navbar_height)); */
+
+    width: 90%;
     background-color: black;
+    margin-bottom: 0;
+}
+
+.map-control{
+    background: none padding-box rgb(255, 255, 255);
+    margin: 10px; 
+    z-index: 0; 
+    cursor: pointer; 
+    width: 90%;
+    padding: 0.5rem;
+    font-family: Roboto, Arial, sans-serif; font-size: 18px;
+    border-bottom-right-radius: 2px; 
+    border-top-right-radius: 2px; 
+    box-shadow: rgba(0, 0, 0, 0.3) 0px 1px 4px -1px;
+}
+.legends{
+    position: relative;
+    display: flex;
+    flex-wrap: wrap;
+    /* justify-content: start; */
+    width: 90%;
+    margin-top: .2rem;
+    background-color: white;
+    padding: 1rem;
+    
+}
+.legends .items{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0.2rem;
+    padding-left: 1rem;
+    flex: 1;
+    flex-basis: 30%;
+    border-radius: 5rem;
+    overflow: hidden;
+    margin: 0.2rem;
+    box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+}
+.legends .items .label{
+    padding-left: 1rem;
+    width: 100%;
+    word-wrap: break-all ;
+}
+.legends .items .label p{
+    margin: 0;
+}
+.legends .items .label p:nth-child(2){
+    color: var(--light-gray);
+    font-size: 9pt;
+}
+
+@media only screen and (max-width: 1752px) {
+    #map{
+        margin-top: 7.5rem;
+        height: calc(100vh - 13rem - 3rem - var(--navbar_height));
+
+    }
     
 }
 
+@media only screen and (max-width: 866px) {
+    #map{
+        margin-top: 1.2rem;
+        height: calc(100vh - 5rem - 3rem - var(--navbar_height));
+
+    }
+    .legends .items{
+        flex-basis: 90%;
+    }
+}

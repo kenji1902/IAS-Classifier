@@ -27,34 +27,33 @@
     </div>
 
     <div id="Info" class="navbar-items">
-        <span class="material-symbols-outlined navbar-icons">
+        <a href="{% url 'viewdatabase' %}" class="material-symbols-outlined navbar-icons">
             table
-        </span>
-        <span class="navbar-item-name">
+        </a>
+        <a href="{% url 'viewdatabase' %}" class="navbar-item-name">
             Database
-        </span>
+        </a>
     </div>
     {% load socialaccount%}
     <div id="Login" class="navbar-items">
-            {% load account %}
-            {%user_display user as acc%}
-        <a href="{% provider_login_url 'google' method = 'oauth2' next=''%}" class="material-symbols-outlined navbar-icons" >
-            {% if acc|length > 0 %}
-                person
-            {% else %}
-                login
-            {% endif %}
+        {% load account %}
+        {%user_display user as acc%}
+        
+        {% if acc|length > 0 %}
+        <a href="/accounts/logout/" class="material-symbols-outlined navbar-icons" >
+            logout
+        </a>
+        <a href="/accounts/logout/" class="navbar-item-name" next="">
+            {%user_display user%}
+        </a>     
+        {% else %}
+        <a href="{% provider_login_url 'google' method = 'oauth2' next='' %}" class="material-symbols-outlined navbar-icons" >
+            login
         </a>
         <a href="{% provider_login_url 'google' method = 'oauth2' next='' %}" class="navbar-item-name" next="">
-            
-    
-            {% if acc|length > 0 %}
-                {%user_display user%}
-            {% else %}
-                Login
-            {% endif %}
-
-        </a>
+            Login
+        </a>    
+        {% endif %}
     </div>
 
 </div>

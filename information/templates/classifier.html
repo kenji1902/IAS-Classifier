@@ -1,0 +1,118 @@
+{% extends "shareable/html/base.html" %}
+{%load static%}
+{%block css%}
+<link rel="stylesheet" type="text/css" href="{%static 'classifier/css/dragDrop.css'%}" />
+<link rel="stylesheet" type="text/css" href="{%static 'classifier/css/camera.css'%}" />
+
+{%endblock%}
+{%block js%}
+<script src="{%static 'shareable/js/csrf.js'%}"></script>
+<script src="{%static 'classifier/js/geotagging.js'%}"></script>
+<script src="{%static 'classifier/js/dragDrop.js'%}"></script>
+<script src="{%static 'classifier/js/camera.js'%}"></script>
+
+{%endblock%}
+
+{%block app_layout_content_before%}
+<div id="alert" class="alert alert-warning alert-dismissible fade hide" role="alert">
+    <strong>Hi there!</strong> You should only use images with "jpeg/jpg" format.
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+{%endblock%}
+
+{%block content%}
+<div class="upload-box">
+    <form class="drop-area ias-images" accept=".jpeg,.jpg">
+        {% csrf_token %}
+        
+        <span class="material-symbols-outlined file_upload">
+            file_upload
+        </span>
+        <div class="drop-area-buttons">
+            <input type="file" id="fileElem" accept=".jpeg,.jpg"  onchange="uploadFile(this.files) " multiple>
+            <div id="file"  accept=".jpeg,.jpg" class="drop-area-button">
+                <span class="material-symbols-outlined icon">
+                    add_photo_alternate
+                </span>
+                <span class="text">
+                    CHOOSE FILES
+                </span>
+            </div >
+            <input type="file" id="cameraElem" accept="image/*;capture=camera" onchange="uploadFile(this.files)">
+            <div id="camera" class="drop-area-button">
+                <span class="material-symbols-outlined icon">
+                    add_a_photo
+                </span>
+                <span class="text">
+                    CAMERA
+                </span>
+            </div>
+        </div>
+        
+        <span>or drop images here</span>
+
+        <div id="progress-percent" class="hidden">
+            <span class="text ">UPLOADING</span>
+            <span class="progress_"></span>
+        </div>
+
+        <div class="camera-content">
+            <span id="arrow-right-btn" class="arrow-right material-symbols-outlined">
+                double_arrow
+            </span>
+            
+            <video id="video"></video>
+            <div id="devices" class="dropdown">
+                <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    Devices
+                </button>
+                <ul class="dropdown-menu">
+
+                </ul>
+                </div>
+            
+            <div id="shutter" class="shutter">
+                <div class="shutter_inner"></div>
+            </div>
+        </div>
+        <div id="dropAreaSpinner" class="spinnerCont blur hidden">
+            <div class="spinner-border m-5" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+        </div>
+    </form>
+</div>
+
+
+
+
+<div id="raw" class="loaded-images hidden">
+    
+    
+</div>
+
+<span id="filter" class="button_ hidden">
+    <div class="spinnerCont blur hidden">
+        <div class="spinner-border spinner-button m-1" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+    </div> 
+    FILTER
+</span>
+<div id="preprocessed" class="loaded-images hidden">
+    
+    <div id="preprocessedSpinner" class="spinnerCont blur hidden">
+        <div class="spinner-border m-1" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+    </div>
+</div>
+<span id="classify" class="button_ hidden">
+    <div  class="spinnerCont blur hidden">
+        <div class="spinner-border spinner-button m-1" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+    </div>
+    CLASSIFY
+</span>
+{%endblock%}

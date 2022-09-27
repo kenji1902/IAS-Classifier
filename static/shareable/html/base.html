@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>classifier</title>
+    {%load static%}
+    {%include "shareable/html/stylesheet.html"%}
+    {%include "shareable/html/cdn.html"%}
+    
+    {%block css%}
+  
+    {%endblock%}
+    {%block js%}
+
+    {%endblock%}    
+</head>
+<body>
+    
+    {%include "shareable/html/navbar.html"%}
+    
+    <div class="app-layout-content">
+        {%block app_layout_content_before%}
+        {%endblock%}
+        <div class="content ">
+            {%block content%}
+            {%endblock%}
+        </div>
+        {%block app_layput_content_after%}
+        {%endblock%}
+    </div>
+
+</body>
+</html>

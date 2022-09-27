@@ -24,6 +24,7 @@ SECRET_KEY = '34h+-jp@+wnw%shv6z(x0q%e3*zz36!0%axkidq80xkk&g@fm3'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 CSRF_COOKIE_SECURE = False
 ALLOWED_HOSTS = ['*']
 CSRF_TRUSTED_ORIGINS = [
@@ -40,20 +41,28 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    # Apps
     'classifier',
     'home',
     'information',
     'blobStorage',
     'accounts',
+    'database',
 
 
-
-    # The following apps are required:
+    # Rest API:
+    'rest_framework',
+    'django_filters',
+    # All auth:
     
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
     'allauth.socialaccount.providers.google',
+
+    # HTTPS cert
+    "django_extensions",
    
 ]
 LOGIN_REDIRECT_URL = "/"
@@ -83,7 +92,7 @@ ROOT_URLCONF = 'iasClassifier.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': ['static/'],
+        'DIRS': ['static/','classifier/api/'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -118,12 +127,25 @@ SOCIALACCOUNT_PROVIDERS = {
     }
 }
 
+REST_FRAMEWORK = {
+    # Use Django's standard `django.contrib.auth` permissions,
+    # or allow read-only access for unauthenticated users.
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
+    ],
+    'DEFAULT_FILTER_BACKENDS': [
+        'django_filters.rest_framework.DjangoFilterBackend'
+    ],
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
+    
+}
 
 WSGI_APPLICATION = 'iasClassifier.wsgi.application'
 
 
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 DATABASES = {
     'default': {

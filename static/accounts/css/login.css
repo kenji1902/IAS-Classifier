@@ -1,0 +1,72 @@
+.login{
+    position: relative;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.socialaccount_ballot, .socialaccount_provider{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 0.2rem !important;
+}
+.socialaccount_provider .icon{
+    max-width: 1rem;
+    max-height: 1rem;
+}
+
+.customInput{
+    width: 15rem !important;
+    margin-bottom: 0.5rem;
+    margin-top: 0.5rem;
+}
+.customInput .input{
+    width: 100%;
+}
+.customInput:nth-child(4){
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: white;
+    border-radius: 20px;
+}
+.customInput:nth-child(4) .label{
+    top: auto;
+    left: auto;
+    position: relative;
+    font-size: 12pt !important;
+    padding-right: 1rem;
+}
+.customInput:nth-child(4) .input{
+    width: 1rem;
+}
+.button{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: white;
+    border-radius: 20px;
+    width: 15rem;
+    padding: 0.2rem;
+    margin-bottom: 1rem;
+}
+.primaryAction{
+    width: 15rem;
+}
+.shadow1{
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+}
+
+@media only screen and (max-width: 600px) {
+    .customInput{
+        width: 90% !important;
+
+    }
+    .button{
+        width: 90%;
+    }
+    .primaryAction{
+        width: 90%;
+    }
+}

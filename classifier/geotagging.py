@@ -10,23 +10,22 @@ def image_coordinates(image_path,fileName):
     if img:
         try:
             coords = dms_to_dd(img)
-            print(f"Have GPS exif, showing coordinates:{coords}")
             return {
+                'status': 'has GPS Exif',
                 'lat':coords[0],
                 'lng':coords[1]
                 }
         except ZeroDivisionError:
-            print ('No Coordinates')
             obj = tempFileHandler.objects.filter(filename=fileName)
             return {
+                'status':'GPS exif not present',
                 'lat':obj[0].latitude,
                 'lng':obj[0].longtitude
                 }
     else:
-        print (f'The Image {fileName} has no EXIF information')
         obj = tempFileHandler.objects.filter(filename=fileName)
-        print(f"Does not have exif, retrieving gps loc:{obj[0].latitude}, {obj[0].longtitude}")
         return {
+            'status':'no Exif, using client\'s GPS',
             'lat':obj[0].latitude,
             'lng':obj[0].longtitude
             }

@@ -1,17 +1,32 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>classifier</title>
-    {%load static%}
-    {%include "shareable/html/stylesheet.html"%}
 
-</head>
-<body>
+{% extends "shareable/html/base.html" %}
+{% load static %}
+{% block css %}
+    <link rel="stylesheet" href="{%static 'home/css/instructions.css'%}">
+{% endblock %}
+
+{% block js %}
+<script src="{% static 'home/js/getData.js'%}"></script>
+{% endblock %}
+
+{%block app_layout_content_before%}
+<form class="formWrapper" autocomplete="off">
+    <div class=" d-flex justify-content-center align-items-center">
+        <div class="search">
+            <span class="material-symbols-outlined">
+                search
+            </span>
+            <input id="search" type="text" class="form-control" placeholder="Have a question? Ask Now">
+        </div>          
+    </div>
+</form>
+{%endblock%}
+
+{%block content%}
+    <div class="instructionWrapper">
+
+
+    </div>
     
-    {%include "shareable/html/navbar.html"%}
-
-</body>
-</html>
+    
+{%endblock%}

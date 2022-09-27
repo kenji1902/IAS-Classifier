@@ -3,11 +3,14 @@
     --clear: white;
 
     --green: rgb(16, 221, 125);
+    --dark-green: rgb(48, 177, 138);
+    --dark-green-opacity: rgba(40, 168, 130, 0.548);
     --blue-green: rgb(176, 255, 218);
     --light-green: rgb(216, 241, 230);
     --off-white: rgba(245, 245, 245, 0.788);
-    --off-white-solid: rgba(245, 245, 245, 1);
-
+    --off-white-solid: rgb(245, 245, 245);
+    --gray: rgb(39, 38, 38);
+    --light-gray: rgb(88, 87, 87);
     --phone-width: 600px;
 }
 *{
@@ -22,4 +25,7 @@ a{
 @font-face {
     font-family: lato-regular;
     src: url(/static/shareable/fonts/Lato-Regular.ttf);
+}
+.blur{
+    backdrop-filter: blur(10px) !important; 
 }

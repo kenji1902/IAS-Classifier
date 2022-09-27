@@ -1,0 +1,29 @@
+.customInput{
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+.customInput .label{
+    position: absolute;
+    left: 1rem;
+    top: 5px;
+    font-size: small;
+    transition: all 1s;
+}
+.customInput .input{
+    height: 2rem;
+    vertical-align: bottom;
+    padding-top: 0.5rem;
+    padding-left: 0.2rem;
+    font-size: 12pt;
+}
+.customInput .input:focus ~ .label,
+.customInput .input:not(:focus):valid ~ .label,
+.customInput .input:not(:placeholder-shown) ~ .label{
+    top: 0;
+    font-size: xx-small;
+    left: 0.2rem;
+    
+}

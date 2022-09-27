@@ -1,0 +1,72 @@
+[
+    {
+        "instruction": 1,
+        "step": 1,
+        "image": "img1_1.jpg"
+    },
+    {
+        "instruction": 1,
+        "step": 2,
+        "image": "img1_2.jpg"
+    },
+    {
+        "instruction": 2,
+        "step": 1,
+        "image": "img2_1.jpg"
+    },
+    {
+        "instruction": 2,
+        "step": 2,
+        "image": "img2_2.jpg"
+    },
+    {
+        "instruction": 1,
+        "step": 3,
+        "image": "img1_3.jpg"
+    },
+    {
+        "instruction": 3,
+        "step": 1,
+        "image": "pc_accept_permission_camera.jpg"
+    },
+    {
+        "instruction": 3,
+        "step": 2,
+        "image": "pc_accept_permission_location.jpg"
+    },
+    {
+        "instruction": 4,
+        "step": 1,
+        "image": "pc_reset_permission.jpg"
+    },
+    {
+        "instruction": 5,
+        "step": 1,
+        "image": "mobile_accept_permission.jpg"
+    },
+    {
+        "instruction": 6,
+        "step": 1,
+        "image": "mobile_reset_permission1.jpg"
+    },
+    {
+        "instruction": 6,
+        "step": 2,
+        "image": "mobile_reset_permission2.jpg"
+    },
+    {
+        "instruction": 6,
+        "step": 3,
+        "image": "mobile_reset_permission3.jpg"
+    },
+    {
+        "instruction": 6,
+        "step": 4,
+        "image": "mobile_reset_permission4.jpg"
+    },
+    {
+        "instruction": 6,
+        "step": 5,
+        "image": "mobile_reset_permission5.jpg"
+    }
+]

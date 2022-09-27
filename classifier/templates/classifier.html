@@ -1,113 +1,157 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>classifier</title>
-    {%load static%}
-    {%include "shareable/html/stylesheet.html"%}
-    {%include "shareable/html/cdn.html"%}
-    <script src="https://cdn.jsdelivr.net/npm/js-cookie@3.0.1/dist/js.cookie.min.js"></script>
-    <link rel="stylesheet" type="text/css" href="{%static 'classifier/css/dragDrop.css'%}" />
-    <link rel="stylesheet" type="text/css" href="{%static 'classifier/css/camera.css'%}" />
+{% extends "shareable/html/base.html" %}
+{%load static%}
+{%block css%}
+<link rel="stylesheet" type="text/css" href="{%static 'classifier/css/dragDrop.css'%}" />
+<link rel="stylesheet" type="text/css" href="{%static 'classifier/css/camera.css'%}" />
+<link rel="stylesheet" type="text/css" href="{%static 'shareable/css/dialogbox.css'%}" />
 
-    <script src="{%static 'shareable/js/csrf.js'%}"></script>
-    <script src="{%static 'classifier/js/geotagging.js'%}"></script>
-    <script src="{%static 'classifier/js/dragDrop.js'%}"></script>
-    <script src="{%static 'classifier/js/camera.js'%}"></script>
-</head>
-<body>
-    
-    {%include "shareable/html/navbar.html"%}
-    
-    <div class="app-layout-content">
-        <div id="alert" class="alert alert-warning alert-dismissible fade hide" role="alert">
-            <strong>Hi there!</strong> You should only use images with "jpeg/jpg" format.
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+{%endblock%}
+{%block js%}
+<!-- <script src="{%static 'node_modules/exif-js/exif.js'%}"></script> -->
+<script src="{%static 'shareable/js/csrf.js'%}"></script>
+<script src="{%static 'classifier/js/geotagging.js'%}"></script>
+<script src="{%static 'classifier/js/dragDrop.js'%}"></script>
+<script src="{%static 'classifier/js/camera.js'%}"></script>
+{%endblock%}
+
+{%block app_layout_content_before%}
+<div id="alert" class="alert alert-warning alert-dismissible fade hide" role="alert">
+    <div class="text">
+
+    </div>
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+<div class="blurrBg blur hidden">
+    <div id="closeCarousel">
+        <span class="close-image material-symbols-outlined">
+            close
+        </span>
+    </div>
+    <div id="preprocessedCarousel" class="">
+        <div id="preprocessedPrev" class="carousel carousel-dark slide" data-bs-ride="true">
+            <!-- <div class="carousel-indicators">
+
+            </div> -->
+            <div class="carousel-inner">
+
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#preprocessedPrev" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#preprocessedPrev" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
         </div>
+    </div>
+</div>
+{%endblock%}
 
-        <div class="content ">
-            <div class="upload-box">
-                <form class="drop-area ias-images" accept=".jpeg,.jpg">
-                    {% csrf_token %}
-                    
-                    <span class="material-symbols-outlined file_upload">
-                        file_upload
-                    </span>
-                    <div class="drop-area-buttons">
-                        <input type="file" id="fileElem" accept=".jpeg,.jpg"  onchange="uploadFile(this.files) " multiple>
-                        <div id="file"  accept=".jpeg,.jpg" class="drop-area-button">
-                            <span class="material-symbols-outlined icon">
-                                add_photo_alternate
-                            </span>
-                            <span class="text">
-                                CHOOSE FILES
-                            </span>
-                        </div >
-                        <input type="file" id="cameraElem" accept="image/*;capture=camera" onchange="uploadFile(this.files)">
-                        <div id="camera" class="drop-area-button">
-                            <span class="material-symbols-outlined icon">
-                                add_a_photo
-                            </span>
-                            <span class="text">
-                                CAMERA
-                            </span>
-                        </div>
-                    </div>
-                    
-                    <span>or drop images here</span>
-
-                    <div id="progress-percent" class="hidden">
-                        <span class="text ">UPLOADING</span>
-                        <span class="progress_"></span>
-                    </div>
-
-                    <div class="camera-content">
-                        <span id="arrow-right-btn" class="arrow-right material-symbols-outlined">
-                            double_arrow
-                        </span>
-                        
-                        <video id="video"></video>
-                        <div id="devices" class="dropdown">
-                            <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                              Devices
-                            </button>
-                            <ul class="dropdown-menu">
-
-                            </ul>
-                          </div>
-                        
-                        <div id="shutter" class="shutter">
-                            <div class="shutter_inner"></div>
-                        </div>
-                    </div>
-                    <div id="dropAreaSpinner" class="spinnerCont blur hidden">
-                        <div class="spinner-border m-5" role="status">
-                            <span class="visually-hidden">Loading...</span>
-                        </div>
-                    </div>
-                </form>
+{%block content%}
+<div class="upload-box">
+    <form class="drop-area ias-images" accept=".jpeg,.jpg">
+        {% csrf_token %}
+        
+        <span class="material-symbols-outlined file_upload">
+            file_upload
+        </span>
+        <div class="drop-area-buttons">
+            <input type="file" id="fileElem"   onchange="uploadFile(this.files) " multiple>
+            <div id="file"   class="drop-area-button">
+                <span class="material-symbols-outlined icon">
+                    add_photo_alternate
+                </span>
+                <span class="text">
+                    CHOOSE FILES
+                </span>
+            </div >
+            <div id="camera" class="drop-area-button">
+                <span class="material-symbols-outlined icon">
+                    add_a_photo
+                </span>
+                <span class="text">
+                    CAMERA
+                </span>
             </div>
-            
-
-            
-
-            <div id="raw" class="loaded-images hidden">
-                
-                
-            </div>
-            
-            <span id="filter" class="button_ hidden">FILTER</span>
-            <div id="preprocessed" class="loaded-images hidden">
-                
-                
-            </div>
-            <span id="classify" class="button_ hidden">CLASSIFY</span>
-
         </div>
         
-    </div>
+        <span>or drop images here</span>
 
-</body>
-</html>
+        <div id="progress-percent" class="hidden">
+            <span class="text ">UPLOADING</span>
+            <span class="progress_"></span>
+        </div>
+
+        <div class="camera-content">
+            <span id="arrow-right-btn" class="arrow-right material-symbols-outlined">
+                double_arrow
+            </span>
+            
+            <video id="video"></video>
+            <div id="devices" class="dropdown">
+                <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    Devices
+                </button>
+                <ul class="dropdown-menu">
+
+                </ul>
+                </div>
+            
+            <div id="shutter" class="shutter">
+                <div class="shutter_inner"></div>
+            </div>
+        </div>
+        <div id="dropAreaSpinner" class="spinnerCont blur hidden">
+            <div class="spinner-border m-5" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+        </div>
+    </form>
+</div>
+
+
+
+
+<div id="raw" class="loaded-images hidden">
+    
+    
+</div>
+
+<span id="filter" class="button_ hidden">
+    <div class="spinnerCont blur hidden">
+        <div class="spinner-border spinner-button m-1" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+    </div> 
+    FILTER
+</span>
+<form id="remove_blur" class="form-check form-switch switch_ hidden">
+    <input id="remove_blur_input" class="form-check-input" type="checkbox" id="flexSwitchCheckDefault">
+    <label class="form-check-label" for="flexSwitchCheckDefault">Remove Blur Background</label>
+</form>
+<div class="wrapper">
+    <span id="preproccesedhelper" class="dialogBox hidden">
+        Click Image to view!
+    </span>
+
+    <div id="preprocessed" class="loaded-images hidden">
+
+        <div id="preprocessedSpinner" class="spinnerCont blur hidden">
+            <div class="spinner-border m-1" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+        </div>
+    </div>
+</div>
+<span id="classify" class="button_ hidden">
+    <div  class="spinnerCont blur hidden">
+        <div class="spinner-border spinner-button m-1" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+    </div>
+    CLASSIFY
+</span>
+
+
+{%endblock%}
