@@ -86,7 +86,7 @@ def filter_files(request):
             except ValueError:
                 pass
             uploadedFiles = []
-            formatFlag = False
+            invalidFormatFlag = False
             print('files',files)
             print('coords',coords)
             for f,c in zip(files,coords):
@@ -95,12 +95,12 @@ def filter_files(request):
                 if Image.open(file_jpgdata).format == 'JPEG':  
                     uploadedFiles.append( handle_uploaded_file(request,f,c,remove_blur) )
                 else:
-                    formatFlag = True
+                    invalidFormatFlag = True
             # files = os.listdir(f'static/blobStorage/images/temp/{username}/')
-            if not formatFlag:
+            if not invalidFormatFlag:
                 return JsonResponse({'images': uploadedFiles})
             else:
-                return JsonResponse({'images': uploadedFiles, 'formatFlag':formatFlag})    
+                return JsonResponse({'images': uploadedFiles, 'invalidFormatFlag':invalidFormatFlag})    
         return JsonResponse({'status': 'Invalid request'}, status=400)
     else:
         return HttpResponseBadRequest('Invalid request')

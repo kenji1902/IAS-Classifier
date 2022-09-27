@@ -267,8 +267,8 @@ function uploadFormData(form_data) {
         processData: false,
         success: function (data) {
             let fileCount = 0
-            console.log('formatFlag: ',data['formatFlag'])
-            if(data['formatFlag'] == true)
+            console.log('invalidFormatFlag: ',data['invalidFormatFlag'])
+            if(data['invalidFormatFlag'] == true)
                 showAlert('#alert','<strong>Hi there!</strong> An image was not uploaded, it might have been renamed with jpg extension <br> pls upload an image with "JPG/JPEG" format.')
 
 
