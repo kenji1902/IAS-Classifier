@@ -7,7 +7,8 @@ from unicodedata import name
 from django.shortcuts import render, redirect
 from django.views.decorators.csrf import ensure_csrf_cookie
 from django.core import serializers
-from django.http import HttpResponseBadRequest, JsonResponse
+from django.http import HttpResponseBadRequest, JsonResponse, HttpResponse
+from django.core.exceptions import PermissionDenied
 
 from classifier import morphologicalMask as morphMask
 from classifier import geotagging as gt
@@ -40,7 +41,7 @@ def results(request,pk):
         plants = plantInformation.objects.values_list('scientificName')
         if username == str(query[0].requestnum.username) or username=='admin':
             return render(request,'results.html',{'data':query,'plants':plants})
-        return HttpResponseBadRequest('Invalid request')    
+        raise PermissionDenied 
     except IndexError:
         return HttpResponseBadRequest('Invalid request')        
 
@@ -197,3 +198,5 @@ def classify_files(request):
     else:
         return HttpResponseBadRequest('Invalid request')        
 
+def handler403(request,exception=None):
+    return render(request,'403.html')
