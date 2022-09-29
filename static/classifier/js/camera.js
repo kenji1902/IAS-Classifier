@@ -137,7 +137,7 @@ function vidOn($video){
            
         }).catch(function(err){
             $('.camera-content').hide()
-            showAlert('#alert','<strong>Hi there!</strong> You should enable camera permission Permission <br> go to home and search "Allow Camera".')
+            showAlert('#alert','<strong>Hi there!</strong> You should enable Camera Permission <br> go to home and search "Allow Camera".')
 
         });
     }
