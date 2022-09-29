@@ -298,10 +298,8 @@ function clickFilter(e){
         formData.append('coords[]',coords[i]);
     }
     const remove_blur =  $('#remove_blur_input').is(":checked")
-    console.log(remove_blur)
     formData.append('remove_blur',remove_blur) 
     uploadFormData(formData);
-    console.log(coords)
 
 }
 let preprocessedImages = []

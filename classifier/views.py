@@ -23,10 +23,12 @@ from datetime import date
 from PIL import Image
 from io import BytesIO
 
+
 from .models import classifier as clsfr
 from .models import iasData
 from django.contrib.auth.models import User
 from .models import tempFileHandler, plantInformation
+
 # Create your views here.
 def classifier(request):
     if request.user.is_authenticated:
@@ -93,7 +95,8 @@ def filter_files(request):
             for f,c in zip(files,coords):
                 request_object_content = f.read()
                 file_jpgdata = BytesIO(request_object_content)
-                if Image.open(file_jpgdata).format == 'JPEG':  
+            
+                if Image.open(file_jpgdata).format == 'JPEG' or f.name.split('.')[-1] == 'cam':  
                     uploadedFiles.append( handle_uploaded_file(request,f,c,remove_blur) )
                 else:
                     invalidFormatFlag = True
@@ -110,6 +113,7 @@ def handle_uploaded_file(request,f,coords,remove_blur):
     username = request.user.username
     # Append _copy to file if it exists
     tempFileName = f'{date.today()}-{f.name}'
+    tempFileName = '.'.join(tempFileName.split('.')[:-1] + ['jpg'])
     path = f'static/blobStorage/images/raw/{username}/'
     while(os.path.exists( os.path.join(path, tempFileName) )):
         file = tempFileName.split('.')
