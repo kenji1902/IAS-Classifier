@@ -95,8 +95,6 @@ function previewFileCam(blob){
 
 let videoConstraints = {
     facingMode : 'environment',
-    width: 256,
-    height: 256
 }
 function vidOn($video){
     // Get access to the camera!
