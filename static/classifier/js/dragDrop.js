@@ -160,12 +160,12 @@ function slideUp($element,animate,timeout){
         bottom: '4rem',
         opacity: '0'
     },animate);
-    setTimeout(() => {
+    return setTimeout(() => {
         $element.addClass('hidden');
     }, timeout);
 }
 function slideDown($element,animate,timeout){
-    setTimeout(() => {
+    return setTimeout(() => {
         $element.removeClass('hidden').animate({
             bottom: '0rem',
             opacity: '1'
@@ -269,29 +269,33 @@ function uploadFormData(form_data) {
             if(data['invalidFormatFlag'] == true)
                 showAlert('#alert','<strong>Hi there!</strong> An image was not uploaded, it might have been renamed with jpg extension <br> pls upload an image with "JPG/JPEG" format.')
             
-            if ( data['images'].length != 0){
-                $('#preprocessedSpinner').removeClass('hidden')
-                slideDown($('#preprocessed'),500,200);
-                slideDown($('#classify'),500,1000);
-            }
             data['images'].forEach(files => {    
                 console.log('files: ',files)
                 filter(files,`${window.location.origin}/blobstorage/filter/${files}`)      
             });
             
             $('#preprocessedSpinner').addClass('hidden')
+            hideSpinner()
             if($('#preprocessed').has('.file-content').length == 0){
+                clearTimeout(preprocessedTimeout)
+                clearTimeout(classifyTimeout)
                 slideUp($('#classify'),200,1000);
                 slideUp($('#preprocessed'),500,1000);
+                    
+
             }
         },
         
     });
 }
+let preprocessedTimeout = null
+let classifyTimeout = null
 function clickFilter(e){
     
-    
-    
+    $('#preprocessedSpinner').removeClass('hidden')
+    preprocessedTimeout = slideDown($('#preprocessed'),500,200);
+    classifyTimeout = slideDown($('#classify'),500,1000);
+    showSpinner();
     let formData = new FormData();
     for (let i = 0; i < imageLoaded.length; i++){
         formData.append('files[]',imageLoaded[i]);

@@ -112,15 +112,20 @@ def filter_files(request):
 def handle_uploaded_file(request,f,coords,remove_blur):
     username = request.user.username
     # Append _copy to file if it exists
-    tempFileName = f'{date.today()}-{f.name}'
+    tempFileName = '.'.join(f.name.split('.')[:-1])
+    tempFileName = f'{date.today()}-{tempFileName}_0.jpg'
     tempFileName = '.'.join(tempFileName.split('.')[:-1] + ['jpg'])
     path = f'static/blobStorage/images/raw/{username}/'
+    fileCount = 1
     while(os.path.exists( os.path.join(path, tempFileName) )):
         file = tempFileName.split('.')
         extension = file[-1]
-        file = ''.join(file[:-1])
-        file = file+'_copy.'+extension
+        file = '.'.join(file[:-1])
+        file = '_'.join(file.split('_')[:-1])
+        file = f'{file}_{fileCount}.'+extension
         tempFileName = file
+        fileCount += 1
+        print(tempFileName)
 
     # Save per chunk, loop to save more memory
     filepath = os.path.join(path,tempFileName)
