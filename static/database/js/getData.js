@@ -126,8 +126,8 @@ function getApiData(limit,offset,requestnum='',scientificName='',localName='',in
                     <tr>
                         <th scope="col">ID</th>
                         <th scope="col">Filename</th>
-                        <th scope="col">Scientific Name</th>
-                        <th scope="col">Invasive Type</th>   
+                        <th style="white-space: nowrap;" scope="col">Scientific Name</th>
+                        <th style="white-space: nowrap;" scope="col">Invasive Type</th>   
                         <th scope="col">Latitude</th>
                         <th scope="col">Longtitude</th>
                         <th scope="col">#Link</th>   
@@ -141,30 +141,34 @@ function getApiData(limit,offset,requestnum='',scientificName='',localName='',in
                     body +=`
                     <tr data-bs-toggle="collapse" href="#collapse${element['id']}" role="button" aria-expanded="false" aria-controls="collapse${element['id']}">
                         <th scope="row">${element['id']}</th>
-                        <td class="tdCut"><div class="cut-text"> ${element['filename']} </div></td>
-                        <td>${element['scientificName']['scientificName']}</td>
+                        <td ><div class="cut-text"> ${element['filename']} </div></td>
+                        <td class="cut-text">${element['scientificName']['scientificName']}</td>
                         <td>${element['scientificName']['invasiveType']}</td>
                         <td>${element['latitude']}</td>
                         <td>${element['longtitude']}</td>
                         <td>
-                            <a href="/classifier/results/${element['requestnum']['id']}"> 
+                            <a  href="/classifier/results/${element['requestnum']['id']}"> 
                                 <span class="material-symbols-outlined bg-primary edit_data">
                                     edit
                                 </span> 
                             </a>
                         </td>
-                    </tr>    
+                    </tr>
+                    
+                    <tr>
+
+                    <td colspan="${Object.keys(element).length}" class="py-0">        
                     `
+                    
                     if(index == 0)
                         body +=`
-                        <tr  class="collapse show" id="collapse${element['id']}">
+                        <div  class="collapse show" id="collapse${element['id']}">
                         `    
                     else
                         body += `
-                        <tr class="collapse" id="collapse${element['id']}">   
+                        <div class="collapse" id="collapse${element['id']}">   
                         `  
-                    body += `
-                        <td colspan="${Object.keys(element).length}">        
+                        body += `
                             <div class="card mb-3" >
                                 <div class="row g-0">
                                     <div class="col-md-8 iasImageCol">
@@ -205,9 +209,10 @@ function getApiData(limit,offset,requestnum='',scientificName='',localName='',in
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                        </td> 
-                    </tr>
+                            </div> 
+                        </div>
+                    </td> 
+                </tr>    
                     `
                 });
                 let endBodyTag =`
