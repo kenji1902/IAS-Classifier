@@ -83,7 +83,11 @@ $(document).ready(function () {
         e.preventDefault();
         $(this).parent().addClass('hidden')
     });
-    
+    $('#alertClose').click(function (e) { 
+        e.preventDefault();
+        $('#alert').removeClass('show')
+        $('#alert').addClass('hide')
+    });
     
     $('#file').click(function(){ $('#fileElem').trigger('click'); });
     // $('#camera').click(function(){ $('#cameraElem').trigger('click'); });
