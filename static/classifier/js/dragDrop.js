@@ -177,7 +177,7 @@ function showAlert(id,text){
     $(id).removeClass('hide')
     $(id).addClass('show')
     $(`${id} .text`).html(text)
-    setTimeout(() => {
+    return setTimeout(() => {
         $(id).removeClass('show')
         $(id).addClass('hide')
 
@@ -250,6 +250,7 @@ function progress () {
     return xhr;
 }
 
+let invalidFormatAlert = null
 function uploadFormData(form_data) {
     $('#progress-percent').removeClass('hidden');
     $.ajax({
@@ -266,9 +267,10 @@ function uploadFormData(form_data) {
         cache: false,
         processData: false,
         success: function (data) {
-            if(data['invalidFormatFlag'] == true)
-                showAlert('#alert','<strong>Hi there!</strong> An image was not uploaded, it might have been renamed with jpg extension <br> pls upload an image with "JPG/JPEG" format.')
-            
+            if(data['invalidFormatFlag'] == true){
+                clearTimeout(invalidFormatAlert)
+                invalidFormatAlert = showAlert('#alert','<strong>Hi there!</strong> An image was not uploaded, it might have been renamed with jpg extension <br> pls upload an image with "JPG/JPEG" format.')
+            }
             data['images'].forEach(files => {    
                 console.log('files: ',files)
                 filter(files,`${window.location.origin}/blobstorage/filter/${files}`)      
