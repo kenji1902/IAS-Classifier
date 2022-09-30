@@ -44,7 +44,7 @@ function uploadFileCam(blob){
 }
 function previewFileCam(blob){
     let $rawImages = $("#raw");
-    let fileName = `shutter-${Date.now()}.jpeg`
+    let fileName = `shutter-${Date.now()}.cam`
 
     $rawImages.append(
         `
@@ -70,7 +70,8 @@ function previewFileCam(blob){
         }
     });
     // blob = dataURItoBlob(blob)
-    const newFile = new File([blob], fileName, { type: "image/jpeg" });
+    const newFile = new File([blob], fileName, {type:'image/jpeg'});
+    console.log(newFile)
     // EXIF.getData(newFile, function () {
     //     const make = EXIF.getAllTags(newFile);
     //     console.log("All data", make);
@@ -78,10 +79,8 @@ function previewFileCam(blob){
     // });
     
     imageLoaded.push(newFile);
-    console.log('image loaded')
     getAddress(function (cookie) {
         coords.push(JSON.stringify(cookie))
-        console.log('image GPS loaded')
 
         slideDown($('#raw'),500,200);
         slideDown($('#filter'),500,1000);
@@ -89,7 +88,6 @@ function previewFileCam(blob){
 
         hideSpinner()
         $('#dropAreaSpinner').addClass('hidden')
-        console.log(coords)
     });  
     rawImageID++;
     
@@ -97,8 +95,6 @@ function previewFileCam(blob){
 
 let videoConstraints = {
     facingMode : 'environment',
-    width: 256,
-    height: 256
 }
 function vidOn($video){
     // Get access to the camera!
@@ -137,7 +133,7 @@ function vidOn($video){
            
         }).catch(function(err){
             $('.camera-content').hide()
-            showAlert('#alert','<strong>Hi there!</strong> You should enable camera permission Permission <br> go to home and search "Allow Camera".')
+            showAlert('#alert','<strong>Hi there!</strong> You should enable Camera Permission <br> go to home and search "Allow Camera".')
 
         });
     }

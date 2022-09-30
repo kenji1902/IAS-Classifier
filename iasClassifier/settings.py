@@ -11,7 +11,10 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 """
 
 import os
-
+# GMAPS API KEY
+GMAP_API_KEY = 'AIzaSyAssl4bqOc1Dsc-_iP28JQ4_2ov1aakbtg'
+GMAP_LOCAL_API_KEY = 'AIzaSyB41DRUbKWJHPxaFjMAwdrzWzbVKartNGg'
+ENABLED_API_KEY = False
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 

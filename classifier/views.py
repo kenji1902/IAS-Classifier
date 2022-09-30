@@ -7,7 +7,8 @@ from unicodedata import name
 from django.shortcuts import render, redirect
 from django.views.decorators.csrf import ensure_csrf_cookie
 from django.core import serializers
-from django.http import HttpResponseBadRequest, JsonResponse
+from django.http import HttpResponseBadRequest, JsonResponse, HttpResponse
+from django.core.exceptions import PermissionDenied
 
 from classifier import morphologicalMask as morphMask
 from classifier import geotagging as gt
@@ -19,11 +20,15 @@ import numpy as np
 import base64
 import os
 from datetime import date
+from PIL import Image
+from io import BytesIO
+
 
 from .models import classifier as clsfr
 from .models import iasData
 from django.contrib.auth.models import User
 from .models import tempFileHandler, plantInformation
+
 # Create your views here.
 def classifier(request):
     if request.user.is_authenticated:
@@ -38,7 +43,7 @@ def results(request,pk):
         plants = plantInformation.objects.values_list('scientificName')
         if username == str(query[0].requestnum.username) or username=='admin':
             return render(request,'results.html',{'data':query,'plants':plants})
-        return HttpResponseBadRequest('Invalid request')    
+        raise PermissionDenied 
     except IndexError:
         return HttpResponseBadRequest('Invalid request')        
 
@@ -84,13 +89,22 @@ def filter_files(request):
             except ValueError:
                 pass
             uploadedFiles = []
+            invalidFormatFlag = False
             print('files',files)
             print('coords',coords)
             for f,c in zip(files,coords):
-                uploadedFiles.append( handle_uploaded_file(request,f,c,remove_blur) )
+                request_object_content = f.read()
+                file_jpgdata = BytesIO(request_object_content)
             
+                if Image.open(file_jpgdata).format == 'JPEG' or f.name.split('.')[-1] == 'cam':  
+                    uploadedFiles.append( handle_uploaded_file(request,f,c,remove_blur) )
+                else:
+                    invalidFormatFlag = True
             # files = os.listdir(f'static/blobStorage/images/temp/{username}/')
-            return JsonResponse({'images': uploadedFiles})
+            if not invalidFormatFlag:
+                return JsonResponse({'images': uploadedFiles})
+            else:
+                return JsonResponse({'images': uploadedFiles, 'invalidFormatFlag':invalidFormatFlag})    
         return JsonResponse({'status': 'Invalid request'}, status=400)
     else:
         return HttpResponseBadRequest('Invalid request')
@@ -98,17 +112,24 @@ def filter_files(request):
 def handle_uploaded_file(request,f,coords,remove_blur):
     username = request.user.username
     # Append _copy to file if it exists
-    tempFileName = f'{date.today()}-{f.name}'
+    tempFileName = '.'.join(f.name.split('.')[:-1])
+    tempFileName = f'{date.today()}-{tempFileName}_0.jpg'
+    tempFileName = '.'.join(tempFileName.split('.')[:-1] + ['jpg'])
     path = f'static/blobStorage/images/raw/{username}/'
+    fileCount = 1
     while(os.path.exists( os.path.join(path, tempFileName) )):
         file = tempFileName.split('.')
         extension = file[-1]
-        file = ''.join(file[:-1])
-        file = file+'_copy.'+extension
+        file = '.'.join(file[:-1])
+        file = '_'.join(file.split('_')[:-1])
+        file = f'{file}_{fileCount}.'+extension
         tempFileName = file
+        fileCount += 1
+        print(tempFileName)
 
     # Save per chunk, loop to save more memory
     filepath = os.path.join(path,tempFileName)
+    
     with open(filepath, 'wb+') as destination:
         for chunk in f.chunks():
             destination.write(chunk)
@@ -186,3 +207,5 @@ def classify_files(request):
     else:
         return HttpResponseBadRequest('Invalid request')        
 
+def handler403(request,exception=None):
+    return render(request,'403.html')

@@ -32,6 +32,10 @@
     font-size: 12pt;
     padding: 0.2rem;
     border-radius: 0.2rem;
+    user-select: none;
+}
+.edit_data:hover{
+    background-color: var(--green) !important;
 }
 .page{
     width: 90px;

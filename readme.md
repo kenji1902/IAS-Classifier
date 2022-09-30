@@ -22,12 +22,13 @@
 4. go to venv
 
    ```
+   Set -ExecutionPolicy Unrestricted (in admin powershell if it does not work)
    .venv/Scripts/activate.ps1
    ```
 5. Install the requirements
 
    ```
-   pip install requirements.txt 
+   pip install -r requirements.txt 
    ```
 6. Run the main Script
 

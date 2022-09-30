@@ -104,6 +104,9 @@ function classifyClick(e){
         },
         success: function (data) {
             window.location.assign(`/classifier/results/${data['id']}`)
+        },
+        error: function(data){
+            console.log(data)
         }
     });
     
@@ -157,12 +160,12 @@ function slideUp($element,animate,timeout){
         bottom: '4rem',
         opacity: '0'
     },animate);
-    setTimeout(() => {
+    return setTimeout(() => {
         $element.addClass('hidden');
     }, timeout);
 }
 function slideDown($element,animate,timeout){
-    setTimeout(() => {
+    return setTimeout(() => {
         $element.removeClass('hidden').animate({
             bottom: '0rem',
             opacity: '1'
@@ -263,33 +266,44 @@ function uploadFormData(form_data) {
         cache: false,
         processData: false,
         success: function (data) {
-            let fileCount = 0
+            if(data['invalidFormatFlag'] == true)
+                showAlert('#alert','<strong>Hi there!</strong> An image was not uploaded, it might have been renamed with jpg extension <br> pls upload an image with "JPG/JPEG" format.')
+            
             data['images'].forEach(files => {    
-                if(fileCount == data['images'].length - 1)
-                    $('#preprocessedSpinner').addClass('hidden')
+                console.log('files: ',files)
                 filter(files,`${window.location.origin}/blobstorage/filter/${files}`)      
-                fileCount++;        
             });
+            
+            $('#preprocessedSpinner').addClass('hidden')
+            hideSpinner()
+            if($('#preprocessed').has('.file-content').length == 0){
+                clearTimeout(preprocessedTimeout)
+                clearTimeout(classifyTimeout)
+                slideUp($('#classify'),200,1000);
+                slideUp($('#preprocessed'),500,1000);
+                    
+
+            }
         },
         
     });
 }
+let preprocessedTimeout = null
+let classifyTimeout = null
 function clickFilter(e){
     
-    
     $('#preprocessedSpinner').removeClass('hidden')
-    slideDown($('#preprocessed'),500,200);
-    slideDown($('#classify'),500,1000);
+    preprocessedTimeout = slideDown($('#preprocessed'),500,200);
+    classifyTimeout = slideDown($('#classify'),500,1000);
+    showSpinner();
     let formData = new FormData();
     for (let i = 0; i < imageLoaded.length; i++){
         formData.append('files[]',imageLoaded[i]);
         formData.append('coords[]',coords[i]);
     }
     const remove_blur =  $('#remove_blur_input').is(":checked")
-    console.log(remove_blur)
     formData.append('remove_blur',remove_blur) 
     uploadFormData(formData);
-    console.log(coords)
 
 }
 let preprocessedImages = []
