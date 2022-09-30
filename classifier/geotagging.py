@@ -6,29 +6,37 @@ import piexif
 
 img_path = 'static/blobStorage/images/raw/john_benedict/john_benedict-IMG_20220906_130218.jpg'
 def image_coordinates(image_path,fileName):
-    img = pilExif(image_path,'GPS')
-    if img:
-        try:
-            coords = dms_to_dd(img)
-            return {
-                'status': 'has GPS Exif',
-                'lat':coords[0],
-                'lng':coords[1]
-                }
-        except ZeroDivisionError:
+    try:
+        img = pilExif(image_path,'GPS')
+        if img:
+            try:
+                coords = dms_to_dd(img)
+                return {
+                    'status': 'has GPS Exif',
+                    'lat':coords[0],
+                    'lng':coords[1]
+                    }
+            except ZeroDivisionError:
+                obj = tempFileHandler.objects.filter(filename=fileName)
+                return {
+                    'status':'GPS exif not present',
+                    'lat':obj[0].latitude,
+                    'lng':obj[0].longtitude
+                    }
+        else:
             obj = tempFileHandler.objects.filter(filename=fileName)
             return {
-                'status':'GPS exif not present',
+                'status':'no Exif, using client\'s GPS',
                 'lat':obj[0].latitude,
                 'lng':obj[0].longtitude
                 }
-    else:
+    except:
         obj = tempFileHandler.objects.filter(filename=fileName)
         return {
             'status':'no Exif, using client\'s GPS',
             'lat':obj[0].latitude,
             'lng':obj[0].longtitude
-            }
+            }           
     
 
 def decimal_coords(coords, ref):
