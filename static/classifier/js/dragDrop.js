@@ -197,6 +197,7 @@ function hideSpinner(){
     $('#classify').click(classifyClick);
     $('#classify .spinnerCont').addClass('hidden')
 }
+let invalidUploadFileFlag = null
 function uploadFile(files){
     
     // let Files = files.originalEvent.dataTransfer.files;
@@ -209,7 +210,8 @@ function uploadFile(files){
         }
             
         if(!acceptableFileType.includes(files[i]['type'])){
-            showAlert('#alert','<strong>Hi there!</strong> You should only use images with "jpeg/jpg" format.')
+            clearTimeout(invalidUploadFileFlag);
+            invalidUploadFileFlag = showAlert('#alert','<strong>Hi there!</strong> You should only use images with "jpeg/jpg" format.')
             hideSpinner()
             $('#dropAreaSpinner').addClass('hidden')
             continue
@@ -250,7 +252,7 @@ function progress () {
     return xhr;
 }
 
-let invalidFormatAlert = null
+let renamedFormatFlag = null
 function uploadFormData(form_data) {
     $('#progress-percent').removeClass('hidden');
     $.ajax({
@@ -268,8 +270,8 @@ function uploadFormData(form_data) {
         processData: false,
         success: function (data) {
             if(data['invalidFormatFlag'] == true){
-                clearTimeout(invalidFormatAlert)
-                invalidFormatAlert = showAlert('#alert','<strong>Hi there!</strong> An image was not uploaded, it might have been renamed with jpg extension <br> pls upload an image with "JPG/JPEG" format.')
+                clearTimeout(renamedFormatFlag)
+                renamedFormatFlag = showAlert('#alert','<strong>Hi there!</strong> An image was not uploaded, it might have been renamed with jpg extension <br> pls upload an image with "JPG/JPEG" format.')
             }
             data['images'].forEach(files => {    
                 console.log('files: ',files)
