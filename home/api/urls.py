@@ -1,7 +1,7 @@
 from django.urls import path, include
-from rest_framework import routers
+from classifier.api.urls import router
 from .viewsets import instruction_ViewSet, instructionImages_ViewSet
-router = routers.DefaultRouter()
+router = router
 router.register(r'instruction', instruction_ViewSet)
 router.register(r'instructionimages', instructionImages_ViewSet)
 

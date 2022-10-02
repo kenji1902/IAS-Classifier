@@ -23,8 +23,9 @@ urlpatterns = [
     # Rest Api
     path('api-auth/', include('rest_framework.urls')),
     # API
-    path('api/',include('classifier.api.urls')),
     path('api/',include('home.api.urls')),
+    path('api/',include('classifier.api.urls')),
+    
 
     # Allauth
     path('accounts/', include('allauth.urls')),
@@ -35,4 +36,6 @@ urlpatterns = [
     path('information/', include('information.urls')),
     path('blobstorage/', include('blobStorage.urls')),
     path('database/', include('database.urls')),
+    path('analytics/', include('analytics.urls')),
+
 ]

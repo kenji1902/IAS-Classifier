@@ -63,9 +63,9 @@ function previewFileCam(blob){
         delete imageLoaded[$(this).attr('id')];
         delete coords[$(this).attr('id')];
         if(isEmpty($rawImages)){
-            slideUp($('#filter'),200,1000);
-            slideUp($('#raw'),500,1000);
-            slideUp($('#remove_blur'),150,1000);
+            slideUp($('#filter'),200);
+            slideUp($('#raw'),500);
+            slideUp($('#remove_blur'),150);
 
         }
     });
@@ -81,10 +81,11 @@ function previewFileCam(blob){
     imageLoaded.push(newFile);
     getAddress(function (cookie) {
         coords.push(JSON.stringify(cookie))
-
-        slideDown($('#raw'),500,200);
-        slideDown($('#filter'),500,1000);
-        slideDown($('#remove_blur'),1000,1500);
+        if($('#raw.hidden').length){
+            slideDown($('#raw'),500);
+            slideDown($('#filter'),500);
+            slideDown($('#remove_blur'),1000);
+        }
 
         hideSpinner()
         $('#dropAreaSpinner').addClass('hidden')

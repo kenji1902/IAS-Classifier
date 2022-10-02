@@ -16,7 +16,8 @@ def information(request):
     if request.META['HTTP_HOST'] == 'condescending-fog-39986.pktriot.net' and settings.ENABLED_API_KEY:
         HOST = settings.GMAP_API_KEY
     count = classifier.objects.all().count()
-    return render(request,'information.html',{
+    # information.html for google maps
+    return render(request,'informationLeafLet.html',{
         'scientific':scientific,
         'local':local,
         'totalRecords' : count,

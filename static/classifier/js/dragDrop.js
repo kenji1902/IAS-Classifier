@@ -83,7 +83,11 @@ $(document).ready(function () {
         e.preventDefault();
         $(this).parent().addClass('hidden')
     });
-    
+    $('#alertClose').click(function (e) { 
+        e.preventDefault();
+        $('#alert').removeClass('show')
+        $('#alert').addClass('hide')
+    });
     
     $('#file').click(function(){ $('#fileElem').trigger('click'); });
     // $('#camera').click(function(){ $('#cameraElem').trigger('click'); });
@@ -143,9 +147,9 @@ function previewFile(files){
             delete imageLoaded[$(this).attr('id')];
             delete coords[$(this).attr('id')];
             if(isEmpty($rawImages)){
-                slideUp($('#filter'),200,1000);
-                slideUp($('#raw'),500,1000);
-                slideUp($('#remove_blur'),150,1000);
+                slideUp($('#filter'),200);
+                slideUp($('#raw'),500);
+                slideUp($('#remove_blur'),150);
             }
         });
         imageLoaded.push(files);
@@ -155,22 +159,39 @@ function previewFile(files){
     }
 
 }
-function slideUp($element,animate,timeout){
+function slideUp($element,animate){
     $element.animate({
         bottom: '4rem',
-        opacity: '0'
+        opacity: '0',
+        height : '0',
+        margin :'0',
+        padding:'0'
     },animate);
     return setTimeout(() => {
         $element.addClass('hidden');
-    }, timeout);
+    }, animate + 200);
 }
-function slideDown($element,animate,timeout){
+function slideDown($element,animate){
     return setTimeout(() => {
+        $element.css({
+            margin :'',
+            padding:'',
+            height:''
+        })
+        let height = $element.height()
+        let margin = $element.css('margin')
+        $element.css({
+            margin :'0',
+            height:'0'
+        })
         $element.removeClass('hidden').animate({
             bottom: '0rem',
-            opacity: '1'
-        },animate);
-    }, timeout);
+            opacity: '1',
+            height:  height,
+            margin :margin,
+        },animate)
+        
+    }, animate + 200);
 }
 
 function showAlert(id,text){
@@ -222,9 +243,12 @@ function uploadFile(files){
             console.log('image GPS loaded')
 
             if(i == files.length - 1){
-                slideDown($('#raw'),500,200);
-                slideDown($('#filter'),500,1000);
-                slideDown($('#remove_blur'),1000,1500);
+
+                if($('#raw.hidden').length){
+                    slideDown($('#raw'),500);
+                    slideDown($('#filter'),500);
+                    slideDown($('#remove_blur'),1000);
+                }
                 hideSpinner()
                 $('#dropAreaSpinner').addClass('hidden')
             }
@@ -280,12 +304,23 @@ function uploadFormData(form_data) {
             
             $('#preprocessedSpinner').addClass('hidden')
             hideSpinner()
-            if($('#preprocessed').has('.file-content').length == 0){
+            if(data['invalidFormatFlag'] == true && $('#preprocessed.hidden').length){
                 clearTimeout(preprocessedTimeout)
                 clearTimeout(classifyTimeout)
-                slideUp($('#classify'),200,1000);
-                slideUp($('#preprocessed'),500,1000);
-                    
+                if($('#preprocessed.hidden').length == 0){
+                    slideUp($('#classify'),200);
+                    slideUp($('#preprocessed'),500);
+                    console.log('hidden2')
+
+                }
+                preprocessedTimeout = null
+                classifyTimeout = null
+                console.log('hidden')
+            }
+            if(preprocessedTimeout != null && $('#preprocessed').has('.file-content').length == 0){
+                slideUp($('#classify'),200);
+                slideUp($('#preprocessed'),500);
+                console.log('not hidden')
 
             }
         },
@@ -297,8 +332,10 @@ let classifyTimeout = null
 function clickFilter(e){
     
     $('#preprocessedSpinner').removeClass('hidden')
-    preprocessedTimeout = slideDown($('#preprocessed'),500,200);
-    classifyTimeout = slideDown($('#classify'),500,1000);
+    if($('#preprocessed.hidden').length){
+        preprocessedTimeout = slideDown($('#preprocessed'),500);
+        classifyTimeout = slideDown($('#classify'),500);
+    }
     showSpinner();
     let formData = new FormData();
     for (let i = 0; i < imageLoaded.length; i++){
@@ -307,7 +344,19 @@ function clickFilter(e){
     }
     const remove_blur =  $('#remove_blur_input').is(":checked")
     formData.append('remove_blur',remove_blur) 
+    for (var key in imageLoaded) {
+          delete imageLoaded[key];
+          $(`#${key}`).parent().remove();
+    }
+    for (var key in coords) {
+        delete coords[key];
+    }
     uploadFormData(formData);
+
+    slideUp($('#filter'),200);
+    slideUp($('#raw'),500);
+    slideUp($('#remove_blur'),150);
+
 
 }
 let preprocessedImages = []
@@ -366,8 +415,8 @@ function filter(file,response){
             preprocessedImages.splice(index, 1);
         }
         if($('#preprocessed').has('.file-content').length == 0){
-            slideUp($('#classify'),200,1000);
-            slideUp($('#preprocessed'),500,1000);
+            slideUp($('#classify'),200);
+            slideUp($('#preprocessed'),500);
         }
     });    
     preprocessedImages.push(altName + '.' +extension)

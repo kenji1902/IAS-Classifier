@@ -52,6 +52,7 @@ INSTALLED_APPS = [
     'blobStorage',
     'accounts',
     'database',
+    'analytics',
 
 
     # Rest API:
