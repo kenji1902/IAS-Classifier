@@ -89,7 +89,8 @@ $(document).ready(function () {
         $('#alert').addClass('hide')
     });
     
-    $('#file').click(function(){ $('#fileElem').trigger('click'); });
+    // $('#file').click(function(){ $('#fileElem').trigger('click'); });
+    // $('#file').on('touchstart', function(){ $('#fileElem').trigger('click'); });
     // $('#camera').click(function(){ $('#cameraElem').trigger('click'); });
     
 });
