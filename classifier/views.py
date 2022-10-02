@@ -22,7 +22,7 @@ import os
 from datetime import date
 from PIL import Image
 from io import BytesIO
-
+from geopy.geocoders import Nominatim
 
 from .models import classifier as clsfr
 from .models import iasData
@@ -144,10 +144,8 @@ def handle_uploaded_file(request,f,coords,remove_blur):
     filepath = os.path.join(path,tempFileName)
     processImg = None
     if remove_blur:
-        print('blurr')
         processImg = morphMask.cannyEdgeMasking(image)
     else:
-        print('mask')
         processImg,_,_ = morphMask.morphologicalMasking(image)
     
     cv2.imwrite( filepath,processImg)
@@ -173,7 +171,8 @@ def classify_files(request):
             rawPath = f'static/blobStorage/images/raw/{username}/'
     
             files = os.listdir(tempPath)
-            processImgNP = []    
+            processImgNP = []
+            geolocator = Nominatim(user_agent="http")    
             for file in files:
                 if file not in images:
                     os.remove(tempPath+file)
@@ -193,6 +192,7 @@ def classify_files(request):
                     scientificName = plantInformation.objects.get(scientificName=prediction),
                     latitude = coords['lat'],
                     longtitude = coords['lng'],
+                    reverseGeoLoc = json.dumps( geolocator.reverse(f"{coords['lat']}, {coords['lng']}").raw),
                     filename=file,
                     filepath=f'blobStorage/images/raw/{username}/'
                 )

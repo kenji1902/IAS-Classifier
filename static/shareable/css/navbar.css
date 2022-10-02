@@ -31,13 +31,14 @@
     font-size: 12pt;
     text-align: left;
     font-weight: bold;
-    padding: 1rem;
+    /* padding: 1rem; */
     margin: 1rem;
 }
 .navbar-items:hover .navbar-item-name{
     display: inline-block;
+    z-index: 3;
+    background-color: var(--green);
     
-    border-radius: 100%;
 }
 .navbar-items .navbar-icons{
     cursor: pointer;
@@ -46,7 +47,6 @@
     border: 6px solid var(--green);
 
 	animation: bounce-in-bottom 0.5s forwards;
-
 }
 
 
@@ -150,4 +150,9 @@
 }
 body{
     background-color: var(--off-white-solid) !important;
+}
+@media only screen and (max-width: 388px) {
+    .navbar-items .navbar-icons{
+        padding: 0.2rem;
+    }
 }

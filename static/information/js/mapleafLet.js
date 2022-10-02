@@ -1,0 +1,209 @@
+let totalRecord = 0;
+let pages = 0
+let limit = 5
+let offset = 0
+let currPage = 1
+let map = null;
+let infoWindow = null;
+let markers = []
+var markerIcon = null;
+$(document).ready(function () {
+  initMap()
+});
+
+
+function initMap(){
+
+    let $queryBtn = $('#queryBtn')
+    let $option = $('#option')
+    let $queryContent =  $('#queryContent')
+    let $exit = $('#exit')
+    
+    markerIcon = L.Icon.extend({
+      options: {
+          iconSize:     [9, 16],
+          iconAnchor:   [5, 16],
+          popupAnchor:  [-3, -16]
+      }
+    });
+
+    map = L.map('map').setView([12.61969527323028, 121.25304181469903],6);
+    L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 19,
+        attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+    }).addTo(map);
+
+  
+
+    $option.click(function (e) { 
+        e.preventDefault();
+        $queryContent.addClass('d-flex')
+    });
+    $exit.click(function (e) { 
+        e.preventDefault();
+        $queryContent.removeClass('d-flex')
+    });
+    $('#next').click(function (e) { 
+        e.preventDefault();
+        let form = $( '#query' ).serialize().split('&');
+        let data = {}
+        form.forEach(e => {
+            let element = e.split('=');
+            data[element[0]] = element[1] 
+        });
+
+        data['offset'] = parseInt(data['offset']) + 1
+        limit = data['limit'];
+        currPage = data['offset']
+        offset = ( parseInt(data['offset']) - 1) * limit ;
+        if(offset >= totalRecord)
+            return
+        
+        getApiData(limit,offset,
+            data['requestnum'],
+            data['scientificName'],
+            data['localName'],
+            data['type'],
+            data['username']
+        )
+    });
+    $('#prev').click(function (e) { 
+        e.preventDefault();
+        let form = $( '#query' ).serialize().split('&');
+        let data = {}
+        form.forEach(e => {
+            let element = e.split('=');
+            data[element[0]] = element[1] 
+        });
+
+        data['offset'] = parseInt(data['offset']) - 1
+        limit = data['limit'];
+        currPage = data['offset']
+        offset = ( parseInt(data['offset']) - 1) * limit ;
+        if(offset > totalRecord)
+            offset = 0
+        if(offset < 0)
+            return
+        getApiData(limit,offset,
+            data['requestnum'],
+            data['scientificName'],
+            data['localName'],
+            data['type'],
+            data['username']
+        )
+    });
+    $( "form" ).on( "submit", function( event ) {
+        event.preventDefault();
+        let form = $( this ).serialize().split('&');
+        let data = {}
+        form.forEach(e => {
+            let element = e.split('=');
+            data[element[0]] = element[1]
+            
+            
+        });
+        
+        limit = data['limit'];
+        currPage = data['offset']
+        offset = (parseInt(data['offset']) - 1) * limit ;
+        if(offset > totalRecord)
+            offset = 0
+        
+        getApiData(limit,offset,
+            data['requestnum'],
+            data['scientificName'],
+            data['localName'],
+            data['type'],
+            data['username']
+        )
+    });
+    getApiData(limit,offset)
+
+}
+function deleteMarkers(){
+  markers.forEach(element => {
+    map.removeLayer(element)
+  });
+  markers = []
+}
+function addMarkers(position,icon,label){
+
+    const marker = L.marker(position, {icon: icon});
+    marker.on('mouseover',function (e) {
+        // over
+        console.log(e.latlng)
+        this.openPopup();
+
+      });
+    marker.on('mouseout',function(e){
+        // Out
+        console.log('out')
+        this.closePopup();
+      })
+    marker.bindPopup(label)
+    marker.addTo(map)
+    markers.push(marker)
+}
+function getApiData(limit,offset,requestnum='',scientificName='',localName='',invasiveType='',username=''){
+  $.get(`/api/iasdata/?limit=${limit}&offset=${offset}&requestnum=${requestnum}&scientificName__scientificName=${scientificName}&scientificName__localName=${localName}&scientificName__invasiveType=${invasiveType}&requestnum__username__username=${username}`,
+  function (data, textStatus, jqXHR) {
+      
+      deleteMarkers()
+      let $page = $('#page').empty()
+      totalRecord = data['count']
+        if(totalRecord >= limit){
+            pages = Math.ceil( totalRecord/limit );
+            for (let i = 0; i < pages; i++) {
+                if(currPage == i+1){
+                    $page.append(`<option selected value="${i+1}">${i+1}</option>`)
+                    continue
+                }
+
+                $page.append(`<option value="${i+1}">${i+1}</option>`)
+                
+            }
+        }
+        else $page.append(`<option value="${1}">${1}</option>`)
+
+
+      $.get("/api/plantinformation/",
+        function (plants, textStatus, jqXHR) {
+          getData(data,plants)
+        },
+        "json"
+      );
+    },
+    "json"
+  );
+}
+
+function getData(data,plants) {
+
+
+    const iconUrl = '/blobstorage/icon/'
+    let icons = {};
+    plants.forEach(element => {
+      icons[element['scientificName']] = {icon : new markerIcon({iconUrl: `${iconUrl}${element['icon']}`}) }
+    });
+
+    let features = []
+    data['results'].forEach(element => {
+      features.push({
+        position: [element['latitude'], element['longtitude']],
+        type: element['scientificName']['scientificName'],
+        label : `${element['scientificName']['scientificName']} (${element['scientificName']['localName']})`,
+        id: element['id'],
+        
+        }
+      );
+    });
+
+    for (let i = 0; i < features.length; i++) {
+      addMarkers(features[i].position, icons[features[i].type].icon , features[i].label)
+
+    }
+    // Add a marker clusterer to manage the markers.
+    // new markerClusterer.MarkerClusterer({ map, markers });
+  }
+  
+  // window.initMap = initMap;

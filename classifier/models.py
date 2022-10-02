@@ -39,6 +39,7 @@ class iasData(models.Model):
         )
     latitude = models.FloatField(null=False)
     longtitude = models.FloatField(null=False)
+    reverseGeoLoc = models.TextField(null=False)
     filename = models.CharField(max_length=200)
     filepath = models.TextField()
 
