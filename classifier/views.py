@@ -172,7 +172,7 @@ def classify_files(request):
     
             files = os.listdir(tempPath)
             processImgNP = []
-            geolocator = Nominatim(user_agent="http")    
+            geolocator = Nominatim(user_agent="ias-classifier")    
             for file in files:
                 if file not in images:
                     os.remove(tempPath+file)
@@ -186,16 +186,19 @@ def classify_files(request):
             files = os.listdir(tempPath)
             for file, prediction in zip(files,predictions):
                 coords = gt.image_coordinates(rawPath+file,file)
-
+                plant = plantInformation.objects.get(scientificName=prediction)
+                neighbors = gt.seedlingDispersionAffectedAreas(coords,plant)
                 iasData.objects.create(
                     requestnum = clsfr.objects.get(id=requestnum.id),  
-                    scientificName = plantInformation.objects.get(scientificName=prediction),
+                    scientificName = plant,
                     latitude = coords['lat'],
                     longtitude = coords['lng'],
                     reverseGeoLoc = json.dumps( geolocator.reverse(f"{coords['lat']}, {coords['lng']}").raw),
+                    seedlingDispersionAffectedAreas = neighbors,
                     filename=file,
                     filepath=f'blobStorage/images/raw/{username}/'
                 )
+
                 print(file)
                 print(json.dumps(coords, indent=4))
 

@@ -13,7 +13,7 @@ $(document).ready(function () {
                 'scientificName':scientificName
             })
         });
-      
+        
         let formData = new FormData();
         formData.append("update", JSON.stringify(data));
         $.ajax({
@@ -33,4 +33,50 @@ $(document).ready(function () {
             }
         });
     });
+
+    // let form = $( 'form' ).serialize().split('&');
+    
+    // form.forEach(e => {
+    //     let element = e.split('=');
+    //     element = element[1]
+    //     const id = element.split('-')[0];
+    //     $.getJSON(`/api/iasdata/?id=${id}`,
+    //         function (data, textStatus, jqXHR) {
+    //             const latitude = data[0].latitude
+    //             const longtitude = data[0].longtitude
+    //             const radius = 2000
+    //             $.getJSON(`https://overpass.kumi.systems/api/interpreter?`+
+    //                     `data=[out:json];%20(`+
+    //                     `%20node(around:${radius},${latitude},%20${longtitude})[%22place%22=%22quarter%22];`+
+    //                     `%20node(around:${radius},${latitude},%20${longtitude})[%22place%22=%22town%22];`+
+    //                     `%20node(around:${radius},${latitude},%20${longtitude})[%22place%22=%22village%22];`+
+    //                     `%20node(around:${radius},${latitude},%20${longtitude})[%22place%22=%22city%22];%20);`+
+    //                     `%20out%20body;`,  
+    //                 function (neighbors, textStatus, jqXHR) {
+    //                     console.log(neighbors)
+    //                 }
+    //             );
+    //         }
+    //     );
+    // });
+    
+    
+
+    // $.get(`https://overpass.kumi.systems/api/interpreter?`+
+    //         `data=[out:json];%20(`+
+    //         `%20node(around:${radius},${features[i].position[0]},%20${features[i].position[1]})[%22place%22=%22quarter%22];`+
+    //         `%20node(around:${radius},${features[i].position[0]},%20${features[i].position[1]})[%22place%22=%22town%22];`+
+    //         `%20node(around:${radius},${features[i].position[0]},%20${features[i].position[1]})[%22place%22=%22village%22];`+
+    //         `%20node(around:${radius},${features[i].position[0]},%20${features[i].position[1]})[%22place%22=%22city%22];%20);`+
+    //         `%20out%20body;`, 
+    //     function (data, textStatus, jqXHR) {
+    //       // 
+    //       data.elements.forEach(element => {
+
+    //       });
+    
+    //     },
+    //     "json"
+    // )
+
 });

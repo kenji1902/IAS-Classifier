@@ -28,10 +28,10 @@ SECRET_KEY = '34h+-jp@+wnw%shv6z(x0q%e3*zz36!0%axkidq80xkk&g@fm3'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
-CSRF_COOKIE_SECURE = False
+CSRF_COOKIE_SECURE = True
 ALLOWED_HOSTS = ['*']
 CSRF_TRUSTED_ORIGINS = [
-    'https://condescending-fog-39986.pktriot.net',
+    'https://stupefied-bird-32560.pktriot.net',
     'http://localhost:8080',
     ]
 

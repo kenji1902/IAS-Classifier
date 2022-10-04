@@ -55,6 +55,8 @@
 }
 #option{
     display: none;
+    top: 7.2rem;
+    margin-left: 5%;
     align-self: start;
     z-index: 2;
 }

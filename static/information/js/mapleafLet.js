@@ -21,8 +21,8 @@ function initMap(){
     
     markerIcon = L.Icon.extend({
       options: {
-          iconSize:     [9, 16],
-          iconAnchor:   [5, 16],
+          iconSize:     [32, 32],
+          iconAnchor:   [16, 32],
           popupAnchor:  [-3, -16]
       }
     });
@@ -126,24 +126,90 @@ function deleteMarkers(){
   });
   markers = []
 }
-function addMarkers(position,icon,label){
 
+function inCoord(arr,arr2){
+  arr.forEach(i => {
+      arr2.forEach(j => {
+        console.log(i[0] , j[0] , i[1] , j[1])
+        if(i[0] == j[0] && i[1] == j[1]){
+          console.log(i[0] , j[0] , i[1] , j[1])
+          return true
+        }
+      });
+  });
+  return false
+}
+
+recorded_position = []
+function addMarkers(position,icon,label){
+    let circle = null
+    // console.log(inCoord(position,recorded_position))
+      if(!inCoord(position,recorded_position)){
+        circle = L.circle(position, {
+            color: 'red',
+            fillColor: '#ff1500',
+            fillOpacity: 0.03,
+            radius: 2000
+        });
+        
+      }
+      else
+        recorded_position.push(position)
+      
+    
     const marker = L.marker(position, {icon: icon});
-    marker.on('mouseover',function (e) {
+    
+    marker.bindPopup(
+      `
+      <div class="card" style="width: 18rem; position:relative; overflow:hidden">
+        <img src="${label.img}" class="card-img-top d-flex justify-content-center" alt="...">
+        <div class="card-body">
+          <h5 class="card-title" style="font-size:10pt">${label.plantName}</h5>
+          <h6 class="card-subtitle mb-2 text-muted">${position[0]}, ${position[1]}</h6>
+          <a href="${label.link}" class="btn btn-primary">Link</a>
+        </div>
+      </div>
+      `
+    )
+    marker.on('click',function (e) {
         // over
-        console.log(e.latlng)
+        // console.log(e.latlng)
         this.openPopup();
 
       });
-    marker.on('mouseout',function(e){
-        // Out
-        console.log('out')
-        this.closePopup();
-      })
-    marker.bindPopup(label)
     marker.addTo(map)
+    if(circle != null)
+      circle.addTo(map)
+    markers.push(circle)
     markers.push(marker)
 }
+
+function nearbyVillageMarkers(position,label){
+    const circle = L.circle(position, {
+        color: 'blue',
+        fillColor: '#F4D400',
+        fillOpacity: 0.1,
+        radius: 50
+    });
+    circle.bindPopup(`
+      <div class="card" style="width: 18rem;">
+        <div class="card-body">
+          <h5 class="card-title">${label.name}</h5>
+          <h6 class="card-subtitle mb-2 text-muted">${position[0]}, ${position[1]}</h6>
+          <p class="card-text">
+            place: ${label.place} <br>
+            population: ${label.population} <br>
+            population date:  ${label["population:date"]} <br>
+            source:  ${label['source:population']} <br>
+          </p>
+        </div>
+      </div>
+
+    `)
+    circle.addTo(map)
+    markers.push(circle)
+}
+
 function getApiData(limit,offset,requestnum='',scientificName='',localName='',invasiveType='',username=''){
   $.get(`/api/iasdata/?limit=${limit}&offset=${offset}&requestnum=${requestnum}&scientificName__scientificName=${scientificName}&scientificName__localName=${localName}&scientificName__invasiveType=${invasiveType}&requestnum__username__username=${username}`,
   function (data, textStatus, jqXHR) {
@@ -183,7 +249,12 @@ function getData(data,plants) {
     const iconUrl = '/blobstorage/icon/'
     let icons = {};
     plants.forEach(element => {
-      icons[element['scientificName']] = {icon : new markerIcon({iconUrl: `${iconUrl}${element['icon']}`}) }
+      icons[element['scientificName']] = 
+      {
+        icon : new markerIcon({
+          iconUrl: `${iconUrl}${element['icon']}`
+        }) 
+      }
     });
 
     let features = []
@@ -191,16 +262,31 @@ function getData(data,plants) {
       features.push({
         position: [element['latitude'], element['longtitude']],
         type: element['scientificName']['scientificName'],
-        label : `${element['scientificName']['scientificName']} (${element['scientificName']['localName']})`,
+        label : {
+          img : `/blobstorage/raw/${element.requestnum.username}/${element.filename}` ,
+          plantName: `${element['scientificName']['scientificName']} (${element['scientificName']['localName']})`,
+          link: `/classifier/results/${element.requestnum.id}`
+        },
         id: element['id'],
-        
+        neighbors: JSON.parse(element['seedlingDispersionAffectedAreas'])
         }
       );
     });
-
+  
+    const radius = 10000
     for (let i = 0; i < features.length; i++) {
+      // console.log(features[i].position)
       addMarkers(features[i].position, icons[features[i].type].icon , features[i].label)
-
+      
+      if(features[i].neighbors != null){
+        let neighbors = features[i].neighbors
+        for (const [key, value] of Object.entries(neighbors)) {
+          nearbyVillageMarkers([parseFloat(value.lat),parseFloat(value.lng)],value.tags)
+          // console.log(value.tags)
+        }
+      
+      }
+        
     }
     // Add a marker clusterer to manage the markers.
     // new markerClusterer.MarkerClusterer({ map, markers });

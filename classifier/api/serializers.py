@@ -52,6 +52,7 @@ class iasData_Serializer(serializers.HyperlinkedModelSerializer):
             'latitude',
             'longtitude',
             'reverseGeoLoc',
+            'seedlingDispersionAffectedAreas',
             'filename',
             'filepath',
             'scientificName',

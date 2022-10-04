@@ -1,3 +1,4 @@
+from email.policy import default
 from fileinput import filename
 from tkinter import CASCADE
 import uuid
@@ -24,6 +25,7 @@ class plantInformation(models.Model):
     date = models.DateField(auto_now=True)
     icon = models.TextField()
 
+
 class classifier(models.Model):
     username = models.ForeignKey(User, on_delete=models.CASCADE)
     date = models.DateField(auto_now_add=True)
@@ -40,8 +42,10 @@ class iasData(models.Model):
     latitude = models.FloatField(null=False)
     longtitude = models.FloatField(null=False)
     reverseGeoLoc = models.TextField(null=False)
+    seedlingDispersionAffectedAreas = models.TextField(null=True)
     filename = models.CharField(max_length=200)
     filepath = models.TextField()
+ 
 
 class tempFileHandler(models.Model):
     filename = models.CharField(max_length=200)

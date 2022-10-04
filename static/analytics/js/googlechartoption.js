@@ -18,11 +18,11 @@ let options = {
     backgroundColor: 'transparent',
     chartArea: {
         backgroundColor: "transparent",
-        width: '80%',
-        height: '80%'
+        width: '90%',
+        // height: '80%'
     },
-    height:200, // example height, to make the demo charts equal size
-    width:400,
+    height:'600px', // example height, to make the demo charts equal size
+    width:'400px',
     pieSliceBorderColor: '#263238',
     pieSliceTextStyle:  {color:'#607d8b' },
     pieHole: 0.9,

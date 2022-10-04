@@ -1,9 +1,27 @@
+.content{
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items:flex-start;
+}
+.chartWrapper .card-header{
+    position: sticky;
+    width: 100%;
+    top: 0;
+}
+.card{
+    margin: 1rem;
+    width: 600px;
+    height: 400px;
+}
 .chartWrapper{
     position: relative;
     background-color: white;
     border-radius: 0.2rem;
-    padding: 1rem;
-    margin: 1rem;
+    
+    overflow-y: hidden;
+    overflow-x: auto;
+
 }
 .shadow1{
     box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
@@ -11,7 +29,9 @@
 .chart{
     position: relative;
     width:100%; 
-    max-width:600px;
+    height: 100%;
+    /* max-width:600px; */
+  
 }
 #plantCount{
     height: 1rem !important;

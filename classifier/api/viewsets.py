@@ -16,6 +16,7 @@ class iasData_ViewSet(viewsets.ModelViewSet):
     serializer_class = iasData_Serializer
     filter_backends = [DjangoFilterBackend,filters.SearchFilter]
     filterset_fields = [
+        'id',
         'requestnum',
         'scientificName__scientificName',
         'scientificName__localName',
