@@ -127,36 +127,13 @@ function deleteMarkers(){
   markers = []
 }
 
-function inCoord(arr,arr2){
-  arr.forEach(i => {
-      arr2.forEach(j => {
-        console.log(i[0] , j[0] , i[1] , j[1])
-        if(i[0] == j[0] && i[1] == j[1]){
-          console.log(i[0] , j[0] , i[1] , j[1])
-          return true
-        }
-      });
-  });
-  return false
-}
 
-recorded_position = []
+
+
 function addMarkers(position,icon,label){
-    let circle = null
+   
     // console.log(inCoord(position,recorded_position))
-      if(!inCoord(position,recorded_position)){
-        circle = L.circle(position, {
-            color: 'red',
-            fillColor: '#ff1500',
-            fillOpacity: 0.03,
-            radius: 2000
-        });
-        
-      }
-      else
-        recorded_position.push(position)
-      
-    
+
     const marker = L.marker(position, {icon: icon});
     
     marker.bindPopup(
@@ -167,6 +144,7 @@ function addMarkers(position,icon,label){
           <h5 class="card-title" style="font-size:10pt">${label.plantName}</h5>
           <h6 class="card-subtitle mb-2 text-muted">${position[0]}, ${position[1]}</h6>
           <a href="${label.link}" class="btn btn-primary">Link</a>
+          <p class="mb-2 text-muted">limited to the owner</p>
         </div>
       </div>
       `
@@ -178,34 +156,32 @@ function addMarkers(position,icon,label){
 
       });
     marker.addTo(map)
-    if(circle != null)
-      circle.addTo(map)
-    markers.push(circle)
     markers.push(marker)
 }
 
-function nearbyVillageMarkers(position,label){
+function addCircle(position,label = null,color='blue',fillColor='#F4D400',radius=50){
     const circle = L.circle(position, {
-        color: 'blue',
-        fillColor: '#F4D400',
+        color: color,
+        fillColor: fillColor,
         fillOpacity: 0.1,
-        radius: 50
+        radius: radius
     });
-    circle.bindPopup(`
-      <div class="card" style="width: 18rem;">
-        <div class="card-body">
-          <h5 class="card-title">${label.name}</h5>
-          <h6 class="card-subtitle mb-2 text-muted">${position[0]}, ${position[1]}</h6>
-          <p class="card-text">
-            place: ${label.place} <br>
-            population: ${label.population} <br>
-            population date:  ${label["population:date"]} <br>
-            source:  ${label['source:population']} <br>
-          </p>
+    if(label != null)
+      circle.bindPopup(`
+        <div class="card" style="width: 18rem;">
+          <div class="card-body">
+            <h5 class="card-title">${label.name}</h5>
+            <h6 class="card-subtitle mb-2 text-muted">${position[0]}, ${position[1]}</h6>
+            <p class="card-text">
+              place: ${label.place} <br>
+              population: ${label.population} <br>
+              population date:  ${label["population:date"]} <br>
+              source:  ${label['source:population']} <br>
+            </p>
+          </div>
         </div>
-      </div>
 
-    `)
+      `)
     circle.addTo(map)
     markers.push(circle)
 }
@@ -243,6 +219,8 @@ function getApiData(limit,offset,requestnum='',scientificName='',localName='',in
   );
 }
 
+
+
 function getData(data,plants) {
 
 
@@ -253,7 +231,8 @@ function getData(data,plants) {
       {
         icon : new markerIcon({
           iconUrl: `${iconUrl}${element['icon']}`
-        }) 
+        }),
+        color : element['icon'].split('.')[0]       
       }
     });
 
@@ -272,16 +251,20 @@ function getData(data,plants) {
         }
       );
     });
-  
-    const radius = 10000
+    
+    let plantLoc = []
+    let neighborLoc = []
     for (let i = 0; i < features.length; i++) {
       // console.log(features[i].position)
       addMarkers(features[i].position, icons[features[i].type].icon , features[i].label)
-      
+      let marker = features[i].position
+      marker.push(icons[features[i].type].color)
+      plantLoc.push(marker)
+
       if(features[i].neighbors != null){
         let neighbors = features[i].neighbors
         for (const [key, value] of Object.entries(neighbors)) {
-          nearbyVillageMarkers([parseFloat(value.lat),parseFloat(value.lng)],value.tags)
+          neighborLoc.push([value.lat,value.lng,value.tags])
           // console.log(value.tags)
         }
       
@@ -290,6 +273,29 @@ function getData(data,plants) {
     }
     // Add a marker clusterer to manage the markers.
     // new markerClusterer.MarkerClusterer({ map, markers });
+    plantLoc = getUnique(plantLoc)
+    neighborLoc = getUnique(neighborLoc)
+
+    plantLoc.forEach(element => {
+      addCircle([
+        parseFloat(element[0]),parseFloat(element[1])],null,
+        `#${element[2]}`,`#${element[2]}`,2000)
+    });
+    neighborLoc.forEach(element => {
+      addCircle([parseFloat(element[0]),parseFloat(element[1])],element[2])
+    });
+
   }
   
+  function getUnique(arr_){
+    let temp = ''
+    return arr_.sort().filter(r => {
+      if (r.join("") != temp) {
+        temp = r.join("")
+        return true
+      }
+    })
+  }
+
+
   // window.initMap = initMap;

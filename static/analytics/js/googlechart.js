@@ -5,6 +5,7 @@ $(document).ready(function () {
       });
 
     plants = {};
+    ias = {}
     locationMapping = {};
     plant_List = []
     neighborMapping = {}
@@ -22,6 +23,12 @@ $(document).ready(function () {
             else
                 plants[scientificName] += 1;
             
+            // IAS Count
+            if(!ias[element.scientificName.invasiveType])
+                ias[element.scientificName.invasiveType] = 1
+            else
+                ias[element.scientificName.invasiveType] += 1;
+
             // Plant per Region
             if(!locationMapping[region])
                 locationMapping[region] = {}
@@ -44,6 +51,7 @@ $(document).ready(function () {
 
         });
         google.charts.setOnLoadCallback(plantCountChart);
+        google.charts.setOnLoadCallback(IASCountChart);
         google.charts.setOnLoadCallback(plantAreaCountChart);
         plantneighborChart()
         // google.charts.setOnLoadCallback(plantneighborChart(neighborMapping));
@@ -61,7 +69,7 @@ function plantneighborChart(){
             `
             <div class="card  shadow1">
                 <div class="card-header">
-                    ${key} Affected Neighbor
+                    ${key} Estimated Affected Neighbor Per Plant
                 </div>
                 <div class="card-body chartWrapper">
                     <div id="EstimatedAffectedNeighbor_${key.replace(/\s+/g, '')}" class="chart"></div>
@@ -147,7 +155,19 @@ function plantCountChart() {
     var chart = new google.visualization.PieChart($('#PlantCount')[0]);
     chart.draw(dataTable, options);
 }
+function IASCountChart() {
+    // Set Data
+    let dataTable = new google.visualization.DataTable();
+    dataTable.addColumn('string', 'Category')
+    dataTable.addColumn('number', 'Counts')
+    for (const [key, value] of Object.entries(ias)) {
+        dataTable.addRow([key, value])
+    }
 
+    // Draw
+    var chart = new google.visualization.PieChart($('#IASCount')[0]);
+    chart.draw(dataTable, options);
+}
 
 function Init(callback){
     $.get(`/api/iasdata/`,
