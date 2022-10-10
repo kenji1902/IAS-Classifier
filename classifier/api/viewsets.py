@@ -18,6 +18,7 @@ class iasData_ViewSet(viewsets.ModelViewSet):
     filterset_fields = [
         'id',
         'requestnum',
+        'requestnum__date',
         'scientificName__scientificName',
         'scientificName__localName',
         'scientificName__invasiveType',  

@@ -20,6 +20,7 @@ class plantInformation(models.Model):
     propagation = models.TextField()
     nativeRange = models.TextField()
     invasiveType = models.CharField(max_length=10,choices=invasiveType.choices)
+    seedlingDispersionRadius = models.IntegerField(default=1000)
     comments = models.TextField()
     control = models.TextField()
     date = models.DateField(auto_now=True)

@@ -41,8 +41,8 @@ def image_coordinates(image_path,fileName):
             }           
     
 def seedlingDispersionAffectedAreas(coords,plants):
-    api = overpy.Overpass(url='https://overpass.kumi.systems/api/interpreter',max_retry_count=50,retry_timeout=1)
-    radius = 2000
+    api = overpy.Overpass(url='https://overpass.kumi.systems/api/interpreter',max_retry_count=50)
+    radius = plants.seedlingDispersionRadius
     result = api.query(f'''[out:json];
                         (
                         node(around:{radius},{coords['lat']}, {coords['lng']})["place"="quarter"];

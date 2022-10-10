@@ -45,7 +45,7 @@ def results(request,pk):
             return render(request,'results.html',{'data':query,'plants':plants})
         raise PermissionDenied 
     except IndexError:
-        return HttpResponseBadRequest('Invalid request')        
+        raise PermissionDenied        
 
 @ensure_csrf_cookie
 def modifyResult(request):
@@ -187,6 +187,7 @@ def classify_files(request):
             for file, prediction in zip(files,predictions):
                 coords = gt.image_coordinates(rawPath+file,file)
                 plant = plantInformation.objects.get(scientificName=prediction)
+                print('Coords--: ',coords)
                 neighbors = gt.seedlingDispersionAffectedAreas(coords,plant)
                 iasData.objects.create(
                     requestnum = clsfr.objects.get(id=requestnum.id),  

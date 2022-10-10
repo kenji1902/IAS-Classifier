@@ -1,4 +1,4 @@
-fileName = "IASleavesv5"
+fileName = "IASleavesv8"
 Path = "static/classifier/classification_models"
 
 class_names = [
@@ -7,11 +7,12 @@ class_names = [
   'Chromolaena odorata',
   'Leucaena leucocephala',
   'Swietenia Macrophylla',
+  'Gmelina arborea',
   'Muntingia Calabura',
   'Plectranthus Amboinicus',
   'Pongamia Pinnata',
   'Psidium Guajava',
-  # 'Syzygium Jambos (Rose Apple)',
+  'Syzygium Jambos',
 ]
 
 CNNModel = f'{fileName}.h5'

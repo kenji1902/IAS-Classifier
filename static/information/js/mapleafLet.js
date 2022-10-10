@@ -143,8 +143,14 @@ function addMarkers(position,icon,label){
         <div class="card-body">
           <h5 class="card-title" style="font-size:10pt">${label.plantName}</h5>
           <h6 class="card-subtitle mb-2 text-muted">${position[0]}, ${position[1]}</h6>
-          <a href="${label.link}" class="btn btn-primary">Link</a>
-          <p class="mb-2 text-muted">limited to the owner</p>
+          <a href="${label.link}" class="btn btn-primary  text-light">Link</a>
+          <a href="${label.editlink}" class="btn btn-primary">
+            <span class="material-symbols-outlined edit_link">
+                edit
+            </span> 
+          </a>
+
+          <p class="mb-2 text-muted">Edit link limited to the owner</p>
         </div>
       </div>
       `
@@ -244,9 +250,11 @@ function getData(data,plants) {
         label : {
           img : `/blobstorage/raw/${element.requestnum.username}/${element.filename}` ,
           plantName: `${element['scientificName']['scientificName']} (${element['scientificName']['localName']})`,
-          link: `/classifier/results/${element.requestnum.id}`
+          link: `/database/${element.id}`,
+          editlink:`/classifier/results/${element.requestnum.id}`,
+          
         },
-        id: element['id'],
+        seedlingDispersionRadius: element['scientificName']['seedlingDispersionRadius'],
         neighbors: JSON.parse(element['seedlingDispersionAffectedAreas'])
         }
       );
@@ -259,6 +267,7 @@ function getData(data,plants) {
       addMarkers(features[i].position, icons[features[i].type].icon , features[i].label)
       let marker = features[i].position
       marker.push(icons[features[i].type].color)
+      marker.push(features[i].seedlingDispersionRadius)
       plantLoc.push(marker)
 
       if(features[i].neighbors != null){
@@ -279,7 +288,7 @@ function getData(data,plants) {
     plantLoc.forEach(element => {
       addCircle([
         parseFloat(element[0]),parseFloat(element[1])],null,
-        `#${element[2]}`,`#${element[2]}`,2000)
+        `#${element[2]}`,`#${element[2]}`,element[3])
     });
     neighborLoc.forEach(element => {
       addCircle([parseFloat(element[0]),parseFloat(element[1])],element[2])

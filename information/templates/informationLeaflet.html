@@ -1,8 +1,8 @@
 {% extends "shareable/html/base.html" %}
 {% load static %}
 {% block css %}
-<link rel="stylesheet" type="text/css" href="{%static 'information/css/map.css'%}" />
-<link rel="stylesheet" href="{% static 'database/css/databaseresult.css' %}">
+<link rel="stylesheet" type="text/css" href="{%static '/information/css/map.css'%}" />
+<link rel="stylesheet" type="text/css" href="{% static '/database/css/databaseresult.css' %}">
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.1/dist/leaflet.css"
 integrity="sha256-sA+zWATbFveLLNqWO2gtiw3HL/lh1giY/Inf1BJ0z14="
 crossorigin=""/>
@@ -11,7 +11,7 @@ crossorigin=""/>
 {% block js %}
 <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
 <script src="https://unpkg.com/@googlemaps/markerclusterer/dist/index.min.js"></script>
-<script src="{%static 'information/js/mapleafLet.js'%}"></script>
+<script src="{%static '/information/js/mapleafLet.js'%}"></script>
 <script src="https://unpkg.com/leaflet@1.9.1/dist/leaflet.js"
 integrity="sha256-NDI0K41gVbWqfkkaHj15IzU7PtMoelkzyKp8TOaFQ3s="
 crossorigin=""></script>
@@ -129,4 +129,5 @@ crossorigin=""></script>
     </div>
     {%endfor%}
 </div>
+<a href="https://www.flaticon.com/free-icons/location" title="location icons">Location icons created by IconMarketPK - Flaticon</a>
 {%endblock%}

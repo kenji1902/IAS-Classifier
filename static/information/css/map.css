@@ -26,8 +26,10 @@
 .legends{
     position: relative;
     display: flex;
+    justify-content: center;
     flex-wrap: wrap;
     /* justify-content: start; */
+    gap: 0.5rem 1rem;
     width: 90%;
     margin-top: .2rem;
     background-color: white;
@@ -39,9 +41,10 @@
     justify-content: center;
     align-items: center;
     padding: 0.2rem;
+    max-width: calc(100%/3 - 2rem);
     padding-left: 1rem;
     flex: 1;
-    flex-basis: 30%;
+    flex-basis: 33%;
     border-radius: 5rem;
     overflow: hidden;
     margin: 0.2rem;
@@ -60,22 +63,43 @@
     font-size: 9pt;
 }
 
-@media only screen and (max-width: 1752px) {
+.edit_link{
+    color:white;
+    font-size: 12pt;
+    padding: 0.2rem;
+    border-radius: 0.2rem;
+    user-select: none;
+}
+
+@media only screen and (max-width: 1791px) {
+    .queryContent{
+        width: calc(90% - 2rem) !important;
+    }
+}
+
+@media only screen and (max-width: 960px) {
+    .queryContent{
+        width: calc(90% - 2rem) !important;
+    }
+}
+@media only screen and (max-width: 1741px) {
     #map{
         margin-top: 7.5rem;
         height: calc(100vh - 13rem - 3rem - var(--navbar_height));
 
     }
-    
 }
-
+@media only screen and (max-width: 1023px) {
+    .legends .items{
+        flex-basis: 90%;
+        max-width: 100%;
+    }
+}
 @media only screen and (max-width: 866px) {
     #map{
         margin-top: 1.2rem;
         height: calc(100vh - 5rem - 3rem - var(--navbar_height));
 
     }
-    .legends .items{
-        flex-basis: 90%;
-    }
+    
 }

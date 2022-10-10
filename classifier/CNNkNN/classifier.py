@@ -45,6 +45,7 @@ def predict( x_identify, model_feat, knn):
     proba = knn.predict_proba(feat_test)
     for i,pred in enumerate(prediction):
         probability = max(proba[i])
+        print(probability)
         if probability > 0.5:
             # print("The prediction for this image is: ", c.class_names[pred]," probability: ",probability)
             predictionList.append(c.class_names[pred])

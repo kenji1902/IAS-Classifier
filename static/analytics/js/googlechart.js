@@ -50,6 +50,7 @@ $(document).ready(function () {
 
 
         });
+        console.log('beigbor',neighborMapping)
         google.charts.setOnLoadCallback(plantCountChart);
         google.charts.setOnLoadCallback(IASCountChart);
         google.charts.setOnLoadCallback(plantAreaCountChart);
@@ -78,7 +79,7 @@ function plantneighborChart(){
 
             `
         );
-        const chart = function(){
+        const chart = ()=>{
             let dataTable = new google.visualization.DataTable()
             console.log(key.replace(/\s+/g, ''));
             dataTable.addColumn('string', 'Neighbor')
@@ -91,10 +92,11 @@ function plantneighborChart(){
                 position: 'top', alignment: 'left', textStyle: {color:'#607d8b', fontName: 'Roboto', fontSize: '12'} 
             }
             // option.isStacked = true
-            if(Object.keys(value).length > 3){
+            option.width = "100%"
+            if(Object.keys(value).length > 9){
                 option.width = Object.keys(value).length * 60 
             }
-            var chart = new google.visualization.AreaChart($(`#EstimatedAffectedNeighbor_${key.replace(/\s+/g, '')}`)[0]);
+            let chart = new google.visualization.AreaChart($(`#EstimatedAffectedNeighbor_${key.replace(/\s+/g, '')}`)[0]);
             chart.draw(dataTable, option);
         }
         
@@ -133,9 +135,9 @@ function plantAreaCountChart(){
     option.legend= {
         position: 'top', alignment: 'left', textStyle: {color:'#607d8b', fontName: 'Roboto', fontSize: '12'} 
     }
-    console.log(plant_List.length)
+    console.log("Object Count: ",Object.keys(locationMapping).length)
     if(Object.keys(locationMapping).length > 2){
-        option.width = `${plant_List.length * 50}`
+        option.width = `${Object.keys(locationMapping).length * 200}`
     }
     option.bar= {groupWidth: "100px" }
     //  Draw

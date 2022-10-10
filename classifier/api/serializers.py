@@ -14,6 +14,7 @@ class plantInformation_Serializer(serializers.HyperlinkedModelSerializer):
             'propagation',
             'nativeRange',
             'invasiveType',
+            'seedlingDispersionRadius',
             'comments',
             'control',
             'date',
@@ -45,6 +46,7 @@ class iasData_Serializer(serializers.HyperlinkedModelSerializer):
         many=False,
         read_only=True
      )
+     
     class Meta:
         model = iasData
         fields = [
