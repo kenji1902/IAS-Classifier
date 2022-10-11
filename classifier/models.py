@@ -1,6 +1,7 @@
 from email.policy import default
 from fileinput import filename
 from tkinter import CASCADE
+from unittest.util import _MAX_LENGTH
 import uuid
 from django.db import models
 from django.contrib.auth.models import User
@@ -26,6 +27,13 @@ class plantInformation(models.Model):
     date = models.DateField(auto_now=True)
     icon = models.TextField()
 
+class plantInformationImages(models.Model):
+    plantInformation = models.ForeignKey(
+        plantInformation,
+        on_delete = models.CASCADE
+    )
+    order = models.IntegerField()
+    filename = models.CharField(max_length=200)
 
 class classifier(models.Model):
     username = models.ForeignKey(User, on_delete=models.CASCADE)

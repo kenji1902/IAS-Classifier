@@ -14,7 +14,7 @@ import os
 # GMAPS API KEY
 GMAP_API_KEY = 'AIzaSyAssl4bqOc1Dsc-_iP28JQ4_2ov1aakbtg'
 GMAP_LOCAL_API_KEY = 'AIzaSyB41DRUbKWJHPxaFjMAwdrzWzbVKartNGg'
-ENABLED_API_KEY = False
+ENABLED_API_KEY = True
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -26,13 +26,14 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = '34h+-jp@+wnw%shv6z(x0q%e3*zz36!0%axkidq80xkk&g@fm3'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 CSRF_COOKIE_SECURE = True
 ALLOWED_HOSTS = ['*']
 CSRF_TRUSTED_ORIGINS = [
     'https://stupefied-bird-32560.pktriot.net',
     'http://localhost:8080',
+    'https://lively-wildflower-71584.pktriot.net',
     ]
 
 # Application definition
