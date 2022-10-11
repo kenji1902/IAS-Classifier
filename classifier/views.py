@@ -24,10 +24,12 @@ from PIL import Image
 from io import BytesIO
 from geopy.geocoders import Nominatim
 
-from .models import classifier as clsfr
+from .models import classifier as clsfr, plantInformationImages
 from .models import iasData
 from django.contrib.auth.models import User
 from .models import tempFileHandler, plantInformation
+
+
 
 # Create your views here.
 def classifier(request):
@@ -41,8 +43,9 @@ def results(request,pk):
         query = iasData.objects.filter(requestnum = pk)
         # serialized_queryset = serializers.serialize('json', query,indent=4)
         plants = plantInformation.objects.values_list('scientificName')
+        images = plantInformationImages.objects.all()
         if username == str(query[0].requestnum.username) or username=='admin':
-            return render(request,'results.html',{'data':query,'plants':plants})
+            return render(request,'results.html',{'data':query,'plants':plants,'images':images})
         raise PermissionDenied 
     except IndexError:
         raise PermissionDenied        
@@ -59,6 +62,8 @@ def modifyResult(request):
                 for data in changeRequest:
                     query = iasData.objects.get(id = data['id'])
                     query.scientificName = plantInformation.objects.get(scientificName = data['scientificName'].replace('%20',' ')) 
+                    query.latitude = data['latitude']
+                    query.longtitude = data['longtitude']
                     query.save()
                 return JsonResponse({'status':'success'})
         return JsonResponse({'status': 'Invalid request'}, status=400)

@@ -97,6 +97,7 @@ $(document).ready(function () {
 
 function classifyClick(e){
     $('#classify .spinnerCont').removeClass('hidden')
+    $('#dropAreaSpinner').removeClass('hidden')
     $.ajax({
         xhr: progress,
         url: "/classifier/classify/",

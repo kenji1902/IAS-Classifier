@@ -16,6 +16,7 @@ class plantInformation(models.Model):
 
     scientificName = models.CharField(max_length=30, primary_key=True)
     localName = models.CharField(max_length=30)
+    family = models.CharField(max_length=30)
     description = models.TextField()
     habitat = models.TextField()
     propagation = models.TextField()
@@ -24,17 +25,20 @@ class plantInformation(models.Model):
     seedlingDispersionRadius = models.IntegerField(default=1000)
     comments = models.TextField()
     control = models.TextField()
+    link = models.TextField(null=True)
     date = models.DateField(auto_now=True)
     icon = models.TextField()
 
 class plantInformationImages(models.Model):
     plantInformation = models.ForeignKey(
         plantInformation,
-        on_delete = models.CASCADE
+        on_delete = models.CASCADE,
+        related_name='images'
     )
     order = models.IntegerField()
     filename = models.CharField(max_length=200)
-
+    class Meta:
+        ordering = ['order']
 class classifier(models.Model):
     username = models.ForeignKey(User, on_delete=models.CASCADE)
     date = models.DateField(auto_now_add=True)

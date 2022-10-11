@@ -26,7 +26,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = '34h+-jp@+wnw%shv6z(x0q%e3*zz36!0%axkidq80xkk&g@fm3'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 CSRF_COOKIE_SECURE = True
 ALLOWED_HOSTS = ['*']

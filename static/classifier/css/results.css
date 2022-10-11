@@ -35,7 +35,9 @@
     max-height: 256px;
 }
 .description{
+    position: relative;
     height: 100%;
+    width: 100%;
     padding-bottom: 2rem;
 }
 .date{
@@ -52,6 +54,31 @@
 .justify{
     text-align: justify;
     text-justify: inter-word;
+}
+.plantWrapper{
+    display: flex;
+    flex-direction: row !important;
+    position: relative;
+    /* flex-wrap: wrap; */
+    height: 70vh;
+    gap: 0 1rem;
+    overflow-x: auto;
+    overflow-y: hidden;
+    flex: 25%;
+    max-width: 100%;
+    padding: 0 4px;
+    margin-bottom: 1rem;
+}
+.plantImage{
+    position: relative;
+    flex-shrink: 0;
+    height: 100%;
+
+}
+.plantImage img{
+    object-fit: contain;
+    max-width: 100%;
+    height: 100%;
 }
 
 @media only screen and (max-width: 960px) {

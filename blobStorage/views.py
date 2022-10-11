@@ -17,6 +17,10 @@ def getBlobImageRaw(request,username,fileName):
     image_data = open(f'static/blobStorage/images/raw/{username}/{fileName}', "rb").read()
     return HttpResponse(image_data, content_type="image/jpeg")          
 
+def getPlantImage(request,plantName,fileName):
+    image_data = open(f'static/blobStorage/images/plants/{plantName}/{fileName}', "rb").read()
+    return HttpResponse(image_data, content_type="image/jpeg")          
+
 
 def getIcon(request,fileName):
     image_data = open(f'static/blobStorage/images/icons/{fileName}', "rb").read()

@@ -1,16 +1,33 @@
+function formToJSON(f) {
+    var fd = $(f).serializeArray();
+    var d = [];
+    let obj = {}
+    fd.forEach((e,i) => {
+        
+        obj[e.name] = e.value
+        if(i%3 == 2){
+            d.push(obj)
+            obj = {}
+        }
+    });
+        
+    return d;
+}
 $(document).ready(function () {
     $('form').on('submit',function (e) { 
         e.preventDefault();
-        let form = $( this ).serialize().split('&');
-        let data = []
-        form.forEach(e => {
-            let element = e.split('=');
-            element = element[1]
-            const id = element.split('-')[0];
-            const scientificName = element.split('-')[1] 
+        let serialize = formToJSON(this)
+        data = []
+        serialize.forEach(e => {
+            const id = e.scientificName.split('-')[0];
+            const scientificName = e.scientificName.split('-')[1]
+            const latitude = e.latitude
+            const longtitude = e.longtitude 
             data.push({
                 'id':id,
-                'scientificName':scientificName
+                'scientificName':scientificName,
+                'latitude':latitude,
+                'longtitude':longtitude
             })
         });
         
