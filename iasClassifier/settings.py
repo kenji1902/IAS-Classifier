@@ -33,7 +33,7 @@ ALLOWED_HOSTS = ['*']
 CSRF_TRUSTED_ORIGINS = [
     'https://stupefied-bird-32560.pktriot.net',
     'http://localhost:8080',
-    'https://lively-wildflower-71584.pktriot.net',
+    'https://stupefied-feather-04975.pktriot.net',
     ]
 
 # Application definition
