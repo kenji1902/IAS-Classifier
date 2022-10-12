@@ -35,7 +35,7 @@
                     {% with objects.scientificName.scientificName|split:" " as scientificName %}
                    
                     <option value="{{objects.id}}-{{objects.scientificName.scientificName}}" selected>  
-                        <p style="font-style: italic;"> {{ scientificName.0 }}</p> {{ scientificName.1 }}
+                        <p style="font-style: italic;"> {{ scientificName.0 }} {{ scientificName.1 }}</p>
                     </option>
                     {% endwith %}
                     {% for plant in plants %}
@@ -43,7 +43,7 @@
                     {% with plant.0|split:" " as scientificName %}
 
                     <option value="{{objects.id}}-{{plant.0}}">
-                        <p style="font-style: italic;"> {{ scientificName.0 }}</p> {{ scientificName.1 }}
+                        <p style="font-style: italic;"> {{ scientificName.0 }} {{ scientificName.1 }}</p>
                     </option>
                     
                     {% endwith %}
@@ -79,7 +79,7 @@
                             <div class="col-md">
                                 <div class="card-body description">
                                     {% with objects.scientificName.scientificName|split:" " as scientificName %}
-                                    <h5 class="card-title plantName"><p style="display: inline ;font-style: italic;"> {{ scientificName.0 }}</p> {{ scientificName.1 }} ({{objects.scientificName.localName}})</h5>
+                                    <h5 class="card-title plantName"><p style="display: inline ;font-style: italic;"> {{ scientificName.0 }} {{ scientificName.1 }}</p> ({{objects.scientificName.localName}})</h5>
                                     {% endwith %}
                                     <p class="card-text justify">
                                         <span class="identifier">Family: </span>

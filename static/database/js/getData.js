@@ -144,7 +144,7 @@ function getApiData(limit,offset,requestnum='',scientificName='',localName='',in
                         <th scope="row">${element['id']}</th>
                         <td ><div class="cut-text"> ${element['filename']} </div></td>
                         <td class="cut-text">
-                            <p style="display: inline ;font-style: italic;"> ${ scientificName[0] }</p> ${ scientificName[1] }
+                            <p style="display: inline ;font-style: italic;"> ${ scientificName[0] } ${ scientificName[1] }</p>
                         </td>
                         <td>${element['scientificName']['invasiveType']}</td>
                         <td>${element['latitude']}</td>
@@ -180,7 +180,7 @@ function getApiData(limit,offset,requestnum='',scientificName='',localName='',in
                                     <div class="col-md">             
                                         <div class="card-body description">
                                             <h5 class="card-title plantName">  
-                                            <p style="display: inline ;font-style: italic;"> ${ scientificName[0] }</p> ${ scientificName[1] } (${element['scientificName']['localName']})
+                                            <p style="display: inline ;font-style: italic;"> ${ scientificName[0] } ${ scientificName[1] }</p> (${element['scientificName']['localName']})
                                             </h5>
                                             <p class="card-text justify">
                                                 <span class="identifier">Family: </span>
