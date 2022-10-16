@@ -3,7 +3,9 @@ from .models import tempFileHandler
 from pprint import pprint
 from PIL import Image
 import piexif
-
+import overpy
+import json
+from decimal import *
 img_path = 'static/blobStorage/images/raw/john_benedict/john_benedict-IMG_20220906_130218.jpg'
 def image_coordinates(image_path,fileName):
     try:
@@ -33,12 +35,43 @@ def image_coordinates(image_path,fileName):
     except:
         obj = tempFileHandler.objects.filter(filename=fileName)
         return {
-            'status':'no Exif, using client\'s GPS',
+            'status':'no Exif, Recognized as Different Format',
             'lat':obj[0].latitude,
             'lng':obj[0].longtitude
             }           
     
+def seedlingDispersionAffectedAreas(coords,plants):
+    api = overpy.Overpass(url='https://overpass.kumi.systems/api/interpreter',max_retry_count=50)
+    radius = plants.seedlingDispersionRadius
+    result = api.query(f'''[out:json];
+                        (
+                        node(around:{radius},{coords['lat']}, {coords['lng']})["place"="quarter"];
+                        node(around:{radius},{coords['lat']}, {coords['lng']})["place"="town"];
+                        node(around:{radius},{coords['lat']}, {coords['lng']})["place"="village"];
+                        node(around:{radius},{coords['lat']}, {coords['lng']})["place"="city"];
+                        );
+                        out body;'''
+                    )
+    result_dict = []
+    for i in result.nodes:
+        result_dict.append({
+            'id' : i.id,
+            'lat' : i.lat,
+            'lng' : i.lon,
+            'tags' : i.tags
+        })
 
+    return  json.dumps(result_dict,cls=DecimalEncoder) 
+
+class DecimalEncoder(json.JSONEncoder):
+    def default(self, obj):
+        # 👇️ if passed in object is instance of Decimal
+        # convert it to a string
+        if isinstance(obj, Decimal):
+            return str(obj)
+        # 👇️ otherwise use the default behavior
+        return json.JSONEncoder.default(self, obj)
+        
 def decimal_coords(coords, ref):
     decimal_degrees = coords[0] + coords[1] / 60 + coords[2] / 3600
     if ref == 'S' or ref == 'W':

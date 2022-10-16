@@ -7,12 +7,12 @@ from sklearn.neighbors import KNeighborsClassifier
 import os.path
 import joblib
 if __name__ == '__main__':
-    fileName = "IASleavesv5"
+    fileName = "IASleavesv8"
     Path = "static/classifier/classification_models"
     CNNModel = f'{fileName}.h5'
     CNNModelPath = f'{Path}/CNN/{CNNModel}'
     kNNModel = f'{fileName}.pkl'
-    kNNModelPath = f'{Path}/kNN/{kNNModel}_{sklearn.__version__}'
+    kNNModelPath = f'{Path}/kNN/{kNNModel}'
     aug_x_trainArray = f'{fileName}.npy'
     aug_x_trainArrayPath = f'{Path}/aug_x_train/{aug_x_trainArray}'
     aug_y_trainArray = f'{fileName}.npy'
@@ -33,7 +33,7 @@ if __name__ == '__main__':
     feat_train = model_feat.predict(aug_x_train)
     print('leaded features')
 
-    knn = KNeighborsClassifier(n_neighbors=5)
+    knn = KNeighborsClassifier(n_neighbors=3)
 
     knn.fit(feat_train,aug_y_train)
     print("saved kNN")

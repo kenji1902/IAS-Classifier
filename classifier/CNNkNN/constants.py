@@ -1,17 +1,18 @@
-fileName = "IASleavesv5"
+fileName = "IASleavesv8"
 Path = "static/classifier/classification_models"
 
 class_names = [
-  'Basella Alba',
+  'Basella alba',
   'Broussonetia papyrifera',
   'Chromolaena odorata',
   'Leucaena leucocephala',
-  'Swietenia Macrophylla',
-  'Muntingia Calabura',
-  'Plectranthus Amboinicus',
-  'Pongamia Pinnata',
-  'Psidium Guajava',
-  # 'Syzygium Jambos (Rose Apple)',
+  'Swietenia macrophylla',
+  'Gmelina arborea',
+  'Muntingia calabura',
+  'Plectranthus amboinicus',
+  'Pongamia pinnata',
+  'Psidium guajava',
+  'Syzygium jambos',
 ]
 
 CNNModel = f'{fileName}.h5'

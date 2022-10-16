@@ -8,8 +8,7 @@
 <script src="{%static 'classifier/js/modifyResult.js'%}"></script>
 {%endblock%}
 {%block content%}
-
-
+{% load custom_filter %}
 <form class="table-responsive">
     <input id="submit" class="btn-primary btn" type="submit" name="Submit" value="Submit Changes">
     <table class="table table-borderless">
@@ -18,7 +17,7 @@
         <tr>
             <th scope="col">#</th>
             <th scope="col">filename</th>
-            <th scope="col">scientificName</th>
+            <th style="white-space: nowrap;" scope="col">scientific Name</th>
             <th style="white-space: nowrap;" scope="col">Invasive Type</th>   
             <th scope="col">latitude</th>
             <th scope="col">longtitude</th>
@@ -33,19 +32,36 @@
             </td>
             <td >
                 <select name="scientificName" >
-                    <option value="{{objects.id}}-{{objects.scientificName.scientificName}}" selected>{{objects.scientificName.scientificName}}</option>
-                    {%for plant in plants%}
+                    {% with objects.scientificName.scientificName|split:" " as scientificName %}
+                   
+                    <option value="{{objects.id}}-{{objects.scientificName.scientificName}}" selected>  
+                        <p style="font-style: italic;"> {{ scientificName.0 }} {{ scientificName.1 }}</p>
+                    </option>
+                    {% endwith %}
+                    {% for plant in plants %}
                     {% if plant.0 != objects.scientificName.scientificName%}
-                    <option value="{{objects.id}}-{{plant.0}}">{{plant.0}}</option>
-                    {%endif%}
-                    {%endfor%}
+                    {% with plant.0|split:" " as scientificName %}
+
+                    <option value="{{objects.id}}-{{plant.0}}">
+                        <p style="font-style: italic;"> {{ scientificName.0 }} {{ scientificName.1 }}</p>
+                    </option>
+                    
+                    {% endwith %}
+                    {% endif %}
+                    {% endfor %}
+
+                    
                     
                 </select>
                 <!-- {{objects.scientificName.scientificName}} -->
             </td>
             <td data-bs-toggle="collapse" href="#collapse{{forloop.counter}}" role="button" aria-expanded="false" aria-controls="collapse{{forloop.counter}}">{{objects.scientificName.invasiveType}}</td>
-            <td data-bs-toggle="collapse" href="#collapse{{forloop.counter}}" role="button" aria-expanded="false" aria-controls="collapse{{forloop.counter}}">{{objects.latitude}}</td>
-            <td data-bs-toggle="collapse" href="#collapse{{forloop.counter}}" role="button" aria-expanded="false" aria-controls="collapse{{forloop.counter}}">{{objects.longtitude}}</td>
+            <td>
+                <input type="text" id="latitude" name="latitude" value="{{objects.latitude}}">
+            </td>
+            <td>
+                <input type="text" id="longtitude" name="longtitude" value="{{objects.longtitude}}">
+            </td>
         </tr>
         <tr>
             <td colspan="6" class="py-0" >
@@ -62,8 +78,13 @@
                             </div>
                             <div class="col-md">
                                 <div class="card-body description">
-                                    <h5 class="card-title plantName">{{objects.scientificName.scientificName}} ({{objects.scientificName.localName}})</h5>
+                                    {% with objects.scientificName.scientificName|split:" " as scientificName %}
+                                    <h5 class="card-title plantName"><p style="display: inline ;font-style: italic;"> {{ scientificName.0 }} {{ scientificName.1 }}</p> ({{objects.scientificName.localName}})</h5>
+                                    {% endwith %}
                                     <p class="card-text justify">
+                                        <span class="identifier">Family: </span>
+                                        {{objects.scientificName.family|safe}} <br>
+
                                         <span class="identifier">Description: </span>
                                         {{objects.scientificName.description|safe}} <br>
 
@@ -81,7 +102,21 @@
 
                                         <span class="identifier">Control: </span>
                                         {{objects.scientificName.control|safe}} <br>
+
+                                        <span class="identifier">Link: </span>
+                                        {{objects.scientificName.link|safe}} <br>
+                                        
                                     </p>
+
+                                    <div class="plantWrapper">   
+                                        {% loadPlantImage objects.scientificName.scientificName as plantImage%}
+                                        {% for image in plantImage%}
+                                          <div class=" plantImage">
+                                            <img src="/blobstorage/getplant/{{image.plantInformation.scientificName}}/{{image.filename}}" class="card-img" alt="...">
+                                          </div>
+                                        {%endfor%}
+                                    </div>
+
                                     <p class="card-text date">
                                         <small class="text-muted">
                                             Uploaded: {{objects.requestnum.date}}
@@ -92,6 +127,9 @@
                                             Last Updated: {{objects.scientificName.date}}
                                         </small>
                                     </p>
+
+                                    
+
                                 </div>
                             </div>
                         </div>

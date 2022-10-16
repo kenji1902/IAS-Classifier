@@ -14,7 +14,7 @@ import os
 # GMAPS API KEY
 GMAP_API_KEY = 'AIzaSyAssl4bqOc1Dsc-_iP28JQ4_2ov1aakbtg'
 GMAP_LOCAL_API_KEY = 'AIzaSyB41DRUbKWJHPxaFjMAwdrzWzbVKartNGg'
-ENABLED_API_KEY = False
+ENABLED_API_KEY = True
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -28,11 +28,12 @@ SECRET_KEY = '34h+-jp@+wnw%shv6z(x0q%e3*zz36!0%axkidq80xkk&g@fm3'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
-CSRF_COOKIE_SECURE = False
+CSRF_COOKIE_SECURE = True
 ALLOWED_HOSTS = ['*']
 CSRF_TRUSTED_ORIGINS = [
-    'https://condescending-fog-39986.pktriot.net',
+    'https://stupefied-bird-32560.pktriot.net',
     'http://localhost:8080',
+    'https://stupefied-feather-04975.pktriot.net',
     ]
 
 # Application definition
@@ -79,6 +80,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
 ]
 
 AUTHENTICATION_BACKENDS = [
@@ -196,6 +198,9 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
 STATIC_URL = '/static/'
-STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, "static"),
-]
+if not DEBUG:
+    STATIC_ROOT = os.path.join(BASE_DIR, "static")
+else:
+    STATICFILES_DIRS = [
+        os.path.join(BASE_DIR, "static")
+    ]

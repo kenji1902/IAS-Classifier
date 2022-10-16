@@ -22,8 +22,8 @@
 4. go to venv
 
    ```
-   Set -ExecutionPolicy Unrestricted (in admin powershell if it does not work)
    .venv/Scripts/activate.ps1
+   Set-ExecutionPolicy Unrestricted (in admin powershell if '.venv/Scripts/activate.ps1' does not work)
    ```
 5. Install the requirements
 

@@ -137,12 +137,15 @@ function getApiData(limit,offset,requestnum='',scientificName='',localName='',in
                 `
                 
                 let body =``
-                data['results'].forEach((element,index) => { 
+                data['results'].forEach((element,index) => {
+                    let scientificName = element['scientificName']['scientificName'].split(' ') 
                     body +=`
                     <tr data-bs-toggle="collapse" href="#collapse${element['id']}" role="button" aria-expanded="false" aria-controls="collapse${element['id']}">
                         <th scope="row">${element['id']}</th>
                         <td ><div class="cut-text"> ${element['filename']} </div></td>
-                        <td class="cut-text">${element['scientificName']['scientificName']}</td>
+                        <td class="cut-text">
+                            <p style="display: inline ;font-style: italic;"> ${ scientificName[0] } ${ scientificName[1] }</p>
+                        </td>
                         <td>${element['scientificName']['invasiveType']}</td>
                         <td>${element['latitude']}</td>
                         <td>${element['longtitude']}</td>
@@ -176,8 +179,13 @@ function getApiData(limit,offset,requestnum='',scientificName='',localName='',in
                                     </div>
                                     <div class="col-md">             
                                         <div class="card-body description">
-                                            <h5 class="card-title plantName">${element['scientificName']['scientificName']} (${element['scientificName']['localName']})</h5>
+                                            <h5 class="card-title plantName">  
+                                            <p style="display: inline ;font-style: italic;"> ${ scientificName[0] } ${ scientificName[1] }</p> (${element['scientificName']['localName']})
+                                            </h5>
                                             <p class="card-text justify">
+                                                <span class="identifier">Family: </span>
+                                                ${element['scientificName']['family']} <br>
+
                                                 <span class="identifier">Description: </span>
                                                 ${element['scientificName']['description']} <br>
             
@@ -195,8 +203,31 @@ function getApiData(limit,offset,requestnum='',scientificName='',localName='',in
             
                                                 <span class="identifier">Control: </span>
                                                 ${element['scientificName']['control']} <br>
+
+                                                <span class="identifier">Link: </span>
+                                                ${element['scientificName']['link']} <br>
                                             </p>
-                                            <p class="card-text date">
+                                            <div class="plantWrapper">
+                                            `
+                                            element['scientificName']['images'].forEach(image => {
+                                                
+                                            
+                                                body+=
+                                                `
+                                                
+                                                    
+                                                    <div class=" plantImage">
+                                                        <img src="/blobstorage/getplant/${image.plantInformation}/${image.filename}" class="card-img" alt="...">
+                                                    </div>
+
+                                                
+
+                                                `
+                                            });
+
+                                            body+=                        
+                                            `</div>
+                                               <p class="card-text date">
                                                 <small class="text-muted">
                                                     Uploaded: ${element['requestnum']['date']}
                                                 </small>

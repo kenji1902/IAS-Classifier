@@ -1,0 +1,88 @@
+
+{% extends "shareable/html/base.html" %}
+{%load static%}
+{%block css%}
+<link rel="stylesheet" href="{% static 'classifier/css/results.css' %}">
+{%endblock%}
+{%block js%}
+<script src="{%static 'classifier/js/modifyResult.js'%}"></script>
+{%endblock%}
+{%block content%}
+
+
+<div class="table-responsive">
+    <table class="table table-borderless">
+        
+        <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">filename</th>
+            <th scope="col">scientificName</th>
+            <th style="white-space: nowrap;" scope="col">Invasive Type</th>   
+            <th scope="col">latitude</th>
+            <th scope="col">longtitude</th>
+        </tr>
+        </thead>
+        <tbody>
+        
+        <tr >
+            <th scope="row">{{data.id}}</th>
+            <td>
+                <div class="cut-text">{{data.filename}} </div>
+            </td>
+            <td class="cut-text">{{data.scientificName.scientificName}}</td>
+            <td>{{data.scientificName.invasiveType}}</td>
+            <td>{{data.latitude}}</td>
+            <td>{{data.longtitude}}</td>
+        </tr>
+        <tr>
+            <td colspan="6" class="py-0" >
+                    <div class="card mb-3" >
+                        <div class="row g-0">
+                            <div class="col-md-8 iasImageCol">
+                                <img src="/blobstorage/raw/{{data.requestnum.username}}/{{data.filename}}" class="img-fluid rounded-start iasImage " alt="...">
+                            </div>
+                            <div class="col-md">
+                                <div class="card-body description">
+                                    <h5 class="card-title plantName">{{data.scientificName.scientificName}} ({{data.scientificName.localName}})</h5>
+                                    <p class="card-text justify">
+                                        <span class="identifier">Description: </span>
+                                        {{data.scientificName.description|safe}} <br>
+
+                                        <span class="identifier">Habitat: </span>
+                                        {{data.scientificName.habitat|safe}} <br>
+
+                                        <span class="identifier">Propagation: </span>
+                                        {{data.scientificName.propagation|safe}} <br>
+
+                                        <span class="identifier">Native Range: </span>
+                                        {{data.scientificName.nativeRange|safe}} <br>
+
+                                        <span class="identifier">Comments: </span>
+                                        {{data.scientificName.comments|safe}} <br>
+
+                                        <span class="identifier">Control: </span>
+                                        {{data.scientificName.control|safe}} <br>
+                                    </p>
+                                    <p class="card-text date">
+                                        <small class="text-muted">
+                                            Uploaded: {{data.requestnum.date}}
+                                        </small>
+                                    </p>
+                                    <p class="card-text date">    
+                                        <small class="text-muted">
+                                            Last Updated: {{data.scientificName.date}}
+                                        </small>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>   
+            </td> 
+        </tr>
+        
+        </tbody>
+    </table>
+</form>
+
+{%endblock%}

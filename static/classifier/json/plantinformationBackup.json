@@ -7,10 +7,11 @@
         "propagation": "Seed and locally by underground rhizomes  (Staples & Herbst, 2005; p. 173).",
         "nativeRange": "\"Precise native range not known, but is presumed to be Africa or somewhere in Asia.  Today it is cultivated as a food plant throughout warm regions of the world\"  (Staples & Herbst, 2005; p. 173).",
         "invasiveType": "exotic",
+        "seedlingDispersionRadius": 1000,
         "comments": "The growth of B. alba is limited by low temperatures, altitudes higher than 500 m, and day/night temperature variations (PIER, 2017). Although it is cultivated worldwide up to 2600 m elevation and in tropical, subtropical, and temperate areas, the species will grow best in hot, dry humid climates and in areas below 500 m elevations (PROTA; 2017; ZipcodeZoo, 2017). The optimum mean annual temperatures for B. alba are 23 to 27°C, but it can tolerate a temperature range of 10 to 35°C. It does not tolerate frost and requires a minimum daytime temperature of 15°C. It does not do well if night temperature drops below 14°C, but it will tolerate night temperatures occasionally falling below 10°C. It prefers an annual precipitation range of 2000 to 2500 mm but will tolerate 700 to 4200 mm. The species prefers well-drained fertile sandy loam soils and full sun to light shade situations. It can grow in soils with a pH range of 5.5 – 7 but can tolerate 4.3 - 7.5. It tolerates poor soils and short periods of drought (Useful Tropical Plants, 2017). It is intolerant to salinity and standing water (PROTA, 2017).",
         "control": "<br>    \r\nCultural Control and Sanitary Measures\r\n    <br>\r\n    <br>\r\n    Basella alba is a fast-growing vine that can be harvested about once a week by removing leaves and young stems. This will encourage the production of more stems to harvest, and keep the plants from taking over large areas (Useful Tropical Plants, 2017).\r\n    <br>\r\n    <br>\r\n    Biological Control\r\n    <br>\r\n    <br>\r\n    Plectonycha correntina has been proposed as the biological control of Anredera cordifolia in Argentina (Cagnotti et al., 2007). Since the plant hosts of this insect are restricted to the Basellaceae family, its use as a biological control for B. alba should be studied.",
-        "date": "2022-09-18",
-        "icon": "yellow.png"
+        "date": "2022-10-06",
+        "icon": "fff100.png"
     },
     {
         "scientificName": "Broussonetia papyrifera",
@@ -20,10 +21,11 @@
         "propagation": "B. papyrifera is insect- and wind-pollinated, and can be grown from seed (sown and self-sown), stem cuttings, coppice and root suckers. Most plantations of this species in India and Pakistan are from self-sown seed, coppice or root suckers. It regenerates freely from seed in moist places where there is not already heavy plant cover, and seedlings can become a problem around mature trees. It can also be readily grown from cuttings, even in December (Parker, 1956). Intensive planting is avoided, however, because the wood is no longer commonly used on a commercial scale (Bokhari, 1973).\r\n    <br>\r\n    <br>\r\n    Seeds are light and small, with about 540,000 seeds per kilogram. The germination rate of seeds is 50% and the seedling survival rate is 25-30% (Luna, 1996). Seed germination starts three weeks after sowing and is completed within four months. Green immature fruits treated with ethylene at 0.1% concentration for 48 hours at 18°C become ripe and can then be sown in nursery beds. Seeds collected in June usually show a tendency to be dormant for about one month after sowing, indicating a period of after-ripening. Seed dispersed by birds has been observed to germinate readily.",
         "nativeRange": "B. papyrifera is native to East Asia and is extensively cultivated within its natural range for its bark. Native to China, Taiwan and Japan and possibly native to the Pacific islands of Hawaii and Samoa.",
         "invasiveType": "invasive",
+        "seedlingDispersionRadius": 1000,
         "comments": "B. papyrifera is a highly invasive species, becoming weedy and difficult to remove after its introduction. Its timber does not have high commercial value. Due to its excessive growth, it has become an agent of change in the whole ecosystem affecting native flora, human beings and causing economic losses.",
         "control": "Plans to manually eradicate B. papyrifera have met with limited success because of gregarious vegetative reproduction and its invasive nature through seeds. Newly sprouted shoots from tree stumps and suckers are cut and burnt, being replaced by higher quality native timber trees, however this is not an effective method. The most common techniques are manual control methods, by hand pulling, hand picking, cutting, etc., but are not enough for complete management of the tree. Biological control has not yet been used for control of B. papyrifera, it may be the most appropriate way through selection and introduction of a suitable biological control agent.\r\n    <br>\r\n    <br>\r\n    B. papyrifera has the capability of massive water consumption, a reason why they are more often seen around water, but also slowing the flow of water in channels and suppressing the growth of other plants. These channels not only provide water but also work as a dispersal source for the seeds. The huge canopy of the tree besides covering the outsized area provides shade over the closely growing trees and local shrubs, which creates competition for light, space and water.",
-        "date": "2022-09-18",
-        "icon": "teal.png"
+        "date": "2022-10-06",
+        "icon": "00b294.png"
     },
     {
         "scientificName": "Chromolaena odorata",
@@ -33,10 +35,11 @@
         "propagation": "Wind-dispersed seeds. Seeds also cling to hair, clothing and shoes. The tiny seeds can occur as a contaminant in imported seed or on vehicles and machinery. Vehicle traffic can spread the seed along roads. Can propagate vegetatively from stem and root fragments. (Waterhouse & Mitchell, 1998; pp. 23-24).",
         "nativeRange": "\"Native from Florida through the West Indies and from Texas through Central and South America to Argentina (Howard 1989, Liogier 1997). It has been accidentally or deliberately introduced and has naturalized throughout much of the tropics\"",
         "invasiveType": "invasive",
+        "seedlingDispersionRadius": 1000,
         "comments": "The aggressive nature and competitiveness of C. odorata in the Palaeotropics can be explained by the lack of host-specific natural enemies. In its native range in the Neotropics, it is attacked by a large number of arthropods (Crutwell, 1974; Gagne, 1977) and diseases (Elango et al., 1993; Barreto and Evans, 1994), reviewed by Crutwell McFadyen (1991). The most damaging and those that are promising potential biological control agents are given in the List of Natural Enemies, which includes successful introductions that have already been made. These natural enemies are either host-specific or only attack a narrow range of species related to C. odorata.",
         "control": "Physical: \"Manual slashing, use of bush-cutter or tractor-drawn implements are commonly used methods of control. Slashing causes rapid regeneration unless followed by other methods to suppress this weed for an extended period. Manual weeding is labour intensive. Use of tractor drawn equipment is limited to areas that are accessible.\" (Ecoport)\r\n    <br>\r\n    <br>\r\n    Chemical:  Chemical control using herbicides applied at the seedling stage or on early regrowth has given encouraging results. Triclopyr has proven to be the most effective. However, problems in herbicide use include (a) the high cost of the chemicals and their application, (b) ecological concerns and, (c) non-compatibility in many cropping and other environmental situations.\" (Ecoport)\r\n    <br>\r\n    <br>\r\n    \"Remove all seed and flower heads the, leaving the rest of the plants intact, spray with a herbicide, probably 2,4-D Amine plus Picloram (sold as Tordon in Australia). The 2,4-D will kill off the top growth and the picloram will move through the soil, killing the root system.\"  (Rod Randall, communication to Aliens list server, 30 October 2000).\r\n    <br>\r\n    <br>\r\n    Biological: \"Four insects have been released for biological control, the weevil Apion brunneonigrum, the fly Melanagromyza eupatoriella and two moths, Mescinia parvula and Pareuchaetes pseudoinsulata.  Of these, only the last has become established, fairly readily in Sri Lanka, Guam and other Micronesian islands, but with some difficulty in India and Sabah (Malaysia) and it has since spread unaided to the Philippines and Brunei.  It failed to become established in Thailand, Ghana, Nigeria and South Africa.  It has produced spectacular defoliation and death of many plants in Guam and striking but sporadic defoliation in Sri Lanka.  In India, populations have built up but damage has seldom been great.  Where established, it is heavily attacked by a range of predators and these are believed to have prevented successful establishment in several countries. \r\n    <br>\r\n    <br>\r\n    \"The eriophyid mite Acalitus adoratus causes abnormal growth of the epidermal hairs on young leaves and stems of C. odorata.  Although it was never purposely introduced, it was observed in Thailand in 1984 and the Philippines in 1987, but had probably been present for some years.  It is also widespread in Java and Sumatra, but there is no information from other Indonesian islands.  It is present in Yap and Palau in the Caroline Islands and was observed on Guam in November 1993 (R. Muniappan pers. comm.)\"  (Waterhouse, 1994; pp. 39, 41).  Waterhouse (1994, pp. 37-53) also lists natural enemies of the species, the biology of the more promising ones, and the status of biological control in individual countries.\r\n    <br>\r\n    <br>\r\n    The biological control agent Pareuchaetes pseudoinsulata has been introduced into Guam, where it effectively defoliates pure stands. It is less successful in scattered plants and patches. It has also been introduced into Rota, Tinian, Aguijan, Palau, Kosrae, Pohnpei and Yap, but its present status on these islands is unknown. It has been introduced to Saipan where it seems to have been effective in reducing the problem to an occasional nuisance.\r\n    <br>\r\n    <br>\r\n    \"Another natural enemy, Cecidochares connexa (Tephritidae) has been established in Palau and Guam\" (Muniappan and Nandwani, 2002; p. 15).",
-        "date": "2022-09-18",
-        "icon": "red.png"
+        "date": "2022-10-10",
+        "icon": "e81123.png"
     },
     {
         "scientificName": "Swietenia Macrophylla",
@@ -46,10 +49,11 @@
         "propagation": "\"Seed production is prolific and seeds are dispersed by wind.  The tree has some ability to sprout after cutting\"  (Weber, 2003; p. 423).",
         "nativeRange": "Southern Mexico to Peru and Brazil (Wiggins & Porter, 1971; pp. 699-700).",
         "invasiveType": "invasive",
+        "seedlingDispersionRadius": 1000,
         "comments": "Reported as possibly an invasive plant in the GalÃ¡pagos Islands per Charles Darwin Research Station.",
         "control": "<br>    \r\nPhysical:  Hand pull or dig out seedlings and young plants.\r\n    <br>\r\n    <br>\r\n    Chemical: Cut large plants and treat the stumps with herbicide (Weber, 2003; p. 423).",
-        "date": "2022-09-18",
-        "icon": "cyan.png"
+        "date": "2022-10-06",
+        "icon": "00bcf2.png"
     },
     {
         "scientificName": "Muntingia Calabura",
@@ -59,10 +63,11 @@
         "propagation": "Fruits contain hundreds of tiny seeds. \"The seeds are spread by birds and fruit bats, may build up to large seed banks under rainforest, and require filtered light for germination.  Seedlings are very delicate but grow rapidly, soon forming thickets the shade of which prevents further...germination.\" (Swarbrick, 1997; pp. 51-52).",
         "nativeRange": "Tropical Americas; also cultivated (GRIN).",
         "invasiveType": "exotic",
+        "seedlingDispersionRadius": 1000,
         "comments": "Reported to be moderately invasive on Nauru (Meyer, 2000; p. 99).",
         "control": "Chemical: Stem injection with 50% Roundup® in water. Possibly may be controlled by cut stump treatment with 50% Roundup® or by basal bark treatment with 10% Garlon® 600 in diesel oil. (Swarbrick, 1997; pp. 51-52).",
-        "date": "2022-09-18",
-        "icon": "orange.png"
+        "date": "2022-10-06",
+        "icon": "ff8c00.png"
     },
     {
         "scientificName": "Plectranthus Amboinicus",
@@ -72,10 +77,11 @@
         "propagation": "Seed, rooting of stems.",
         "nativeRange": "Not known but possibly southern tropical Africa, now widely cultivated (Smith, 1991; pp. 226-227).",
         "invasiveType": "exotic",
+        "seedlingDispersionRadius": 1000,
         "comments": "Invasive in the Virgin Islands where it forms dense carpets in shaded dry forest. (Fred Kraus, communication to Aliens listserver)",
         "control": "If you know of control methods for Plectranthus amboinicus, please let us know.",
-        "date": "2022-09-18",
-        "icon": "magenta.png"
+        "date": "2022-10-06",
+        "icon": "ec008c.png"
     },
     {
         "scientificName": "Pongamia Pinnata",
@@ -85,10 +91,11 @@
         "propagation": "(no propagation information known by PIER)",
         "nativeRange": "\"Widespread in coastal areas and tidal streams from India across Asia to western Polynesia, as well as inland in northern Australia and New Guinea. . . .\" (A Tropical Garden Flora, p. 333)\r\n    <br>\r\n    <br>\r\n    native to China, Japan (Kyushu, Ryukyu Islands), Taiwan, Bangladesh, India, Sri Lanka, Andaman and Nicobar, Myanmar, Thailand, Vietnam, Brunei, Christmas Island, Indonesia (Java, Kalimantan, Lesser Sunda Islands, Sumatra), Malaysia, Philippines, Singapore, Indonesia (Irian Jaya, Papua New Guinea), Australia (Northern Territory, Queensland), Guam, Micronesia, Northern Mariana Islands (Tinian), Palau, Fiji, Samoa (GRIN accessed 20171018)",
         "invasiveType": "exotic",
+        "seedlingDispersionRadius": 1000,
         "comments": "\"One species [of Millettia], Millettia pinnata, is native to Polynesia. It was formerly considered to be in the genus Pongamia, which consisted only of this one species.\" (Rainforest Trees of Samoa, p. 74)\r\n    <br>\r\n    <br>\r\n    cultivated in Hawaii (implied by inclusion in A Tropical Garden Flora, p. 333)\r\n    <br>\r\n    <br>\r\n    \"It is considered to be a useful timber tree in Fiji, where it is more common [PIER ed.: than in Samoa], but has no Samoan name or reported uses.\" (Rainforest Trees of Samoa, p. 76)",
         "control": "If you know of control methods for Millettia pinnata, please let us know.",
-        "date": "2022-09-18",
-        "icon": "lime.png"
+        "date": "2022-10-06",
+        "icon": "bad80a.png"
     },
     {
         "scientificName": "Psidium Guajava",
@@ -98,10 +105,11 @@
         "propagation": "The seeds are dispersed by frugivorous birds as well as rats and feral pigs.  \"The seeds are spread by birds and fruit bats and the plants regrow from stumps and buds along damaged roots.\"  (Swarbrick, 1997; p. 18)",
         "nativeRange": "Tropical America, introduced early to Guam by the Spanish, thence to the Philippines and throughout Asia (Stone, 1970; pp. 454-455).",
         "invasiveType": "exotic",
+        "seedlingDispersionRadius": 1000,
         "comments": "A major invasive species in the GalÃ¡pagos Islands.\r\n    <br>\r\n    <br>\r\n    A problem in Hawai'i, the Marquesas (French Polynesia), New Caledonia and Fiji.\r\n    <br>\r\n    <br>\r\n    Very invasive in Tonga, especially on 'Eua (Space & Flynn, 2001).\r\n    <br>\r\n    <br>\r\n    Common, and in the future may well become even more widespread in the Cook Islands (Space & Flynn, 2002)\r\n    <br>\r\n    <br>\r\n    The fruit is a host to fruit flies (Motooka et al., 2003).",
         "control": "Physical:  \" \"Cattle tend to ignore the leaves except when they are under intensive grazing management and grazing very succulent forage; then they develop a craving for roughage.  Goats and sheep graze the leaves and strip the bark. Goats have been used to control guava at Kapapala Ranch on Hawaiâ€˜i (An Peischel).\"  (Motooka et al., 2003).  \"Controlled by cultivation.  Tolerant to fire and unpalatable to stock.  Small plants suppressed, but not killed, by slashing\" (Swarbrick, 1997; pp. 28-29).\r\n    <br>\r\n    <br>\r\n    Chemical: \"Probably susceptible to: 1) foliar application of arboricides such as picloram, metsulfuorn-methyl, glyphosate, and triclopyr at standard rates and dilutions; 2) stem injections and cut stump application of the same herbicides; 3) soil applications of hexazinone, karbutilate, fluroxypyr and bromacil at standard rates\" (Swarbrick, 1997; pp. 28-29). \r\n    <br>\r\n    <br> \r\n    \"Guava is sensitive to foliar applications of triclopyr, dicamba and 2,4-D at 1 lb/acre and to cut surface applications of concentrates of these herbicides; very sensitive to basal bark treatments of triclopyr ester and 2,4-D ester at 2% and 4% of product, respectively, in diesel or crop oil; very sensitive to soil-applied tebuthiuron at 2 lb/acre. Very sensitive to very-low volume basal bark applications of 20% triclopyr ester product in oil. A small-leafed shrubby form of guava appears to be tolerant of foliar applied herbicides but sensitive to tebuthiuron.\" (Motooka et al., 2003).",
-        "date": "2022-09-18",
-        "icon": "green.png"
+        "date": "2022-10-06",
+        "icon": "009e49.png"
     },
     {
         "scientificName": "Syzygium Jambos",
@@ -111,10 +119,11 @@
         "propagation": "The fruit is dispersed by humans and perhaps feral pigs.",
         "nativeRange": "Southeast Asia.",
         "invasiveType": "exotic",
+        "seedlingDispersionRadius": 1000,
         "comments": "A major invasive species in French Polynesia and other locations in the Pacific, the GalÃ¡pagos Islands and the islands of Mauritius and La RÃ©union in the Indian Ocean.\r\n    <br>\r\n    <br>\r\n    \"Not widespread in Tahiti where it forms very dense but localized stands. However, the rose-apple has become highly invasive in the island of Nuku Hiva in the Marquesas in cloud forests up to 1000 m elevation. the rose-apple produces large fruits with are only dispersed by gravity (short-distance) in Tahiti in places where trees have been planted (usually at low elevation) and as the species needs a high humidity to grow it is only found near rivers. In Nuku Hiva, the fruits are eaten and actively dispersed by a giant endemic pigeon (Ducula galeata) over long-distances and up in the montane rainforests where the habitat seems more favorable\" (Jean-Yves Meyer, pers. com).",
         "control": "Chemical: \"Sensitive to picloram applied cut-surface and to glyphosate applied to drilled holes.  Good control with triclopyr applied basal bark and cut-surface\"  (Motooka et al., 2003).",
-        "date": "2022-09-18",
-        "icon": "blue.png"
+        "date": "2022-10-06",
+        "icon": "00188f.png"
     },
     {
         "scientificName": "Leucaena leucocephala",
@@ -124,9 +133,24 @@
         "propagation": "\"Coastal heath- and scrubland.  This palnt is evergreen unless moisture is limited seasonally.  The shrub forms extensive and dense thickets displacing the original vegetation and reducing species richness.  The tree is deep-rooted and the taproot may grow rapidly, e.g. more than 2 m in 1-year-old plants.  It is a nitrogen-fixing species that increases soil fertility levels\"  (Weber, 2003; p. 234).  \"This thornless tree forms dense thickets, excluding all plants. It is grown for fodder, but unless severely grazed or controlled, it spreads rampantly throughout adjacent areas\" (C.W. Smith, 1985; p. 193).  Generally favors limestone soils (although seems to do well on volcanic soils on Tahiti) and disturbed areas and is found in dry to mesic habitats up to 700 m.  It was deliberately broadcast on several war-disturbed islands after World War II. It also grows in severely disturbed wet areas but not as a dominant species. \r\n    <br>\r\n    <br>\r\n    In Fiji, \"abundantly naturalized from near sea level to about 800 m along roadsides, in cultivated areas and in pastures, on dry river banks or open gravel banks in forest, often forming dense thickets\"  (A.C. Smith, 1985; pp. 63-65).  In Hawai‘i, \"naturalized and very common, sometimes forming the dominant element of the vegetation, in low elevation, dry, disturbed habitats, 0-350m\" (Wagner et al., 1999; pp. 679-680).",
         "nativeRange": "Belize, Guatemala and Mexico; cultivated and naturalized (GRIN). Through introductions now virtually pan-tropical. Widely planted and seeded in the Pacific region.",
         "invasiveType": "invasive",
+        "seedlingDispersionRadius": 1000,
         "comments": "Leucaena has been widely planted and seeded throughout the Pacific and is among the most prevalent invasive species. A serious problem in Tonga.\r\n    <br>\r\n    <br>\r\n    Planting of this species is prohibited in Miami-Dade County, Florida (U.S.) (Hunsberger, 2001).\r\n    <br>\r\n    <br>\r\n    Eradication project planned for the island of Santa Cruz, Galápagos Islands (Chris Buddenhagen, pers. com.).",
         "control": "<br>\r\nPhysical:  \"Good forage in dry pastures but its toxicity is somewhat of a problem and it grows out of reach of livestock and shades out the understory.  Goats will control koa haole (An Peischel)\" (Motooka et al., 2003).  \"Difficult to control mechanically because the roots break when pulled\"  (Englberger, 2009; p. 26).\r\n    <br>\r\n    <br>\r\n    \"La lutte mécanique est possible sur de grandes surfaces planes (gyrobroyage)\" (Meyer, 2008; p. 24).\r\n    <br>\r\n    <br>\r\n    Chemical: \"Sensitive to foliar-applied triclopyr. Susceptible to soil applied tebuthiuron at 2 lb/acre and to cut-surface applications of picloram. Dicamba ineffective in cut-surface applications. Triclopyr ester applied basal bark and stump bark effective, 2,4-D in diesel and sometimes diesel alone effective in basal bark treatments\" (Motooka et al., 2003).\r\n    <br>\r\n    <br> \r\n    \"Triclopyr (Garlon 4) can be used as foliar application on young plants.  For older plants undiluted Garlon 4 can be applied to the cut stem\"  (Englberger, 2009; p. 26).\r\n    <br>\r\n    <br>\r\n    \"La lutte manuelle (arrachage des plantules) associée à un traitement chimique (triclopyr ou dicamba) sur souches d’arbres coupés ou par injection dans les troncs est réalisable sur de petites surfaces\" (Meyer, 2008; p. 24).\r\n    <br>\r\n    <br>\r\n    Biological: An insect, the leucaena psyllid (Heterophylla cubana), damages but does not eliminate the plant. For a list of pests of leucaena, see the Ecoport web site.\r\n    <br>\r\n    <br>\r\n    \"Heteropsylla cubana, the leucaena psyllid was discovered in Hawaii in 1984. This psyllid was causing extensive defoliation of Leucaena leucocephala. Ranchers who relied on leucaena as fodder in marginal lands were concerned, and the Hawaii Department of Agriculture initiated a search for natural enemies of the psyllid in Trinidad and Tobago. Conservationists who considered leucaena a pest initially objected to efforts to control the psyllid, but as leucaena stands opened up, broomsedge (Andropogon virginicus) invaded the understory. Broomsedge provided fuel for more intense and extensive wildfires which threatened remaining pockets of native vegetation in lowland mesic areas. Eventually, opposition to control of the leucaena psyllid weakened, and Psyllaephagus yaseeni, a nymphal parasite of the psyllid, was released in Hawaii in 1987 and 1988\"  (Smith et al., 2002).",
-        "date": "2022-09-18",
-        "icon": "purple.png"
+        "date": "2022-10-06",
+        "icon": "68217a.png"
+    },
+    {
+        "scientificName": "Gmelina arborea",
+        "localName": "Gmelina",
+        "description": "Large, rapidly growing tree, the branchlets yellowish-tomentose; leaves petiolate, the petioles 5-15 cm. long, puberulent to glabrous, the leaf blades broadly ovate, 10-25 x 7.5-18 cm., cordate or truncate at base, long-acuminate at apex, entire at margin (but sometimes toothed or lobed on young plants), tomentose or at length glabrous above, densely and persistently tomentellous beneath with stellate hairs, glanduliferous just above petiole, the lateral nerves 5-10 per side; inflorescences fulvous-tomentose throughout, the bracts linear to linear-lanceolate; calyx broadly campanulate, about 5 mm. long, 5-toothed; corolla showy, yellow to reddish or brownish, 25-40 mm. long, the tube densely pubescent without; stamens 4, exserted, one pair sometimes sterile; drupes ovoid to obovoid-pyriform, 20-25 mm. long, orange-yellow when mature, aromatic, the endocarp usually 2-celled and 2-seeded (or by abortion 1-seeded), or sometimes 3-celled and 3 seeded\"  (Smith, 1991; pp. 203-205).",
+        "habitat": "\"Estimated to range from Tropical Very Dry to Wet through Subtropical Very Dry to Wet Forest Life Zones, gmelina is reported or estimated to tolerate annual precipitation of 7 to 45 dm, annual temperature of 20 to 26\"C, and pH of 6 to 8. It can tolerate a 6–7-month dry season. Grows on many soils, acidic laterites to calcareous loams, doing poorly on thin or poor soils with hardpan, dry sands, or heavily leached acidic soils, well-drained basic alluviums.\"",
+        "propagation": "Seed",
+        "nativeRange": "Tropical moist forests from India, Burma, and Sri Lanka to southern China. Widely introduced as a forestry tree or for ornament and shade.",
+        "invasiveType": "invasive",
+        "seedlingDispersionRadius": 1000,
+        "comments": "Due to its rapid growth rate, G. arborea is a tree which has been widely used in reforestation programs in tropical and subtropical regions of the world and as a source of commercial timber and cellulose.",
+        "control": "<br>\r\nPhysical: Fungal Infestation. Armillaria mellea, Ceratocystis fimbriata, Gnomonia spp., and Poria rhizomorpha [Antrodia rhizomorpha] are some of the fungi that cause serious damage and can also cause root diseases that can disable the tree.",
+        "date": "2022-10-09",
+        "icon": "0f02f5.png"
     }
 ]

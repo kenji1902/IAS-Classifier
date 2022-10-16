@@ -27,6 +27,9 @@
     position: relative;
     gap: 10px;
 }
+.input-small{
+    width: 7rem;
+}
 .edit_data{
     color:white;
     font-size: 12pt;
@@ -55,6 +58,8 @@
 }
 #option{
     display: none;
+    top: 7.2rem;
+    margin-left: 5%;
     align-self: start;
     z-index: 2;
 }
@@ -63,19 +68,26 @@
     width: 58px;
     height: 58px;
 }
-@media only screen and (max-width: 1752px) {
+
+@media only screen and (max-width: 1791px) {
+    .queryContent{
+        width: calc(100% - 2rem);
+    }
+    .table-responsive{
+        width: 100%;
+    }
+}
+@media only screen and (max-width: 1479px) {
     .table-responsive{
         margin-top: 10rem;
     }
 }
 @media only screen and (max-width: 960px) {
     .queryContent{
-        width: calc(100% - 2rem - 20px);
+        width: calc(100% - 2rem);
         background-color: white;
     }
-    .table-responsive{
-        width: 100%;
-    }
+
 }
 @media only screen and (max-width: 866px) {
     .formQuery,

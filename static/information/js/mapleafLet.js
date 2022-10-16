@@ -21,8 +21,8 @@ function initMap(){
     
     markerIcon = L.Icon.extend({
       options: {
-          iconSize:     [9, 16],
-          iconAnchor:   [5, 16],
+          iconSize:     [32, 32],
+          iconAnchor:   [16, 32],
           popupAnchor:  [-3, -16]
       }
     });
@@ -126,24 +126,72 @@ function deleteMarkers(){
   });
   markers = []
 }
+
+
+
+
 function addMarkers(position,icon,label){
+   
+    // console.log(inCoord(position,recorded_position))
 
     const marker = L.marker(position, {icon: icon});
-    marker.on('mouseover',function (e) {
+    
+    marker.bindPopup(
+      `
+      <div class="card" style="width: 18rem; position:relative; overflow:hidden">
+        <img src="${label.img}" class="card-img-top d-flex justify-content-center" alt="...">
+        <div class="card-body">
+          <h5 class="card-title" style="font-size:10pt">${label.plantName}</h5>
+          <h6 class="card-subtitle mb-2 text-muted">${position[0]}, ${position[1]}</h6>
+          <a href="${label.link}" class="btn btn-primary  text-light">Link</a>
+          <a href="${label.editlink}" class="btn btn-primary">
+            <span class="material-symbols-outlined edit_link">
+                edit
+            </span> 
+          </a>
+
+          <p class="mb-2 text-muted">Edit link limited to the owner</p>
+        </div>
+      </div>
+      `
+    )
+    marker.on('click',function (e) {
         // over
-        console.log(e.latlng)
+        // console.log(e.latlng)
         this.openPopup();
 
       });
-    marker.on('mouseout',function(e){
-        // Out
-        console.log('out')
-        this.closePopup();
-      })
-    marker.bindPopup(label)
     marker.addTo(map)
     markers.push(marker)
 }
+
+function addCircle(position,label = null,color='blue',fillColor='#F4D400',radius=50){
+    const circle = L.circle(position, {
+        color: color,
+        fillColor: fillColor,
+        fillOpacity: 0.1,
+        radius: radius
+    });
+    if(label != null)
+      circle.bindPopup(`
+        <div class="card" style="width: 18rem;">
+          <div class="card-body">
+            <h5 class="card-title">${label.name}</h5>
+            <h6 class="card-subtitle mb-2 text-muted">${position[0]}, ${position[1]}</h6>
+            <p class="card-text">
+              place: ${label.place} <br>
+              population: ${label.population} <br>
+              population date:  ${label["population:date"]} <br>
+              source:  ${label['source:population']} <br>
+            </p>
+          </div>
+        </div>
+
+      `)
+    circle.addTo(map)
+    markers.push(circle)
+}
+
 function getApiData(limit,offset,requestnum='',scientificName='',localName='',invasiveType='',username=''){
   $.get(`/api/iasdata/?limit=${limit}&offset=${offset}&requestnum=${requestnum}&scientificName__scientificName=${scientificName}&scientificName__localName=${localName}&scientificName__invasiveType=${invasiveType}&requestnum__username__username=${username}`,
   function (data, textStatus, jqXHR) {
@@ -177,13 +225,21 @@ function getApiData(limit,offset,requestnum='',scientificName='',localName='',in
   );
 }
 
+
+
 function getData(data,plants) {
 
 
     const iconUrl = '/blobstorage/icon/'
     let icons = {};
     plants.forEach(element => {
-      icons[element['scientificName']] = {icon : new markerIcon({iconUrl: `${iconUrl}${element['icon']}`}) }
+      icons[element['scientificName']] = 
+      {
+        icon : new markerIcon({
+          iconUrl: `${iconUrl}${element['icon']}`
+        }),
+        color : element['icon'].split('.')[0]       
+      }
     });
 
     let features = []
@@ -191,19 +247,64 @@ function getData(data,plants) {
       features.push({
         position: [element['latitude'], element['longtitude']],
         type: element['scientificName']['scientificName'],
-        label : `${element['scientificName']['scientificName']} (${element['scientificName']['localName']})`,
-        id: element['id'],
-        
+        label : {
+          img : `/blobstorage/raw/${element.requestnum.username}/${element.filename}` ,
+          plantName: `${element['scientificName']['scientificName']} (${element['scientificName']['localName']})`,
+          link: `/database/${element.id}`,
+          editlink:`/classifier/results/${element.requestnum.id}`,
+          
+        },
+        seedlingDispersionRadius: element['scientificName']['seedlingDispersionRadius'],
+        neighbors: JSON.parse(element['seedlingDispersionAffectedAreas'])
         }
       );
     });
-
+    
+    let plantLoc = []
+    let neighborLoc = []
     for (let i = 0; i < features.length; i++) {
+      // console.log(features[i].position)
       addMarkers(features[i].position, icons[features[i].type].icon , features[i].label)
+      let marker = features[i].position
+      marker.push(icons[features[i].type].color)
+      marker.push(features[i].seedlingDispersionRadius)
+      plantLoc.push(marker)
 
+      if(features[i].neighbors != null){
+        let neighbors = features[i].neighbors
+        for (const [key, value] of Object.entries(neighbors)) {
+          neighborLoc.push([value.lat,value.lng,value.tags])
+          // console.log(value.tags)
+        }
+      
+      }
+        
     }
     // Add a marker clusterer to manage the markers.
     // new markerClusterer.MarkerClusterer({ map, markers });
+    plantLoc = getUnique(plantLoc)
+    neighborLoc = getUnique(neighborLoc)
+
+    plantLoc.forEach(element => {
+      addCircle([
+        parseFloat(element[0]),parseFloat(element[1])],null,
+        `#${element[2]}`,`#${element[2]}`,element[3])
+    });
+    neighborLoc.forEach(element => {
+      addCircle([parseFloat(element[0]),parseFloat(element[1])],element[2])
+    });
+
   }
   
+  function getUnique(arr_){
+    let temp = ''
+    return arr_.sort().filter(r => {
+      if (r.join("") != temp) {
+        temp = r.join("")
+        return true
+      }
+    })
+  }
+
+
   // window.initMap = initMap;
