@@ -69,7 +69,19 @@ def modifyResult(request):
         return JsonResponse({'status': 'Invalid request'}, status=400)
     except IndexError:
         return HttpResponseBadRequest('Invalid request')        
-
+@ensure_csrf_cookie
+def votecount(request):
+    try:
+        is_ajax = request.headers.get('X-Requested-With') == 'XMLHttpRequest'
+        if is_ajax:
+            if request.method == 'POST':
+                voteType = request.POST.get('type')
+                id = request.POST.get('id')
+                print(voteType,id)
+                return JsonResponse({'result':voteType})
+        return JsonResponse({'status': 'Invalid request'}, status=400)
+    except IndexError:
+        return HttpResponseBadRequest('Invalid request')     
 
 @ensure_csrf_cookie
 def filter_files(request):

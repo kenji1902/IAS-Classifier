@@ -174,6 +174,24 @@ function getApiData(limit,offset,requestnum='',scientificName='',localName='',in
                         body += `
                             <div class="card mb-3" >
                                 <div class="row g-0">
+
+                                    <div class="col-1 vote">
+                                        <span id="up-${element['id']}" class="material-symbols-outlined up vote-icon">
+                                            arrow_drop_up
+                                            <div class="popup"> 
+                                                Up vote if the <br>result is <b> Accurate </b>
+                                            </div>
+                                        </span>
+                                        <span class="text"> 
+                                            1232323
+                                        </span>
+                                        <span id="down-${element['id']}" class="material-symbols-outlined down vote-icon">
+                                            arrow_drop_down
+                                            <div class="popup"> 
+                                                Down vote if the <br> result is <b> Inaccurate </b>
+                                            </div>
+                                        </span>
+                                    </div>
                                     <div class="col-md-8 iasImageCol">
                                         <img src="${window.location.origin}/blobstorage/raw/${element['requestnum']['username']}/${element['filename']}" class="img-fluid rounded-start iasImage " alt="...">        
                                     </div>
@@ -251,6 +269,7 @@ function getApiData(limit,offset,requestnum='',scientificName='',localName='',in
                 `
                 return head+ body + endBodyTag;
             });
+            voteListener();
         },
         "json"
     ).fail(function(){
@@ -268,4 +287,6 @@ function getApiData(limit,offset,requestnum='',scientificName='',localName='',in
         
         `)
     });
+
+    
 }

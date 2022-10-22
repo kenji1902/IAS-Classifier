@@ -30,6 +30,77 @@
     width: 15rem; 
     white-space: nowrap;
   }
+  .popup{
+    display: none;
+    position: absolute;
+    font-size: 10pt;
+    font-weight: normal;
+    padding: 1rem;
+    background-color: white;
+    border-radius: 0.2rem;
+    color: var(--light-gray);
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;    
+    margin-left: 1rem;
+    z-index: 2;
+}
+.popup:before {
+    content: '';
+	position: absolute;
+	left: 0;
+	top: 50%;
+	width: 20px;
+	height: 0;
+    background-color: white;
+	border: 10px solid transparent;
+	border-right-color: white;
+	border-left: 0;
+	top: 10px;
+	left: -10px;
+    transform:             rotate( 45deg );
+        -moz-transform:    rotate( 45deg );
+        -ms-transform:     rotate( 45deg );
+        -o-transform:      rotate( 45deg );
+        -webkit-transform: rotate( 45deg );
+    /* text-shadow: 22px 22px  rgba(99, 99, 99, 0.2); */
+    box-shadow: -2px 2px 2px 0 rgba( 178, 178, 178, .4 );
+}
+.vote{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 1rem;
+    width: 4rem !important;
+    position: relative;
+}
+.vote .text{
+    position: relative;
+    text-overflow: ellipsis;
+    overflow: hidden; 
+    width: 80%;
+    text-align: center;
+    white-space: nowrap;
+    background-color: white !important;
+    color: var(--light-gray);
+}
+
+.vote-icon{
+    user-select: none;
+    cursor: pointer;
+    font-size: 30pt;
+    font-weight: 900;
+    color: var(--light-gray);
+    position: relative;
+}
+.up:hover{
+    color: var(--green);
+}
+.down:hover{
+    color:rgb(255, 72, 0);
+}
+
+.up:hover .popup,.down:hover .popup{
+    display: inline-block;
+}
 .iasImage{
     max-width: 256px;
     max-height: 256px;
