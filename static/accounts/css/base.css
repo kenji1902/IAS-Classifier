@@ -52,6 +52,12 @@
     height: 1px;
     background-color: var(--gray);
 }
+.alert{
+    top: 0;
+    position:absolute !important;
+    z-index: 4;
+   margin-top: 1rem;
+}
 
 @media only screen and (max-width: 600px) {
     .block_Content{

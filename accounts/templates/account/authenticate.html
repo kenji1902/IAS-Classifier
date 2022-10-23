@@ -1,0 +1,43 @@
+{% extends "account/base.html" %}
+
+
+
+{% load i18n %}
+
+{% block head_title %}{% trans "Authenticate" %}{% endblock %}
+{% load static%}
+{% block extra_head %}
+<link rel="stylesheet" href="{%static 'accounts/css/login.css'%}">
+<script src="{% static 'accounts/js/authenticate.js' %}"></script>
+{% endblock %}
+{%block app-layout-content%}
+<div id="alert" class="alert alert-success alert-dismissible fade hide" role="alert">
+  <div class="text">
+        
+  </div>
+  <button id="alertClose" type="button" class="btn-close" ></button>
+</div>
+{%endblock%}
+{% block content %}
+
+<h1>{% trans "Authenticate" %}</h1>
+
+<form id="authenticate" class="table-responsive">
+  
+
+  <select name="eduAttainment" class=" customInput form-select" aria-label="educational Attainment" required>
+    <option selected value="">Educational Attainment</option>
+    <option value="bachelor">bachelor</option>
+    <option value="masteral">masteral</option>
+    <option value="doctorate">doctorate</option>
+  </select>
+  <p class="mb-0">Educational Attainment proof</p>
+  
+  <div class="customInput">
+    <input id="file" class="form-control" type="file" id="formFile" name="file" required>
+  </div>
+
+  <button id="submit" class="primaryAction button_" type="submit" name="Submit" >{% trans "Authenticate" %}</button>
+</form>
+
+{% endblock %}

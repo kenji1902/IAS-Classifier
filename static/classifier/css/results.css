@@ -91,10 +91,10 @@
     color: var(--light-gray);
     position: relative;
 }
-.up:hover{
+.up:hover, .up.activate{
     color: var(--green);
 }
-.down:hover{
+.down:hover, .down.activate{
     color:rgb(255, 72, 0);
 }
 
@@ -152,6 +152,12 @@
     height: 100%;
 }
 
+.alert{
+    top: 0;
+    position:absolute !important;
+    z-index: 4;
+   margin-top: 1rem;
+}
 @media only screen and (max-width: 960px) {
     .table-responsive{
         width: 100%;

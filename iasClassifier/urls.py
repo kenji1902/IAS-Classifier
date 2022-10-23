@@ -29,6 +29,7 @@ urlpatterns = [
 
     # Allauth
     path('accounts/', include('allauth.urls')),
+    path('accounts/',include('accounts.urls')),
 
     # Apps
     path('classifier/', include('classifier.urls')),

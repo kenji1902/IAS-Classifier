@@ -8,7 +8,7 @@
 
 {% block js%}
 <script>
-
+    const uservotes = JSON.parse( '{{ uservotes|safe }}' )
 </script>
 <script src="{% static 'database/js/votecount.js' %}"></script>
 
@@ -16,6 +16,12 @@
 {%endblock%}
 
 {%block app_layout_content_before%}
+    <div id="alert" class="alert alert-warning alert-dismissible fade hide" role="alert">
+        <div class="text">
+
+        </div>
+        <button id="alertClose" type="button" class="btn-close" ></button>
+    </div>
     <button id="option" class="btn btn-primary">
         <span class="material-symbols-outlined">
         search

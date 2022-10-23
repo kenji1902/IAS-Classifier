@@ -5,7 +5,18 @@
 <link rel="stylesheet" href="{% static 'classifier/css/results.css' %}">
 {%endblock%}
 {%block js%}
+<script src="{% static 'database/js/votecount.js' %}"></script>
+
 <script src="{%static 'classifier/js/modifyResult.js'%}"></script>
+
+{%endblock%}
+{%block app_layout_content_before%}
+<div id="alert" class="alert alert-warning alert-dismissible fade hide" role="alert">
+    <div class="text">
+
+    </div>
+    <button id="alertClose" type="button" class="btn-close" ></button>
+</div>
 {%endblock%}
 {%block content%}
 
@@ -39,6 +50,36 @@
             <td colspan="6" class="py-0" >
                     <div class="card mb-3" >
                         <div class="row g-0">
+                            <div class="col-1 vote">
+                                {%load custom_filter%}
+                                {% checkuservotes data.id user.id "up" as result%}
+                                {%if result%}
+                                <span id="up-{{data.id}}" class="material-symbols-outlined up vote-icon activate">
+                                {%else%}
+                                <span id="up-{{data.id}}" class="material-symbols-outlined up vote-icon">
+                                {%endif%}    
+                                    arrow_drop_up
+                                    <div class="popup"> 
+                                        Up vote if the <br>result is <b> Accurate </b>
+                                    </div>
+                                </span>
+                                
+                                <span class="text"> 
+                                    {{data.points}}
+                                </span>
+                                
+                                {% checkuservotes data.id user.id "down" as result%}
+                                {%if result%}
+                                <span id="down-{{data.id}}" class="material-symbols-outlined down vote-icon activate">
+                                {%else%}
+                                <span id="down-{{data.id}}" class="material-symbols-outlined down vote-icon">
+                                {%endif%}
+                                    arrow_drop_down
+                                    <div class="popup"> 
+                                        Down vote if the <br> result is <b> Inaccurate </b>
+                                    </div>
+                                </span>
+                             </div>
                             <div class="col-md-8 iasImageCol">
                                 <img src="/blobstorage/raw/{{data.requestnum.username}}/{{data.filename}}" class="img-fluid rounded-start iasImage " alt="...">
                             </div>

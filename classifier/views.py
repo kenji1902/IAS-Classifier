@@ -23,10 +23,12 @@ from datetime import date
 from PIL import Image
 from io import BytesIO
 from geopy.geocoders import Nominatim
+from classifier import constants as c
 
 from .models import classifier as clsfr, plantInformationImages
 from .models import iasData
 from django.contrib.auth.models import User
+from accounts.models import Authentication, voteResults
 from .models import tempFileHandler, plantInformation
 
 
@@ -38,8 +40,9 @@ def classifier(request):
     else: 
         return redirect('/accounts/login/')
 def results(request,pk):
-    username = request.user.username
+    username = request.user.get_username()
     try:
+        
         query = iasData.objects.filter(requestnum = pk)
         # serialized_queryset = serializers.serialize('json', query,indent=4)
         plants = plantInformation.objects.values_list('scientificName')
@@ -66,22 +69,10 @@ def modifyResult(request):
                     query.longtitude = data['longtitude']
                     query.save()
                 return JsonResponse({'status':'success'})
-        return JsonResponse({'status': 'Invalid request'}, status=400)
+        return JsonResponse({'status': 'Invalid request'}, status=300)
     except IndexError:
-        return HttpResponseBadRequest('Invalid request')        
-@ensure_csrf_cookie
-def votecount(request):
-    try:
-        is_ajax = request.headers.get('X-Requested-With') == 'XMLHttpRequest'
-        if is_ajax:
-            if request.method == 'POST':
-                voteType = request.POST.get('type')
-                id = request.POST.get('id')
-                print(voteType,id)
-                return JsonResponse({'result':voteType})
-        return JsonResponse({'status': 'Invalid request'}, status=400)
-    except IndexError:
-        return HttpResponseBadRequest('Invalid request')     
+        return JsonResponse({'status': 'Invalid request'}, status=300)      
+
 
 @ensure_csrf_cookie
 def filter_files(request):
