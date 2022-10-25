@@ -30,6 +30,10 @@ let options = {
     colorAxis: {colors: ["#3f51b5","#2196f3","#03a9f4","#00bcd4"] },
     backgroundColor: 'transparent',
     datalessRegionColor: '#37474f',
-    displayMode: 'regions'
+    displayMode: 'regions',
 };    
+let tableoptions = {
+    showRowNumber: true,
+    width: '100%', 
+ };
 

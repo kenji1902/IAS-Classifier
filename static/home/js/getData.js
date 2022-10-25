@@ -97,7 +97,8 @@ function Init(callback,search){
                 promises.push(request)
             });
             
-            $.when.apply(null, promises).done(function(){
+            $.when.apply($, promises).then(function(response){
+                
                 instruction.forEach((element,i) => {
                     const image = promises[i].responseJSON
                     const body = callback(element,image)

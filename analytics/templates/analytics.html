@@ -6,11 +6,18 @@
 {% endblock %}
 
 {% block js %}
+{% if datareport != None %}
+<script>
+    
+    let data = JSON.parse(`{{datareport.chartdata|safe}}`)
+    let plant_List = data.plant_List
+    
+</script>
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 
 <script src="{%static 'analytics/js/googlechartoption.js'%}" ></script>
-<script src="{%static 'analytics/js/googlechart.js'%}"></script>
-
+<script src="{%static 'analytics/js/googlechartstatic.js'%}"></script>
+{%endif%}
 {% endblock %}
 
 {%block app_layout_content_before%}
@@ -18,18 +25,54 @@
 {%endblock%}
 
 {%block content%}
-
-<!-- <div  class="accordion info-wrapper">
+{% if datareport != None %}
+<div  class="accordion info-wrapper">
     <button class="accordion-button info-btn shadow1" type="button" data-bs-toggle="collapse" data-bs-target="#plantreport" aria-expanded="false" aria-controls="plantreport">
-        2022 Plant Data Analysis
+        {{datareport.date|date:"M  Y"}} {{datareport.title}}
     </button>
 
     <div  class="info-wrapper accordion-collapse collapse show" id="plantreport">
-        <div id="datareport" class="info-card card  card-body ">
-            Lorem ipsum dolor, sit amet consectetur adipisicing elit. Adipisci voluptate iste omnis accusantium laudantium debitis praesentium nisi dolorem optio eveniet quos ratione fugit sint aperiam odit, assumenda, ea ullam explicabo unde aliquam mollitia quam illum! Sapiente, consequuntur nobis aspernatur voluptates in pariatur minus quibusdam praesentium repellendus quidem deserunt itaque nostrum? Vero iusto facilis voluptate ut quia dolorum ipsa itaque commodi, voluptatem quis, molestias aut labore. Nulla quae deserunt quas hic voluptatum perferendis ipsam, maxime velit, sequi dolore non! Alias perspiciatis, ex ea error aliquid similique officiis distinctio ullam non architecto quidem eveniet vitae fugit repellat laborum sed. Dignissimos animi totam, aspernatur accusantium esse aliquid quas pariatur nobis commodi blanditiis nihil vero unde maxime perferendis dolor doloribus, consectetur distinctio repellat nesciunt in ad. Doloremque error tenetur, sit dignissimos quos voluptatum commodi, repellat impedit nemo ullam sed ipsum quam, quod optio veniam quasi harum. Omnis culpa unde quod adipisci hic repellat odit recusandae quasi minima, aliquid delectus error explicabo illum odio alias, eaque eos quibusdam voluptatum minus! Odit exercitationem quam non, laboriosam quae expedita sint! Nisi corporis excepturi provident voluptas dignissimos quasi labore odit adipisci explicabo, eaque magnam, ducimus totam incidunt eligendi. Architecto, accusantium? Odit impedit officia, quos quis cupiditate quasi asperiores! Harum recusandae, ipsam totam ad quasi expedita cupiditate nisi amet illo obcaecati iste deleniti, cumque vero, dolorum consectetur nihil hic perspiciatis optio nulla nemo et dolores consequatur iure. Quaerat ullam ex, eligendi iste quisquam debitis at impedit cum nam esse odit dolor totam perferendis omnis dolorem nobis consequuntur? Eaque neque, deserunt laborum, rem cupiditate exercitationem rerum eos illo mollitia maiores aut! Eum obcaecati, consequatur nobis mollitia sapiente doloribus porro modi nam blanditiis ducimus repellat impedit, explicabo enim, adipisci unde ad id saepe delectus cupiditate amet perspiciatis. Doloribus atque veniam quo mollitia in cupiditate est eum inventore id rerum incidunt, saepe dignissimos, unde fugiat nobis consequuntur fuga quisquam laboriosam, blanditiis aliquid! Officiis porro tenetur fugit animi cupiditate debitis error doloremque, dolores rem omnis, ratione cum eligendi ducimus nemo quibusdam quasi possimus minus quae ut repellendus, ullam sed. Ducimus laborum ex in temporibus soluta quidem dolorum consectetur a! Mollitia dolore totam illo optio iusto deleniti recusandae modi assumenda ipsa veritatis exercitationem aspernatur tempore aliquid ex harum ratione nam numquam, maiores debitis, eaque id? Nisi amet necessitatibus, veritatis odit architecto hic culpa quas quidem, modi fugiat sequi totam laborum eius reiciendis voluptate sit esse minima quasi commodi? Consequuntur voluptatum quas magni unde enim non fugit iste, eaque qui delectus, facilis sed reprehenderit quos iure alias tempora. Eaque suscipit eveniet magnam aliquam earum distinctio possimus illo voluptas fugiat voluptate perspiciatis velit ad cupiditate fuga odit pariatur quo molestiae, facilis amet hic itaque voluptatum! Nihil et maxime eum, repellendus hic doloremque officiis ipsa assumenda sit ipsum vel possimus eos obcaecati, fugit quam nulla sequi impedit nam ex iste ea reiciendis aperiam. Voluptate blanditiis, hic neque consectetur beatae quasi assumenda soluta optio explicabo aliquid, sint in reprehenderit laboriosam dolorem magnam odit, quos fugit? Obcaecati aliquid molestiae impedit et temporibus quasi provident, ullam labore odio vitae nobis?
+        <div id="datareport" class="info-card card">
+            <div class="card-header">
+                <ul class="nav nav-tabs card-header-tabs" id="plantreport-list" role="tablist">
+                    <li class="nav-item">
+                      <a class="nav-link active" href="#description" role="tab" aria-controls="description" aria-selected="true">Data Analysis</a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link"  href="#chartdata" role="tab" aria-controls="chartdata" aria-selected="false">Chart Data Table</a>
+                    </li>
+                  </ul>
+            </div>
+            <div class="card-body overflow-auto">
+                <div class="tab-content">
+                    <div class="tab-pane active" id="description" role="tabpanel">
+                        <p class="card-text">{{datareport.description|safe}}</p>
+                    </div>
+                    <div class="tab-pane" id="chartdata" role="tabpanel"  aria-labelledby="chartdata-tab">
+                        <div style="margin-top:1rem; font-weight:bold;">
+                            Plant Count
+                        </div>
+                        <div id="tablePlantCount" class="chart"></div>
+                        
+                        <div style="margin-top:1rem; font-weight:bold;">
+                            Invasive and Exotic Data Count
+                        </div>
+                        <div id="tableIASCount" class="chart"></div>
+
+                        <div style="margin-top:1rem; font-weight:bold;">
+                            Plant Species Per Area
+                        </div>
+                        <div id="tablePlantAreaCount" class="chart"></div>
+                        
+                    </div>
+                </div>
+            </div>
+
         </div>
+        
     </div>
-</div> -->
+</div>
+
 
 <div  class="accordion info-wrapper">
 
@@ -100,6 +143,9 @@
 <div id="neighbors" class="chartcontent">
     
 </div>
+{%else%}
+<h1>No Data to Show</h1>
+{%endif%}
 
 
 {%endblock%}

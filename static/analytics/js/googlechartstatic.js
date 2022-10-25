@@ -1,74 +1,26 @@
-
+let $chartdata = null
 $(document).ready(function () {
 
     $('#plantreport-list a').on('click', function (e) {
         e.preventDefault()
         $(this).tab('show')
-      })
-
-
+    })
 
     google.charts.load('current', {
         packages: ['bar', 'corechart', 'table']
-      });
-
-    plants = {};
-    ias = {}
-    locationMapping = {};
-    plant_List = []
-    neighborMapping = {}
-    Init(function (data,plantList){
-        plantList.forEach(element => {
-            plant_List.push(element.scientificName)
-        });
-        data.forEach(element => {
-            let scientificName = element.scientificName.scientificName
-            let region  = JSON.parse(element.reverseGeoLoc).address.region
-            let neighbors = JSON.parse(element.seedlingDispersionAffectedAreas)
-            // Plant Count
-            if(!plants[scientificName])
-                plants[scientificName] = 1
-            else
-                plants[scientificName] += 1;
-            
-            // IAS Count
-            if(!ias[element.scientificName.invasiveType])
-                ias[element.scientificName.invasiveType] = 1
-            else
-                ias[element.scientificName.invasiveType] += 1;
-
-            // Plant per Region
-            if(!locationMapping[region])
-                locationMapping[region] = {}
-            if(!locationMapping[region][scientificName])
-                locationMapping[region][scientificName] = 1
-            else
-                locationMapping[region][scientificName] += 1
-
-            // if(neighborMapping)
-            for (const [key, value] of Object.entries(neighbors)) {
-                let neighbor = value.tags.name
-                if(!neighborMapping[region])
-                    neighborMapping[region] = {}
-                if(!neighborMapping[region][neighbor])
-                    neighborMapping[region][neighbor] = 1
-                else
-                    neighborMapping[region][neighbor] += 1
-            }
-
-
-        });
-        google.charts.setOnLoadCallback(() => plantCountChart(plants,'#PlantCount' ));
-        google.charts.setOnLoadCallback(() => IASCountChart(ias, '#IASCount'));
-        google.charts.setOnLoadCallback(() => plantAreaCountChart(locationMapping,'#PlantAreaCount'));
-        plantneighborChart(neighborMapping,'#neighbors')
-        // google.charts.setOnLoadCallback(plantneighborChart(neighborMapping));
-
     });
+    $chartdata = $("#chartdata")
     
     
+    google.charts.setOnLoadCallback(() => plantCountChart(data.plants,'#PlantCount' ));
+    google.charts.setOnLoadCallback(() => IASCountChart(data.ias, '#IASCount'));
+    google.charts.setOnLoadCallback(() => plantAreaCountChart(data.locationMapping,'#PlantAreaCount'));
+    plantneighborChart(data.neighborMapping,'#neighbors')
     
 });
+
+
+
 function plantneighborChart(data, area){
     // Set Data
     
@@ -87,6 +39,18 @@ function plantneighborChart(data, area){
 
             `
         );
+        $chartdata.append(
+            `
+
+                <div style="margin-top:1rem; font-weight:bold;">
+                    ${key} Estimated Affected Neighbor Per Plant
+                </div>
+
+                <div id="${area.substring(1)}-tableEstimatedAffectedNeighbor_${key.replace(/\s+/g, '')}" class="chart"></div>
+
+
+            `
+        )
         const chart = ()=>{
             let dataTable = new google.visualization.DataTable()
             console.log(key.replace(/\s+/g, ''));
@@ -106,6 +70,11 @@ function plantneighborChart(data, area){
             }
             let chart = new google.visualization.AreaChart($(`#${area.substring(1)}EstimatedAffectedNeighbor_${key.replace(/\s+/g, '')}`)[0]);
             chart.draw(dataTable, option);
+
+            
+            let table = new google.visualization.Table($(`#${area.substring(1)}-tableEstimatedAffectedNeighbor_${key.replace(/\s+/g, '')}`)[0]);
+            table.draw(dataTable,tableoptions);
+
         }
         
         google.charts.setOnLoadCallback(chart);
@@ -143,14 +112,15 @@ function plantAreaCountChart(data,area){
     option.legend= {
         position: 'top', alignment: 'left', textStyle: {color:'#607d8b', fontName: 'Roboto', fontSize: '12'} 
     }
-    console.log("Object Count: ",Object.keys(locationMapping).length)
-    if(Object.keys(locationMapping).length > 2){
-        option.width = `${Object.keys(locationMapping).length * 200}`
+    if(Object.keys(data).length > 2){
+        option.width = `${Object.keys(data).length * 200}`
     }
     option.bar= {groupWidth: "100px" }
     //  Draw
     var chart = new google.visualization.ColumnChart($(area)[0]);
     chart.draw(dataTable, option);
+    let table = new google.visualization.Table($(`#table${area.substring(1)}`)[0]);
+    table.draw(dataTable,tableoptions);
 }
 function plantCountChart(data,area) {
     // Set Data
@@ -164,6 +134,8 @@ function plantCountChart(data,area) {
     // Draw
     var chart = new google.visualization.PieChart($(area)[0]);
     chart.draw(dataTable, options);
+    let table = new google.visualization.Table($(`#table${area.substring(1)}`)[0]);
+    table.draw(dataTable,tableoptions);
 }
 function IASCountChart(data,area) {
     // Set Data
@@ -177,6 +149,8 @@ function IASCountChart(data,area) {
     // Draw
     var chart = new google.visualization.PieChart($(area)[0]);
     chart.draw(dataTable, options);
+    let table = new google.visualization.Table($(`#table${area.substring(1)}`)[0]);
+    table.draw(dataTable,tableoptions);
 }
 
 function Init(callback){
