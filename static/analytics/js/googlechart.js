@@ -66,7 +66,8 @@ function plantneighborChart(){
     // Set Data
     
     for (const [key, value] of Object.entries(neighborMapping)) {
-        $('.content').append(
+
+        $('#neighbors').append(
             `
             <div class="card  shadow1">
                 <div class="card-header">
