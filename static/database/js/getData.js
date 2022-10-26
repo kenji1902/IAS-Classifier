@@ -10,7 +10,18 @@ $(document).ready(function () {
     let $option = $('#option')
     let $queryContent =  $('#queryContent')
     let $exit = $('#exit')
-
+    let $startdate = $('#Startdate')
+    let $enddate = $('#Enddate')
+    $startdate.on('change',function(){
+      $enddate[0].required = true
+      if(this.value == "")
+        $enddate[0].required = false
+    })
+    $enddate.on('change',function(){
+      $startdate[0].required = true
+      if(this.value == "")
+        $startdate[0].required = false
+    })
 
     $option.click(function (e) { 
         e.preventDefault();
@@ -28,7 +39,8 @@ $(document).ready(function () {
             let element = e.split('=');
             data[element[0]] = element[1] 
         });
-
+        startDate = data['Startdate']
+        endDate = data['Enddate']
         data['offset'] = parseInt(data['offset']) + 1
         limit = data['limit'];
         currPage = data['offset']
@@ -41,7 +53,9 @@ $(document).ready(function () {
             data['scientificName'],
             data['localName'],
             data['type'],
-            data['username']
+            data['username'],
+            startDate,
+            endDate
         )
     });
     $('#prev').click(function (e) { 
@@ -52,7 +66,8 @@ $(document).ready(function () {
             let element = e.split('=');
             data[element[0]] = element[1] 
         });
-
+        startDate = data['Startdate']
+        endDate = data['Enddate']
         data['offset'] = parseInt(data['offset']) - 1
         limit = data['limit'];
         currPage = data['offset']
@@ -66,7 +81,9 @@ $(document).ready(function () {
             data['scientificName'],
             data['localName'],
             data['type'],
-            data['username']
+            data['username'],
+            startDate,
+            endDate
         )
     });
     $( "form" ).on( "submit", function( event ) {
@@ -79,7 +96,8 @@ $(document).ready(function () {
             
             
         });
-        
+        startDate = data['Startdate']
+        endDate = data['Enddate']
         limit = data['limit'];
         currPage = data['offset']
         offset = (parseInt(data['offset']) - 1) * limit ;
@@ -91,19 +109,21 @@ $(document).ready(function () {
             data['scientificName'],
             data['localName'],
             data['type'],
-            data['username']
+            data['username'],
+            startDate,
+            endDate
         )
     });
     getApiData(limit,offset)
 
 });
 
-function getApiData(limit,offset,requestnum='',scientificName='',localName='',invasiveType='',username=''){
+function getApiData(limit,offset,requestnum='',scientificName='',localName='',invasiveType='',username='',start_date='',end_date=''){
     let $page = $('#page').empty()
     let $table = $('#table')
     
     // console.log(offset*limit)
-    $.get(`/api/iasdata/?limit=${limit}&offset=${offset}&requestnum=${requestnum}&scientificName__scientificName=${scientificName}&scientificName__localName=${localName}&scientificName__invasiveType=${invasiveType}&requestnum__username__username=${username}`,
+    $.get(`/api/iasdata/?limit=${limit}&offset=${offset}&requestnum=${requestnum}&scientificName__scientificName=${scientificName}&scientificName__localName=${localName}&scientificName__invasiveType=${invasiveType}&requestnum__username__username=${username}&start_date=${start_date}&end_date=${end_date}`,
         function (data, textStatus, jqXHR) {
            
             totalRecord = data['count']
@@ -126,7 +146,7 @@ function getApiData(limit,offset,requestnum='',scientificName='',localName='',in
                     <th scope="col">ID</th>
                     <th scope="col">Filename</th>
                     <th style="white-space: nowrap;" scope="col">Scientific Name</th>
-                    <th style="white-space: nowrap;" scope="col">Invasive Type</th>   
+                    <th style="white-space: nowrap;" scope="col">Plant Type</th>   
                     <th scope="col">Latitude</th>
                     <th scope="col">Longtitude</th>
                     <th scope="col">#Link</th>   

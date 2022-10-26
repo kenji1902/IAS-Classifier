@@ -28,7 +28,7 @@
 {% if datareport != None %}
 <div  class="accordion info-wrapper">
     <button class="accordion-button info-btn shadow1" type="button" data-bs-toggle="collapse" data-bs-target="#plantreport" aria-expanded="false" aria-controls="plantreport">
-        {{datareport.date|date:"M  Y"}} {{datareport.title}}
+        {{datareport.date|date:"M d, Y"}} {{datareport.title}}
     </button>
 
     <div  class="info-wrapper accordion-collapse collapse show" id="plantreport">
@@ -46,7 +46,13 @@
             <div class="card-body overflow-auto">
                 <div class="tab-content">
                     <div class="tab-pane active" id="description" role="tabpanel">
-                        <p class="card-text">{{datareport.description|safe}}</p>
+                        <p class="card-text">
+                            
+                            Data from: {{datareport.data_date_start}} to: {{datareport.data_date_end}}
+                            <br>
+                            <br>
+                            {{datareport.description|safe}}
+                        </p>
                     </div>
                     <div class="tab-pane" id="chartdata" role="tabpanel"  aria-labelledby="chartdata-tab">
                         <div style="margin-top:1rem; font-weight:bold;">

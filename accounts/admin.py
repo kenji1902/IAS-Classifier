@@ -15,12 +15,18 @@ class AuthenticationInline(admin.StackedInline):
 class UserAdmin(BaseUserAdmin):
     inlines = [AuthenticationInline]
     list_display = ['username','email', 'first_name', 'last_name', 'is_active', 'is_staff','is_authenticated','is_pending']
-    @admin.display(boolean=True)
+    list_filter = ['is_active', 'is_staff',('authentication__is_authenticated', admin.BooleanFieldListFilter),('authentication__is_pending', admin.BooleanFieldListFilter)]
+    @admin.display(boolean=True,ordering=True)
     def is_authenticated(self, obj):
         return obj.authentication.is_authenticated
-    @admin.display(boolean=True)
+    
+    is_authenticated.admin_order_field = "authentication__is_authenticated"
+
+    @admin.display(boolean=True,ordering=True)
     def is_pending(self, obj):
         return obj.authentication.is_pending
+
+    is_pending.admin_order_field = "authentication__is_pending"
 
 admin.site.unregister(User)
 admin.site.register(User, UserAdmin)

@@ -5,6 +5,8 @@ import json
 # Create your models here.
 class plantreports(models.Model):
     date = models.DateField(auto_now=True,primary_key=True)
+    data_date_start = models.DateField()
+    data_date_end = models.DateField()
     title = models.CharField(max_length=100)
     description = models.TextField()
     chartdata = models.TextField(blank=True,null=True)
@@ -16,15 +18,18 @@ from django.dispatch import receiver
 from classifier import constants as c
 @receiver(pre_save, sender=plantreports)
 def pre_save_votes(sender, instance,*args, **kwargs):
-    iasdata = iasData.objects.all()
-
+    print(instance.data_date_start)
+    print(instance.data_date_end)
+    iasdata = iasData.objects.filter(requestnum__date__gte=instance.data_date_start,
+                                     requestnum__date__lte= instance.data_date_end)
+    
 
     plants = {}
     ias = {}
     locationMapping = {}
     plant_List = plantInformation.objects.values_list('scientificName',flat=True)
     neighborMapping = {}
-
+    result = None
     for element in iasdata:
         scientificName = element.scientificName.scientificName
         region = json.loads(element.reverseGeoLoc)['address']['region']
@@ -71,7 +76,7 @@ def pre_save_votes(sender, instance,*args, **kwargs):
             "neighborMapping" : neighborMapping,
         }, indent=4)
 
-        instance.chartdata = result
+    instance.chartdata = result
 
 
 def json_load_byteified(file_handle):

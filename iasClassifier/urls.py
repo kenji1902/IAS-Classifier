@@ -40,3 +40,6 @@ urlpatterns = [
     path('analytics/', include('analytics.urls')),
 
 ]
+admin.site.site_header = "Visum Admin"
+admin.site.site_title = "Visum Admin Portal"
+admin.site.index_title = "Welcome to Visum Portal"

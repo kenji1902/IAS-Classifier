@@ -1,29 +1,3 @@
-{% extends "shareable/html/base.html" %}
-{% load static %}
-{% block css %}
-<link rel="stylesheet" type="text/css" href="{%static '/information/css/map.css'%}" />
-<link rel="stylesheet" type="text/css" href="{% static '/database/css/databaseresult.css' %}">
-<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.1/dist/leaflet.css"
-integrity="sha256-sA+zWATbFveLLNqWO2gtiw3HL/lh1giY/Inf1BJ0z14="
-crossorigin=""/>
-{% endblock %}
-
-{% block js %}
-
-<script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
-<script src="https://unpkg.com/@googlemaps/markerclusterer/dist/index.min.js"></script>
-<script src="{%static '/information/js/mapleafLet.js'%}"></script>
-<script src="https://unpkg.com/leaflet@1.9.1/dist/leaflet.js"
-integrity="sha256-NDI0K41gVbWqfkkaHj15IzU7PtMoelkzyKp8TOaFQ3s="
-crossorigin=""></script>
-{% endblock %}
-
-{%block app_layout_content_before%}
-<button id="option" class="btn btn-primary">
-    <span class="material-symbols-outlined">
-    search
-    </span>
-</button>
 <div id="queryContent" class="queryContent">
     <form id="query" action="" class="formQuery">
         <div class="block">
@@ -51,8 +25,8 @@ crossorigin=""></script>
                 <label for="date">date</label>
             </div> -->
             <div class="form-floating input-med">
-                <input type="date" name="Startdate" class="form-control" id="Startdate" placeholder=" ">
-                <label for="Startdate">Start Date</label>
+                <input type="date" name="Startdata" class="form-control" id="Startdata" placeholder=" ">
+                <label for="Startdata">Start Date</label>
             </div>
             <div class="form-floating input-med">
                 <input type="date" name="Enddate" class="form-control" id="Enddate" placeholder=" ">
@@ -103,17 +77,14 @@ crossorigin=""></script>
             </div>
             <div class="form-floating">
                 <select name="limit" class="form-select page" id="perpage" aria-label="Floating label select example">               
-                    <option value="1">1</option>
-                    <option  value="5">5</option>
+                    <option value="5">5</option>
                     <option value="10">10</option>
                     <option value="15">15</option>
                     <option value="20">20</option>
                     <option value="25">25</option>
                     <option value="50">50</option>
-                    <option selected="selected" value="100">100</option>
-                    <option value="200">200</option>
-                    <option value="500">500</option>
-                    <option value="1000">1000</option>
+                    <option value="100">100</option>
+
                 </select>
                 <label for="perpage">Per Page</label>
             </div>
@@ -126,22 +97,3 @@ crossorigin=""></script>
     </form>
    
 </div>
-{%endblock%}
-
-{%block content%}
-
-
-<div id="map"></div>
-
-<div class="legends">
-    {% for icon,scientificN,localN in plants %}
-    <div class="items">
-        {% with '/blobStorage/images/icons/'|add:icon  as iconPath%}
-        <img src="{%static iconPath%}" class="icon" alt="" srcset="">
-        <div class="label"><p>{{scientificN}}</p> <P>{{localN}}</P></div>
-        {%endwith%}
-    </div>
-    {%endfor%}
-</div>
-<a href="https://www.flaticon.com/free-icons/location" title="location icons">Location icons created by IconMarketPK - Flaticon</a>
-{%endblock%}
