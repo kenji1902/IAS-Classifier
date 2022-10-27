@@ -89,7 +89,7 @@ function sendData(type,obj){
                 $(obj).addClass('activate')
         },
         error: function(response){
-            showAlert('#alert','<strong>Hi there!</strong> Authentication Warning: Pls. authenticate your account to vote')
+            showAlert('#alert','<strong>Hi there!</strong> Authentication Warning: Go to User and press Authenticate')
         }
         
     });
