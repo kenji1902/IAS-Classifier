@@ -87,11 +87,11 @@ function InitWrap(search=''){
 function Init(callback,search){
     let $instructionWrapper = $('.instructionWrapper')
     $instructionWrapper.html('')
-    $.get(`api/instruction/?ordering=instruction_order&search=${search}`,
+    $.get(`api/instruction/?ordering=order&search=${search}`,
         function (instruction, textStatus, jqXHR) {
             let promises = [];
             instruction.forEach(element => {
-                let request = $.get(`api/instructionimages/?instruction=${element.instruction_order}&ordering=step`,
+                let request = $.get(`api/instructionimages/?instruction=${element.id}&ordering=step`,
                     "json"
                 );
                 promises.push(request)

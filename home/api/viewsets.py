@@ -13,7 +13,7 @@ class instruction_ViewSet(viewsets.ModelViewSet):
         '$title',
         '$description'
     ]
-    ordering_fields = ['instruction_order']
+    ordering_fields = ['order']
 
 
 class instructionImages_ViewSet(viewsets.ModelViewSet):
