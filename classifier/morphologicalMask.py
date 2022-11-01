@@ -208,10 +208,10 @@ def removeBlurr(img):
   canned = cv2.Canny(gray, 100, 200)
 
   # dilate to close holes in lines
-  kernel = cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (2,2))
+  kernel = np.ones((5,5),np.uint8)
   mask = cv2.dilate(canned, kernel, iterations = 1)
 
-  # find contours
+  # find contoursq
   # Opencv 3.4, if using a different major version (4.0 or 2.0), remove the first underscore
   contours, _ = cv2.findContours(mask, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
   if not contours:
