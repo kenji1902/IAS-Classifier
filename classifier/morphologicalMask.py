@@ -25,6 +25,47 @@ def cannyEdgeMasking(image):
     processImg,_,_ = morphologicalMasking(processImg)
     return processImg
 
+def auto_crop_notsegmented(image):
+    img_Shape = image.shape
+    # Create a mask
+    processImg = image
+    # convert to grayscale
+    gray = cv2.cvtColor(processImg, cv2.COLOR_RGB2GRAY) 
+    # convert the grayscale to binary where pure black stays black the rest converts to white
+    _, threshhold = cv2.threshold(gray, 254, 255, cv2.THRESH_BINARY)
+    threshhold = cv2.bitwise_not(threshhold)
+    # Get the contours or the Objects in the image (islands in the array)
+    contours, _ = cv2.findContours(threshhold,cv2.RETR_LIST, 
+                                    cv2.CHAIN_APPROX_SIMPLE)
+
+    # Find object with the biggest bounding box
+    mx = (0,0,0,0)  
+    mx_area = 0
+    for cont in contours:
+        x,y,w,h = cv2.boundingRect(cont)
+        area = w*h
+        if area > mx_area:
+            mx = x,y,w,h
+            mx_area = area
+    x,y,w,h = mx
+
+    # Output to files
+    roi=image[y:y+h,x:x+w]
+    roi_Shape = roi.shape
+    # Square Shape
+    _shape = 0
+    if img_Shape[0] > img_Shape[1]:
+        _shape = max(img_Shape[0],img_Shape[1])
+    else:
+        _shape = min(img_Shape[0],img_Shape[1])
+
+    padding = (
+        int(max(_shape/2, roi_Shape[0]/2) - min(_shape/2, roi_Shape[0]/2)),
+        int(max(_shape/2, roi_Shape[1]/2) - min(_shape/2,roi_Shape[1]/2))
+        )
+    image_crop =  np.pad(roi, [(padding[0],padding[0]),(padding[1],padding[1]),(0,0)], mode = 'constant' ,constant_values=255)
+    return image_crop, threshhold
+
 def auto_crop(image):
     img_Shape = image.shape
     # Create a mask

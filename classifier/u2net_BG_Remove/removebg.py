@@ -6,7 +6,7 @@ from .model import U2NET
 from torch.autograd import Variable
 from skimage import io, transform
 from PIL import Image
-from classifier.morphologicalMask import rgba2rgb,auto_crop
+from classifier.morphologicalMask import auto_crop_notsegmented, rgba2rgb
 # Get The Current Directory
 currentDir = os.path.dirname(__file__)
 
@@ -29,7 +29,7 @@ def save_output(inputdir, pred, d_dir, type):
         imo = np.concatenate((image, mask), axis=2)
         imo = Image.fromarray(imo, 'RGBA')
     imo = rgba2rgb(np.asarray(imo))
-    imo,_ = auto_crop(imo)
+    imo,_ = auto_crop_notsegmented(imo)
     imo = cv2.resize(imo, (256,256), interpolation = cv2.INTER_AREA)
     cv2.imwrite(d_dir,cv2.cvtColor(imo, cv2.COLOR_BGR2RGB)) 
     
