@@ -59,7 +59,7 @@ def removeBg(image,inputdir,resultsdir):
     mi = torch.min(pred)
     dn = (pred-mi)/(ma-mi)
     pred = dn
-
+    del d1, d2, d3, d4, d5, d6, d7
     save_output(inputdir, pred, resultsdir, 'image')
     return "---Success---"
 
