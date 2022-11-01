@@ -30,7 +30,12 @@
    ```
    pip install -r requirements.txt 
    ```
-6. Run the main Script
+6. Install u2net Model
+   - in "classifier/u2net_BG_Remove/u2net/" download the model below and move the file "u2net.pth" in the folder
+   ```
+   https://drive.google.com/u/0/uc?id=1ao1ovG1Qtx4b7EoskHXmi2E9rp5CHLcZ&export=download
+   ```
+7. Run the main Script
 
    ```
    python manage.py runserver 8080
