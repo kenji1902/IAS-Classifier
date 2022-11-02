@@ -35,9 +35,15 @@ function InitWrap(search=''){
                     <div class="carousel-indicators">
                     `
                     image.forEach((element,i) => {
+                        if(i == 0)
                         body+=
                         ` 
-                        <button type="button" data-bs-target="#carousel_${i}" data-bs-slide-to="${i}" class="active indicator" aria-current="true" aria-label="Slide ${i}"></button>
+                        <button type="button" data-bs-target="#carousel_${instruction.id}" data-bs-slide-to="${i}" class="active indicator" aria-current="true" aria-label="Slide ${i}"></button>
+                        `
+                        else
+                        body+=
+                        ` 
+                        <button type="button" data-bs-target="#carousel_${instruction.id}" data-bs-slide-to="${i}" class="indicator" aria-current="true" aria-label="Slide ${i}"></button>
                         `
                     });
                     body +=            
