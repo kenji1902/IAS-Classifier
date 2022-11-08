@@ -7,12 +7,13 @@ import cv2
 import keyboard
 cam = cv2.VideoCapture(2)
 cv2.namedWindow("video", cv2.WINDOW_NORMAL)    
-cv2.resizeWindow("video", 720, 480)
+# cv2.resizeWindow("video", 720, 480)
 while True:
 
     check, frame = cam.read()
     blurr = morphMask.removeBlurr(frame)
     if blurr is  None:
+        print('None')
         blurr = frame 
     processImg,_ = morphMask.auto_crop(blurr)
     processImg = cv2.resize(processImg, (256,256), interpolation = cv2.INTER_AREA)

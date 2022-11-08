@@ -1,6 +1,6 @@
 let totalRecord = 0;
 let pages = 0
-let limit = 5
+let limit = 100
 let offset = 0
 let currPage = 1
 let map = null;
@@ -33,7 +33,18 @@ function initMap(){
         attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
     }).addTo(map);
 
-  
+    let $startdate = $('#Startdate')
+    let $enddate = $('#Enddate')
+    $startdate.on('change',function(){
+      $enddate[0].required = true
+      if(this.value == "")
+        $enddate[0].required = false
+    })
+    $enddate.on('change',function(){
+      $startdate[0].required = true
+      if(this.value == "")
+        $startdate[0].required = false
+    })
 
     $option.click(function (e) { 
         e.preventDefault();
@@ -51,7 +62,8 @@ function initMap(){
             let element = e.split('=');
             data[element[0]] = element[1] 
         });
-
+        startDate = data['Startdate']
+        endDate = data['Enddate']
         data['offset'] = parseInt(data['offset']) + 1
         limit = data['limit'];
         currPage = data['offset']
@@ -64,7 +76,9 @@ function initMap(){
             data['scientificName'],
             data['localName'],
             data['type'],
-            data['username']
+            data['username'],
+            startDate,
+            endDate
         )
     });
     $('#prev').click(function (e) { 
@@ -75,7 +89,8 @@ function initMap(){
             let element = e.split('=');
             data[element[0]] = element[1] 
         });
-
+        startDate = data['Startdate']
+        endDate = data['Enddate']
         data['offset'] = parseInt(data['offset']) - 1
         limit = data['limit'];
         currPage = data['offset']
@@ -89,7 +104,9 @@ function initMap(){
             data['scientificName'],
             data['localName'],
             data['type'],
-            data['username']
+            data['username'],
+            startDate,
+            endDate
         )
     });
     $( "form" ).on( "submit", function( event ) {
@@ -103,6 +120,8 @@ function initMap(){
             
         });
         
+        startDate = data['Startdate']
+        endDate = data['Enddate']
         limit = data['limit'];
         currPage = data['offset']
         offset = (parseInt(data['offset']) - 1) * limit ;
@@ -114,7 +133,9 @@ function initMap(){
             data['scientificName'],
             data['localName'],
             data['type'],
-            data['username']
+            data['username'],
+            startDate,
+            endDate
         )
     });
     getApiData(limit,offset)
@@ -192,8 +213,8 @@ function addCircle(position,label = null,color='blue',fillColor='#F4D400',radius
     markers.push(circle)
 }
 
-function getApiData(limit,offset,requestnum='',scientificName='',localName='',invasiveType='',username=''){
-  $.get(`/api/iasdata/?limit=${limit}&offset=${offset}&requestnum=${requestnum}&scientificName__scientificName=${scientificName}&scientificName__localName=${localName}&scientificName__invasiveType=${invasiveType}&requestnum__username__username=${username}`,
+function getApiData(limit,offset,requestnum='',scientificName='',localName='',invasiveType='',username='',start_date='',end_date=''){
+  $.get(`/api/iasdata/?limit=${limit}&offset=${offset}&requestnum=${requestnum}&scientificName__scientificName=${scientificName}&scientificName__localName=${localName}&scientificName__invasiveType=${invasiveType}&requestnum__username__username=${username}&start_date=${start_date}&end_date=${end_date}`,
   function (data, textStatus, jqXHR) {
       
       deleteMarkers()

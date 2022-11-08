@@ -1,5 +1,13 @@
 
 $(document).ready(function () {
+
+    $('#plantreport-list a').on('click', function (e) {
+        e.preventDefault()
+        $(this).tab('show')
+      })
+
+
+
     google.charts.load('current', {
         packages: ['bar', 'corechart', 'table']
       });
@@ -50,11 +58,10 @@ $(document).ready(function () {
 
 
         });
-        console.log('beigbor',neighborMapping)
-        google.charts.setOnLoadCallback(plantCountChart);
-        google.charts.setOnLoadCallback(IASCountChart);
-        google.charts.setOnLoadCallback(plantAreaCountChart);
-        plantneighborChart()
+        google.charts.setOnLoadCallback(() => plantCountChart(plants,'#PlantCount' ));
+        google.charts.setOnLoadCallback(() => IASCountChart(ias, '#IASCount'));
+        google.charts.setOnLoadCallback(() => plantAreaCountChart(locationMapping,'#PlantAreaCount'));
+        plantneighborChart(neighborMapping,'#neighbors')
         // google.charts.setOnLoadCallback(plantneighborChart(neighborMapping));
 
     });
@@ -62,18 +69,19 @@ $(document).ready(function () {
     
     
 });
-function plantneighborChart(){
+function plantneighborChart(data, area){
     // Set Data
     
-    for (const [key, value] of Object.entries(neighborMapping)) {
-        $('.content').append(
+    for (const [key, value] of Object.entries(data)) {
+
+        $(area).append(
             `
             <div class="card  shadow1">
                 <div class="card-header">
                     ${key} Estimated Affected Neighbor Per Plant
                 </div>
                 <div class="card-body chartWrapper">
-                    <div id="EstimatedAffectedNeighbor_${key.replace(/\s+/g, '')}" class="chart"></div>
+                    <div id="${area.substring(1)}EstimatedAffectedNeighbor_${key.replace(/\s+/g, '')}" class="chart"></div>
                 </div>
             </div>
 
@@ -96,7 +104,7 @@ function plantneighborChart(){
             if(Object.keys(value).length > 9){
                 option.width = Object.keys(value).length * 60 
             }
-            let chart = new google.visualization.AreaChart($(`#EstimatedAffectedNeighbor_${key.replace(/\s+/g, '')}`)[0]);
+            let chart = new google.visualization.AreaChart($(`#${area.substring(1)}EstimatedAffectedNeighbor_${key.replace(/\s+/g, '')}`)[0]);
             chart.draw(dataTable, option);
         }
         
@@ -104,7 +112,7 @@ function plantneighborChart(){
     }
 }
 
-function plantAreaCountChart(){
+function plantAreaCountChart(data,area){
     // Set Data
     
     let dataTable = new google.visualization.DataTable();
@@ -114,7 +122,7 @@ function plantAreaCountChart(){
     });
         
     
-    for (const [key, value] of Object.entries(locationMapping)) {
+    for (const [key, value] of Object.entries(data)) {
         let row = [key]
         plant_List.forEach(plant => {
             if(value[plant])
@@ -141,33 +149,33 @@ function plantAreaCountChart(){
     }
     option.bar= {groupWidth: "100px" }
     //  Draw
-    var chart = new google.visualization.ColumnChart($('#PlantAreaCount')[0]);
+    var chart = new google.visualization.ColumnChart($(area)[0]);
     chart.draw(dataTable, option);
 }
-function plantCountChart() {
+function plantCountChart(data,area) {
     // Set Data
     let dataTable = new google.visualization.DataTable();
     dataTable.addColumn('string', 'Plants')
     dataTable.addColumn('number', 'Counts')
-    for (const [key, value] of Object.entries(plants)) {
+    for (const [key, value] of Object.entries(data)) {
         dataTable.addRow([key, value])
     }
 
     // Draw
-    var chart = new google.visualization.PieChart($('#PlantCount')[0]);
+    var chart = new google.visualization.PieChart($(area)[0]);
     chart.draw(dataTable, options);
 }
-function IASCountChart() {
+function IASCountChart(data,area) {
     // Set Data
     let dataTable = new google.visualization.DataTable();
     dataTable.addColumn('string', 'Category')
     dataTable.addColumn('number', 'Counts')
-    for (const [key, value] of Object.entries(ias)) {
+    for (const [key, value] of Object.entries(data)) {
         dataTable.addRow([key, value])
     }
 
     // Draw
-    var chart = new google.visualization.PieChart($('#IASCount')[0]);
+    var chart = new google.visualization.PieChart($(area)[0]);
     chart.draw(dataTable, options);
 }
 

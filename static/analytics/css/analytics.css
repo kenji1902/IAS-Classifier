@@ -1,9 +1,54 @@
-.content{
+.chartcontent{
+    display: flex;
+    position: relative;
+    width: 100%;
     flex-direction: row;
     flex-wrap: wrap;
     justify-content: center;
     align-items:flex-start;
 }
+#datareport{
+    height: calc(100vh - 20rem);
+}
+
+.btn_{
+    background-color: var(--ff-white-solid);
+    border: none;
+    text-align: start;
+    padding: 8px 16px;
+    border-radius: 0.5rem;
+}
+.btn_:hover{
+    background-color: var(--green);
+    
+}
+.info-btn{
+    position: relative;
+    width: calc(100%);
+    max-width: calc(600px * 2 + 2rem) !important; 
+    margin: 0!important;
+    margin-top: 1rem !important;
+}
+.info-wrapper{
+    width: calc(100% ) !important;
+    max-width: calc(600px * 2 + 2rem) !important; 
+    position: relative;
+}
+.info-card{
+    width: 100% !important;
+    margin: 0 !important;
+    overflow-y: auto;
+}
+
+@media only screen and (max-width: 1312px) {
+    .info-btn{
+        max-width:600px !important; 
+    }
+    .info-wrapper{
+        max-width:600px !important; 
+    }
+}
+
 .chartWrapper .card-header{
     position: sticky;
     width: 100%;
@@ -14,6 +59,7 @@
     width: 600px;
     height: 400px;
 }
+
 .chartWrapper{
     position: relative;
     background-color: white;

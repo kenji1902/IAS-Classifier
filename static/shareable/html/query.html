@@ -1,0 +1,99 @@
+<div id="queryContent" class="queryContent">
+    <form id="query" action="" class="formQuery">
+        <div class="block">
+            <button id="exit"  class="btn btn-primary">
+                <span class="material-symbols-outlined">
+                close
+                </span>
+            </button>
+            <button id="prev"  class="btn btn-primary">
+                <span class="material-symbols-outlined">
+                    arrow_back_ios
+                </span>
+            </button>
+            <button id="next"  class="btn btn-primary">
+                <span class="material-symbols-outlined">
+                    arrow_forward_ios
+                </span>
+            </button>
+            <div class="form-floating input-small">
+                <input type="number" name="requestnum" class="form-control" id="requestnum" placeholder=" ">
+                <label for="requestnum">request no.</label>
+            </div>
+            <!-- <div class="form-floating input-small">
+                <input type="number" name="date" class="form-control" id="date" placeholder=" ">
+                <label for="date">date</label>
+            </div> -->
+            <div class="form-floating input-med">
+                <input type="date" name="Startdata" class="form-control" id="Startdata" placeholder=" ">
+                <label for="Startdata">Start Date</label>
+            </div>
+            <div class="form-floating input-med">
+                <input type="date" name="Enddate" class="form-control" id="Enddate" placeholder=" ">
+                <label for="Enddate">End Date</label>
+            </div>
+
+            <div class="form-floating input-small">
+                <input type="text" name="username" class="form-control" id="username" placeholder=" ">
+                <label for="username">username</label>
+            </div>
+
+            
+        </div>
+        <div class="block">
+            <div class="form-floating input-med">
+                <select name="scientificName" class="form-select" id="scientific" aria-label="Floating label select example">
+                    <option value = '' selected>select menu</option>
+                    {% for pname in scientific%}
+                    <option value="{{pname}}">{{pname}}</option>
+                    {%endfor%}
+                </select>
+                <label for="scientific">Scientific Name</label>
+            </div>
+            <div class="form-floating input-med">
+                <select name="localName" class="form-select" id="local" aria-label="Floating label select example">
+                    <option value = '' selected>select menu</option>
+                    {% for pname in local%}
+                    <option value="{{pname}}">{{pname}}</option>
+                    {%endfor%}
+                </select>
+                <label for="local">Local Name</label>
+            </div>
+            <div class="form-floating input-med">
+                <select name="type" class="form-select " id="type" aria-label="Floating label select example">               
+                    <option value = '' selected>select type</option>
+                    <option value="invasive">Invasive</option>
+                    <option value="exotic">Exotic</option>
+
+                </select>
+                <label for="type">Plant Type</label>
+            </div>
+            <div class="form-floating">
+                <select name="offset" class="form-select page" id="page" aria-label="Floating label select example">
+                   
+        
+                </select>
+                <label for="page">Page</label>
+            </div>
+            <div class="form-floating">
+                <select name="limit" class="form-select page" id="perpage" aria-label="Floating label select example">               
+                    <option value="5">5</option>
+                    <option value="10">10</option>
+                    <option value="15">15</option>
+                    <option value="20">20</option>
+                    <option value="25">25</option>
+                    <option value="50">50</option>
+                    <option value="100">100</option>
+
+                </select>
+                <label for="perpage">Per Page</label>
+            </div>
+            <button id="queryBtn" type="submit" class="btn btn-primary">
+                <span class="material-symbols-outlined">
+                search
+                </span>
+            </button>
+        </div>
+    </form>
+   
+</div>

@@ -5,11 +5,22 @@
 <link rel="stylesheet" href="{% static 'classifier/css/results.css' %}">
 {%endblock%}
 {%block js%}
+<script src="{% static 'database/js/votecount.js' %}"></script>
+
 <script src="{%static 'classifier/js/modifyResult.js'%}"></script>
+{%endblock%}
+{%block app_layout_content_before%}
+<div id="alert" class="alert alert-warning alert-dismissible fade hide" role="alert">
+    <div class="text">
+
+    </div>
+    <button id="alertClose" type="button" class="btn-close" ></button>
+</div>
 {%endblock%}
 {%block content%}
 {% load custom_filter %}
 <form class="table-responsive">
+    
     <input id="submit" class="btn-primary btn" type="submit" name="Submit" value="Submit Changes">
     <table class="table table-borderless">
         
@@ -18,7 +29,7 @@
             <th scope="col">#</th>
             <th scope="col">filename</th>
             <th style="white-space: nowrap;" scope="col">scientific Name</th>
-            <th style="white-space: nowrap;" scope="col">Invasive Type</th>   
+            <th style="white-space: nowrap;" scope="col">Plant Type</th>   
             <th scope="col">latitude</th>
             <th scope="col">longtitude</th>
         </tr>
@@ -73,6 +84,35 @@
                 
                     <div class="card mb-3" >
                         <div class="row g-0">
+                            <div class="col-1 vote">
+                                {% checkuservotes objects.id user.id "up" as result%}
+                                {%if result%}
+                                <span id="up-{{objects.id}}" class="material-symbols-outlined up vote-icon activate">
+                                {%else%}
+                                <span id="up-{{objects.id}}" class="material-symbols-outlined up vote-icon">
+                                {%endif%}    
+                                    arrow_drop_up
+                                    <div class="popup"> 
+                                        Up vote if the <br>result is <b> Accurate </b>
+                                    </div>
+                                </span>
+                                
+                                <span class="text"> 
+                                    {{objects.points}}
+                                </span>
+                                
+                                {% checkuservotes objects.id user.id "down" as result%}
+                                {%if result%}
+                                <span id="down-{{objects.id}}" class="material-symbols-outlined down vote-icon activate">
+                                {%else%}
+                                <span id="down-{{objects.id}}" class="material-symbols-outlined down vote-icon">
+                                {%endif%}
+                                    arrow_drop_down
+                                    <div class="popup"> 
+                                        Down vote if the <br> result is <b> Inaccurate </b>
+                                    </div>
+                                </span>
+                             </div>
                             <div class="col-md-8 iasImageCol">
                                 <img src="/blobstorage/raw/{{objects.requestnum.username}}/{{objects.filename}}" class="img-fluid rounded-start iasImage " alt="...">
                             </div>

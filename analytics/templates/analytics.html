@@ -6,11 +6,18 @@
 {% endblock %}
 
 {% block js %}
+{% if datareport != None %}
+<script>
+    
+    let data = JSON.parse(`{{datareport.chartdata|safe}}`)
+    let plant_List = data.plant_List
+    
+</script>
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 
 <script src="{%static 'analytics/js/googlechartoption.js'%}" ></script>
-<script src="{%static 'analytics/js/googlechart.js'%}"></script>
-
+<script src="{%static 'analytics/js/googlechartstatic.js'%}"></script>
+{%endif%}
 {% endblock %}
 
 {%block app_layout_content_before%}
@@ -18,37 +25,133 @@
 {%endblock%}
 
 {%block content%}
-<div class="">
+{% if datareport != None %}
+<div  class="accordion info-wrapper">
+    <button class="accordion-button info-btn shadow1" type="button" data-bs-toggle="collapse" data-bs-target="#plantreport" aria-expanded="false" aria-controls="plantreport">
+        {{datareport.date|date:"M d, Y"}} {{datareport.title}}
+    </button>
+
+    <div  class="info-wrapper accordion-collapse collapse show" id="plantreport">
+        <div id="datareport" class="info-card card">
+            <div class="card-header">
+                <ul class="nav nav-tabs card-header-tabs" id="plantreport-list" role="tablist">
+                    <li class="nav-item">
+                      <a class="nav-link active" href="#description" role="tab" aria-controls="description" aria-selected="true">Data Analysis</a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link"  href="#chartdata" role="tab" aria-controls="chartdata" aria-selected="false">Chart Data Table</a>
+                    </li>
+                  </ul>
+            </div>
+            <div class="card-body overflow-auto">
+                <div class="tab-content">
+                    <div class="tab-pane active" id="description" role="tabpanel">
+                        <p class="card-text">
+                            
+                            Data from: {{datareport.data_date_start}} to: {{datareport.data_date_end}}
+                            <br>
+                            <br>
+                            {{datareport.description|safe}}
+                        </p>
+                    </div>
+                    <div class="tab-pane" id="chartdata" role="tabpanel"  aria-labelledby="chartdata-tab">
+                        <div style="margin-top:1rem; font-weight:bold;">
+                            Plant Count
+                        </div>
+                        <div id="tablePlantCount" class="chart"></div>
+                        
+                        <div style="margin-top:1rem; font-weight:bold;">
+                            Invasive and Exotic Data Count
+                        </div>
+                        <div id="tableIASCount" class="chart"></div>
+
+                        <div style="margin-top:1rem; font-weight:bold;">
+                            Plant Species Per Area
+                        </div>
+                        <div id="tablePlantAreaCount" class="chart"></div>
+                        
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        
+    </div>
+</div>
+
+
+<div  class="accordion info-wrapper">
+
+    <button class="accordion-button collapsed info-btn shadow1" type="button" data-bs-toggle="collapse" data-bs-target="#chartdatainfo" aria-expanded="false" aria-controls="chartdatainfo">
+        Chart data info
+    </button>
+
+    <div class="info-wrapper accordion-collapse collapse" id="chartdatainfo">
+        <div class="info-card card card-body">
+            If a plant species reaches a majority percentage of 51% or more, it means that the system has an abundance of that data due to users submitting images of the same plant. It could also mean that certain plant species have a large radius of coverage for seed dispersal. A plant can pose a risk of spreading if it is located in the same area and will need to be monitored. For example, an exotic plant could become invasive in an area if there are too many in one place, or an invasive plant in an area could become more dangerous if it infects more neighboring areas.
+            <br>
+            <br>
+            The same could be said if a plant type has a high percentage in the Invasive and Exotic Data Count Chart. An abundance of data from the users was from one type of plant, and if these plants are located near each other or are clustered together, there could be risks of spreading due to seed dispersal. Alternatively, if a plant type has a low percentage of 25% or less, it means that the users are not submitting enough data to balance the chart. This could also mean that the data of that type could be overshadowed by the other type in terms of data representation.
+            <br>
+            <br>
+            In the Plant Species Per Area Chart, users will be able to see the abundance of a specific plant species in an area. If the number of that specific plant reaches a high number, it could mean that there is a risk of the plant spreading to other areas, so it needs to be monitored. The reason for that reasoning is that each plant image has a seed radius that can be seen on the map section of the website, and if there are multiple plants of the same species in an area, it can be concluded that the plant is spreading its seeds to other areas as well.
+        </div>
+    </div>
+</div>
+
+<div class="chartcontent">
+    
+    <div class="card  shadow1">
+        <div class="card-header">
+            Plant Count
+        </div>
+        <div class="card-body">
+            <div id="PlantCount" class="chart"></div>
+        </div>
+    </div>
+
+    <div class="card  shadow1">
+        <div class="card-header">
+            Invasive and Exotic Data Count
+        </div>
+        <div class="card-body chartWrapper">
+            <div id="IASCount" class="chart"></div>
+        </div>
+    </div>
+
+    <div class="card  shadow1">
+        <div class="card-header">
+            Plant Species Per Area
+        </div>
+        <div class="card-body chartWrapper">
+            <div id="PlantAreaCount" class="chart"></div>
+        </div>
+    </div>
+
+</div>
+<div  class="accordion info-wrapper">
+    <button class="accordion-button collapsed info-btn shadow1" type="button" data-bs-toggle="collapse" data-bs-target="#neighborchartdatainfo" aria-expanded="false" aria-controls="neighborchartdatainfo">
+        Neighbors Chart data info
+    </button>
+
+    <div class="info-wrapper accordion-collapse collapse" id="neighborchartdatainfo">
+        <div class="info-card card card-body">
+            The Area Estimated Affected Neighbor per Plant Chart shows the areas/towns that are within the radius of a plant's seed dispersal, which can be seen within the maps section of the website. When an area is in the chart, it means that there is a risk of a plant spreading to these areas. 
+            A list of areas or towns can be seen along the x-axis of the chart, and the frequency of each can be seen along the y-axis. 
+            <br>
+            <br>
+            As seen in the chart, each of these areas has a count, meaning there's a plant located within each of these areas which has a radius that covers it. 
+            <br>
+            <br>
+            As the number of plants submitted to the website grows and more plants are located within the area, the more likely an area will be infected due to seed dispersion.        </div>
+    </div>
+</div>
+<div id="neighbors" class="chartcontent">
     
 </div>
+{%else%}
+<h1>No Data to Show</h1>
+{%endif%}
 
-<div class="card chartWrapper shadow1">
-    <div class="card-header">
-        Plant Count
-    </div>
-    <div class="card-body">
-        <div id="PlantCount" class="chart"></div>
-    </div>
-</div>
 
-<div class="card  shadow1">
-    <div class="card-header">
-        Invasive and Exotic Data Count
-    </div>
-    <div class="card-body chartWrapper">
-        <div id="IASCount" class="chart"></div>
-    </div>
-</div>
-
-<div class="card  shadow1">
-    <div class="card-header">
-        Plant Species Per Area
-    </div>
-    <div class="card-body chartWrapper">
-        <div id="PlantAreaCount" class="chart"></div>
-    </div>
-</div>
-
- 
-    
 {%endblock%}

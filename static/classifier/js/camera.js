@@ -49,7 +49,7 @@ function previewFileCam(blob){
     $rawImages.append(
         `
         <div  class="file-content">
-            <img src="${URL.createObjectURL(blob)}" alt="" class="image">
+            <img src="${blob}" alt="" class="image">
             <span class="image-name">${fileName}</span>
             <span id="${rawImageID}" class="close-image material-symbols-outlined">
                 close
@@ -69,7 +69,7 @@ function previewFileCam(blob){
 
         }
     });
-    // blob = dataURItoBlob(blob)
+    blob = dataURItoBlob(blob)
     const newFile = new File([blob], fileName, {type:'image/jpeg'});
     console.log(newFile)
     // EXIF.getData(newFile, function () {
@@ -111,25 +111,25 @@ function vidOn($video){
 
             $('#shutter').click(e => {
 
-                // let stream_settings = stream.getVideoTracks()[0].getSettings();
-                // var canvas = document.createElement('canvas');
-                // let square = Math.min(stream_settings.width,stream_settings.height)
-                // canvas.width = square;
-                // canvas.height = square;
-                // var ctx = canvas.getContext('2d');
+                let stream_settings = stream.getVideoTracks()[0].getSettings();
+                var canvas = document.createElement('canvas');
+                let square = Math.min(stream_settings.width,stream_settings.height)
+                canvas.width = square;
+                canvas.height = square;
+                var ctx = canvas.getContext('2d');
                 
-                // ctx.drawImage( $video.get(0), 0, 0, canvas.width, canvas.height);
+                ctx.drawImage( $video.get(0), 0, 0, canvas.width, canvas.height);
                 
-                const track = stream.getVideoTracks()[0];
-                let imageCapture = new ImageCapture(track);
-                imageCapture.takePhoto().then((blob) => {
-                    uploadFileCam(blob)
-                });
+                // const track = stream.getVideoTracks()[0];
+                // let imageCapture = new ImageCapture(track);
+                // imageCapture.takePhoto().then((blob) => {
+                //     uploadFileCam(blob)
+                // });
 
 
-                //convert to desired file format
-                // var dataURI = canvas.toDataURL('image/jpeg');
-                // uploadFileCam(dataURI)
+                // convert to desired file format
+                var dataURI = canvas.toDataURL('image/jpeg');
+                uploadFileCam(dataURI)
             })
            
         }).catch(function(err){
@@ -143,7 +143,7 @@ function vidOff($video) {
 
     $video.get(0).pause();
     $video.attr('src','');
-    Stream.getTracks()[0].stop();
+    Stream.getVideoTracks()[0].stop();
     $('#shutter').off('click')
 }
 

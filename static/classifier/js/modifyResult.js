@@ -49,8 +49,9 @@ $(document).ready(function () {
                 location.reload()   
             }
         });
+        
     });
-
+    voteListener();
     // let form = $( 'form' ).serialize().split('&');
     
     // form.forEach(e => {

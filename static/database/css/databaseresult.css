@@ -30,6 +30,9 @@
 .input-small{
     width: 7rem;
 }
+.input-med{
+    width: 9.1rem;
+}
 .edit_data{
     color:white;
     font-size: 12pt;

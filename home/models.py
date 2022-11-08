@@ -6,7 +6,8 @@ from django.db import models
 
 
 class instruction(models.Model):
-    instruction_order = models.BigIntegerField(primary_key=True)
+    id = models.BigIntegerField(primary_key=True)
+    order =  models.IntegerField()
     title = models.CharField(max_length=50)
     description = models.TextField()
 

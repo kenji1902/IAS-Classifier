@@ -52,6 +52,7 @@ class iasData(models.Model):
         plantInformation, 
         on_delete=models.CASCADE
         )
+    points = models.IntegerField(default=0)
     latitude = models.FloatField(null=False)
     longtitude = models.FloatField(null=False)
     reverseGeoLoc = models.TextField(null=False)

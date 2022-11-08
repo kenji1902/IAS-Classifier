@@ -1,6 +1,6 @@
 let totalRecord = 0;
 let pages = 0
-let limit = 5
+let limit = 100
 let offset = 0
 let currPage = 1
 let map = null;

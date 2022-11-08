@@ -3,7 +3,7 @@ from .models import instruction, instructionImages
 # Create your views here.
 def home(request):
 
-    instructions = instruction.objects.all().order_by('instruction_order').values()
+    instructions = instruction.objects.all().order_by('order').values()
 
     return render(request,'home.html',{
         'instructions':instructions,

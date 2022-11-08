@@ -74,6 +74,7 @@ class iasData_Serializer(serializers.HyperlinkedModelSerializer):
         model = iasData
         fields = [
             'id',
+            'points',
             'latitude',
             'longtitude',
             'reverseGeoLoc',

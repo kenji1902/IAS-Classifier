@@ -33,8 +33,12 @@ def loadData(load = ['CNN','kNN']):
 
     return knn,model_feat
 
+# ------- Load Trained Model --------
+print("---Loading Model---")
+knn, model_feat = loadData()
+# ------- Load Trained Model --------
 
-def predict( x_identify, model_feat, knn):
+def predict( x_identify):
     feat_test = model_feat.predict(x_identify)
 
     # score = knn.score(feat_test,y_test)

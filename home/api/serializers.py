@@ -6,7 +6,8 @@ class instruction_Serializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = instruction
         fields = [
-            'instruction_order',
+            'id',
+            'order',
             'title',
             'description'
         ]
@@ -15,7 +16,7 @@ class instructionImages_Serializer(serializers.HyperlinkedModelSerializer):
     instruction = serializers.SlugRelatedField(
         many = False,
         read_only = True,
-        slug_field='instruction_order'
+        slug_field='id'
     )
     class Meta:
         model = instructionImages

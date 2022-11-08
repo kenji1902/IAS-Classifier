@@ -9,6 +9,7 @@
     margin-bottom: 2rem;
     
 }
+
 .indicator{
     border: 1px solid var(--light-gray) !important;
 }
@@ -36,9 +37,9 @@
     position: absolute;
     max-height: 100%;   
     object-fit: contain;
-
+    
     width: auto;
-    /* max-width: 100%; */
+    max-width: 100%;
     /* max-width: auto; 
     max-height: 100%; */
 }

@@ -24,20 +24,26 @@ function InitWrap(search=''){
         let body = ''
         body +=
         `
-        <div id="${instruction.instruction_order}" class="instruction swing-in-top-fwd">
+        <div id="${instruction.id}" class="instruction swing-in-top-fwd">
             <div class="card">
                 <h5 class="card-header">${instruction.title}</h5>
                 <div class="card-body">
                 <p class="card-text">${instruction.description}</p>
                 </div>
                 <div class="carousel_wrapper">
-                <div id="carousel_${instruction.instruction_order}" class="carousel carousel-dark slide" data-bs-ride="carousel">
+                <div id="carousel_${instruction.id}" class="carousel carousel-dark slide" data-bs-ride="carousel">
                     <div class="carousel-indicators">
                     `
                     image.forEach((element,i) => {
+                        if(i == 0)
                         body+=
                         ` 
-                        <button type="button" data-bs-target="#carousel_${i}" data-bs-slide-to="${i}" class="active indicator" aria-current="true" aria-label="Slide ${i}"></button>
+                        <button type="button" data-bs-target="#carousel_${instruction.id}" data-bs-slide-to="${i}" class="active indicator" aria-current="true" aria-label="Slide ${i}"></button>
+                        `
+                        else
+                        body+=
+                        ` 
+                        <button type="button" data-bs-target="#carousel_${instruction.id}" data-bs-slide-to="${i}" class="indicator" aria-current="true" aria-label="Slide ${i}"></button>
                         `
                     });
                     body +=            
@@ -67,11 +73,11 @@ function InitWrap(search=''){
                     body+=
                     `    
                     </div>
-                    <button class="carousel-control-prev" type="button" data-bs-target="#carousel_${instruction.instruction_order}" data-bs-slide="prev">
+                    <button class="carousel-control-prev" type="button" data-bs-target="#carousel_${instruction.id}" data-bs-slide="prev">
                         <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                         <span class="visually-hidden">Previous</span>
                     </button>
-                    <button class="carousel-control-next" type="button" data-bs-target="#carousel_${instruction.instruction_order}" data-bs-slide="next">
+                    <button class="carousel-control-next" type="button" data-bs-target="#carousel_${instruction.id}" data-bs-slide="next">
                         <span class="carousel-control-next-icon" aria-hidden="true"></span>
                         <span class="visually-hidden">Next</span>
                     </button>
@@ -87,17 +93,18 @@ function InitWrap(search=''){
 function Init(callback,search){
     let $instructionWrapper = $('.instructionWrapper')
     $instructionWrapper.html('')
-    $.get(`api/instruction/?ordering=instruction_order&search=${search}`,
+    $.get(`api/instruction/?ordering=order&search=${search}`,
         function (instruction, textStatus, jqXHR) {
             let promises = [];
             instruction.forEach(element => {
-                let request = $.get(`api/instructionimages/?instruction=${element.instruction_order}&ordering=step`,
+                let request = $.get(`api/instructionimages/?instruction=${element.id}&ordering=step`,
                     "json"
                 );
                 promises.push(request)
             });
             
-            $.when.apply(null, promises).done(function(){
+            $.when.apply($, promises).then(function(response){
+                
                 instruction.forEach((element,i) => {
                     const image = promises[i].responseJSON
                     const body = callback(element,image)

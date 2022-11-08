@@ -13,6 +13,7 @@ from django.core.exceptions import PermissionDenied
 from classifier import morphologicalMask as morphMask
 from classifier import geotagging as gt
 from classifier.CNNkNN import classifier as cnnknn, constants
+from classifier.u2net_BG_Remove import removebg 
 
 import json
 import cv2
@@ -23,10 +24,12 @@ from datetime import date
 from PIL import Image
 from io import BytesIO
 from geopy.geocoders import Nominatim
+from classifier import constants as c
 
 from .models import classifier as clsfr, plantInformationImages
 from .models import iasData
 from django.contrib.auth.models import User
+from accounts.models import Authentication, voteResults
 from .models import tempFileHandler, plantInformation
 
 
@@ -38,8 +41,9 @@ def classifier(request):
     else: 
         return redirect('/accounts/login/')
 def results(request,pk):
-    username = request.user.username
+    username = request.user.get_username()
     try:
+        
         query = iasData.objects.filter(requestnum = pk)
         # serialized_queryset = serializers.serialize('json', query,indent=4)
         plants = plantInformation.objects.values_list('scientificName')
@@ -66,9 +70,9 @@ def modifyResult(request):
                     query.longtitude = data['longtitude']
                     query.save()
                 return JsonResponse({'status':'success'})
-        return JsonResponse({'status': 'Invalid request'}, status=400)
+        return JsonResponse({'status': 'Invalid request'}, status=300)
     except IndexError:
-        return HttpResponseBadRequest('Invalid request')        
+        return JsonResponse({'status': 'Invalid request'}, status=300)      
 
 
 @ensure_csrf_cookie
@@ -134,7 +138,7 @@ def handle_uploaded_file(request,f,coords,remove_blur):
 
     # Save per chunk, loop to save more memory
     filepath = os.path.join(path,tempFileName)
-    
+    rawpath = filepath
     with open(filepath, 'wb+') as destination:
         for chunk in f.chunks():
             destination.write(chunk)
@@ -149,11 +153,10 @@ def handle_uploaded_file(request,f,coords,remove_blur):
     filepath = os.path.join(path,tempFileName)
     processImg = None
     if remove_blur:
-        processImg = morphMask.cannyEdgeMasking(image)
+        removebg.removeBg(image,rawpath,filepath)
     else:
         processImg,_,_ = morphMask.morphologicalMasking(image)
-    
-    cv2.imwrite( filepath,processImg)
+        cv2.imwrite( filepath,processImg)
     return tempFileName
 
 
@@ -166,7 +169,7 @@ def classify_files(request):
     
     if is_ajax:
         if request.method == 'POST':
-            knn, model_feat = cnnknn.loadData()
+            
             requestnum = clsfr.objects.create(
                 username = User.objects.get(username=username),
             )
@@ -186,7 +189,7 @@ def classify_files(request):
                 image = cv2.imread(tempPath+file)
                 processImgNP.append(image)
             processImgNP = np.array(processImgNP)    
-            predictions = cnnknn.predict(processImgNP,model_feat,knn)
+            predictions = cnnknn.predict(processImgNP)
             print('predictions: ',predictions)
             files = os.listdir(tempPath)
             for file, prediction in zip(files,predictions):
